@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+jinja2 = "*"
+
+[dev-packages]
+mypy = "*"
+isort = "*"
+flake8 = "*"
+flake8-pyproject = "*"
+flake8-commas = "*"
+flake8-isort = "*"
+flake8-bugbear = "*"
+flake8-simplify = "*"
+flake8-print = "*"
+flake8-debugger = "*"
+flake8-hangover = "*"

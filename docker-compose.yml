@@ -1,0 +1,5 @@
+services:
+  ksqldb-ui:
+    build: .
+    ports:
+      - 8080:8080

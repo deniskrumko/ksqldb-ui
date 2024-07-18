@@ -1,0 +1,57 @@
+[tool.flake8]
+exclude = [
+    ".git",
+    ".idea",
+    "__pycache__",
+    "venv",
+    "dist",
+]
+max-line-length = 100
+ignore = [
+    # trailing comma prohibited, like (x, y,)
+    "C819",
+    # line break before binary operator
+    "W503",
+    # enumerate instead of +=1 in for (not count for var increment at other places)
+    "SIM113",
+    # nested if's instead of single complex if (sometimes it increase readability)
+    "SIM102",
+    # error handle should be first to prevent another nested (too many false positives)
+    "SIM106",
+    # dataclasses instead of simple classes (too broad reports)
+    "SIM119",
+    # combine if's branches with same body (false positive, sometimes decrease readability)
+    "SIM114",
+    # use any(...), all(...) instead of actual loop - not *required* functional codestyle
+    "SIM110", "SIM111",
+    # dictionary lookup for 3+ if's
+    "SIM116",
+    # whitespace before ':' - breaks Black formatiing
+    "E203",
+]
+per-file-ignores = [
+    # unused imports
+    "*/__init__.py:F401",
+]
+
+[tool.mypy]
+exclude = ["tests", "venv"]
+namespace_packages = true
+disable_error_code = "attr-defined"
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+warn_return_any = true
+warn_unreachable = true
+
+[tool.isort]
+line_length = 100
+multi_line_output = 3
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+include_trailing_comma = true
+force_grid_wrap = 2
+combine_as_imports = true
+use_parentheses = true
