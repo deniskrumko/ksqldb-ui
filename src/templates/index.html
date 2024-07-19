@@ -8,7 +8,20 @@
     <title></title>
   </head>
   <body>
-    HELLO
+    <form action="" method="post">
+      <textarea name="query" id="query" cols="30" rows="10">{% if query %}{{ query.raw }}{% endif %}</textarea>
+      <button type="submit">Execute</button>
+    </form>
+    resp
+    {% if ksqldb_response %}
+      {{ ksqldb_response.status_code }}
+      {{ ksqldb_response.json()|safe }}
+    {% endif %}
+
+    req
+    {% if ksqldb_request %}
+      {{ ksqldb_request.content }}
+    {% endif %}
   </body>
 
   <script

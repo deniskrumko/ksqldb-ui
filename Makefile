@@ -14,3 +14,8 @@ ui:
 deps:
 	pip install pipenv
 	pipenv install --dev
+
+lint:
+	isort .
+	flake8 .
+	mypy .
