@@ -4,6 +4,53 @@ Free and simple way to interact with [ksqlDB](https://ksqldb.io/) using UI.
 
 # WORK IN PROGRESS! 🫡
 
+CREATE STREAM IF NOT EXISTS source_stream2 (
+  "number" INT
+) WITH (
+  KAFKA_TOPIC = 'input-topic',
+  VALUE_FORMAT = 'JSON'
+);
+
+
+CREATE STREAM transformed_stream WITH (
+  KAFKA_TOPIC = 'trans',
+  VALUE_FORMAT = 'JSON'
+) AS
+    SELECT
+        NUMBER AS "new_number",
+        'hello' AS "extra_field"
+    FROM source_stream2;
+
+
+CREATE STREAM IF NOT EXISTS target_stream WITH (
+  KAFKA_TOPIC = 'output-topic',
+  VALUE_FORMAT = 'JSON'
+) AS
+SELECT * FROM source_stream;
+
+SHOW STREAMS;
+
+DROP STREAM SOURCE_STREAM2;
+
+CREATE STREAM IF NOT EXISTS sampled_stream WITH (
+  KAFKA_TOPIC = 'random-3',
+  VALUE_FORMAT = 'JSON'
+) AS
+SELECT *
+FROM source_stream
+WHERE RANDOM() < 0.05;
+
+
+CREATE STREAM transformed_stream WITH (
+  KAFKA_TOPIC = 'trans',
+  VALUE_FORMAT = 'JSON'
+) AS
+    SELECT
+        source_stream.number AS 'new_number',
+        'hello' AS 'extra_field'
+    FROM source_stream;
+
+
 CREATE STREAM IF NOT EXISTS source_stream (
   message STRING
 ) WITH (

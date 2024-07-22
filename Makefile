@@ -4,7 +4,7 @@ run:
 
 # Run app on local machine
 local:
-	PYTHONPATH=src python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	APP_CONFIG=config/local.toml PYTHONPATH=src python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Open UI
 ui:
