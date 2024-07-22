@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+  <br>
+  <h1 class="display-4">OMG 😱 Exception happened</h1>
+  <br>
+  <div class="alert alert-danger">
+    {% if response_code %}
+    <h3>{{ exception }}<span class="badge text-bg-danger">HTTP {{ response_code }}</span></h3>
+    {% else %}
+    <h3>{{ exception }}</h3>
+    {% endif %}
+
+    {% if detail %}
+    <pre style="word-break: break-word; word-wrap: break-word; white-space: pre-wrap">{{ detail }}</pre>
+    {% endif %}
+
+    {% if response_data %}
+    {% for section in response_data %}
+      {% for k, v in section.items() %}
+      {{render_response(k, v)|safe}}
+      {% endfor %}
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  {% if tb %}
+  <div class="accordion" id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          Show full traceback
+        </button>
+      </h2>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          <pre>
+{% for line in tb %}{{line}}{% endfor %}
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <br><br>
+</div>
+{% endblock %}

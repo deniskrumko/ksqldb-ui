@@ -1,0 +1,28 @@
+{% with s=request.query_params.get('s') %}
+<nav class="navbar navbar-expand-lg" data-bs-theme="dark" id="navbar">
+  <div class="nav-container">
+    <a class="navbar-brand" href="/requests?s={{s}}">
+      <img src="/static/logo.png" alt="ksqldb-ui" width="36" height="36">
+      <span id="logo">
+        ksqldb-ui
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <div class="navbar-nav me-auto mb-2 mb-lg-0">
+        <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?s={{s}}">Requests</a>
+        <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?s={{s}}">Streams</a>
+      </div>
+      <form class="d-flex">
+        <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?s=' + this.options[this.selectedIndex].value);">
+          {% for k, v in request.app.settings.servers.items()  %}
+          <option value="{{k}}" {% if request.query_params.get('s') == k %}selected{% endif %}>{{v.url}}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endwith %}

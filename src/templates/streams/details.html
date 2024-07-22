@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Streams
+{% endblock %}
+
+{% block body %}
+<div class="my-container">
+  <h2 class="my-h2">Stream {{ stream.sourceDescription.name }}</h2>
+  {% for k, v in stream.sourceDescription.items() %}
+  {{render_response(k, v)|safe}}
+  {% endfor %}
+</div>
+{% endblock %}

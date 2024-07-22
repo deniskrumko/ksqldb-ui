@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Streams
+{% endblock %}
+
+{% block body %}
+<div class="my-container">
+  <h2 class="my-h2">Streams</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Topic</th>
+        <th scope="col">Key Format</th>
+        <th scope="col">Value Format</th>
+        <th scope="col">Is Windowed</th>
+        <th scope="col">Controls</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for stream in streams %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ stream.name }}</td>
+        <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
+        <td>{{ stream.keyFormat }}</td>
+        <td>{{ stream.valueFormat }}</td>
+        <td>{{ stream.isWindowed }}</td>
+        <td>
+          <a href="/streams/{{ stream.name }}" class="btn btn-primary">Describe</a>
+          <a href="/streams/{{ stream.name }}/delete" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
