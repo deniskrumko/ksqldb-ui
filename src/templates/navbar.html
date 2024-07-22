@@ -18,7 +18,9 @@
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?s=' + this.options[this.selectedIndex].value);">
           {% for k, v in request.app.settings.servers.items()  %}
+          <optgroup label="{{k}}">
           <option value="{{k}}" {% if request.query_params.get('s') == k %}selected{% endif %}>{{v.url}}</option>
+          </optgroup>
           {% endfor %}
         </select>
       </form>

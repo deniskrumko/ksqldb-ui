@@ -10,7 +10,7 @@ ksqlDB UI - Requests
     <!-- REQUEST SECTION -->
     <div class="col-md-6">
       <h2 class="my-h2">
-        Request
+        Request (env: {{ request.query_params.get('s') }})
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
       <form action="" method="post" id="editorForm">

@@ -1,0 +1,13 @@
+[servers]
+
+[servers.localhost]
+url = 'http://0.0.0.0:8088'
+topic_link = 'http://localhost:8090/topics/{}'
+
+[servers.development]
+url = 'http://your-development-ksqldb.com'
+topic_link = 'http://your-development-kafka-ui.com/topics/{}'
+
+[servers.production]
+url = 'http://your-production-ksqldb.com'
+topic_link = 'http://your-production-kafka-ui.com/topics/{}'
