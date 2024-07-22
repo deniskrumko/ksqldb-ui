@@ -36,7 +36,11 @@ app.include_router(streams_router)
 
 @app.middleware("http")
 async def add_default_server(request: Request, call_next: Callable) -> Any:
-    if not request.query_params.get('s'):
+    if (
+        request.method == 'GET'
+        and ('/static/' not in str(request.url))
+        and not request.query_params.get('s')
+    ):
         default_server = list(app.settings['servers'].keys())[0]
         return RedirectResponse(f'?s={default_server}')
 
