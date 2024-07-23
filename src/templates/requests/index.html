@@ -7,13 +7,13 @@ ksqlDB UI - Requests
 {% block body %}
 <div class="my-container">
   <div class="row">
-    <!-- REQUEST SECTION -->
+    <!-- LEFT SECTION -->
     <div class="col-md-6">
       <h2 class="my-h2">
         Request (env: {{ request.query_params.get('s') }})
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
-      <form action="" method="post" id="editorForm">
+      <form action="/requests?s={{s}}" method="post" id="editorForm" >
         <!-- EDITOR -->
         <div id="editor">{% if query %}{{ query.raw }}{% endif %}</div>
         <textarea name="query" id="query" hidden></textarea>
@@ -21,14 +21,16 @@ ksqlDB UI - Requests
       </form>
     </div>
 
-    <!-- RESPONSE SECTION -->
+    <!-- RIGHT SECTION -->
     <div class="col-md-6">
       <h2 class="my-h2">
-        {% if response_code %}
-        Response  <span class="http-badge badge text-bg-{{ render_level(response_code, response_data) }}">HTTP {{ response_code }}</span>
-        {% else %}
-        Introduction
-        {% endif %}
+        {% block right_section_header %}
+          {% if response_code %}
+          Response  <span class="http-badge badge text-bg-{{ render_level(response_code, response_data) }}">HTTP {{ response_code }}</span>
+          {% else %}
+          Introduction
+          {% endif %}
+        {% endblock %}
       </h2>
       {% if response_data %}
       <div>
@@ -39,6 +41,7 @@ ksqlDB UI - Requests
         {% endfor %}
       </div>
       {% else %}
+      {% block right_section %}
       <h1 class="display-3">Welcome to ksqldb-ui</h1>
       <p>
         The interface is pretty simple:
@@ -52,6 +55,7 @@ ksqlDB UI - Requests
           <li>More info on project homepage: <a id="git-link" href="https://github.com/deniskrumko/ksqldb-ui" target="_blank"><img src="/static/icons/github.svg" alt="github">deniskrumko/ksqldb-ui</a></li>
         </ul>
       </p>
+      {% endblock %}
       {% endif %}
     </div>
   </div>

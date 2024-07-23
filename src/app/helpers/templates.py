@@ -11,6 +11,13 @@ from starlette.templating import _TemplateResponse as TemplateResponse
 TEMPLATES: Optional[Jinja2Templates] = None
 
 
+def server_context(request: Request) -> dict:
+    return {
+        # get current selected server
+        's': request.query_params.get('s'),
+    }
+
+
 def get_templates() -> Jinja2Templates:
     global TEMPLATES
 
@@ -18,7 +25,7 @@ def get_templates() -> Jinja2Templates:
         return TEMPLATES
 
     templates_dir = Path(__file__).parent.parent.parent / 'templates'
-    templates = Jinja2Templates(directory=templates_dir)
+    templates = Jinja2Templates(directory=templates_dir, context_processors=[server_context])
 
     from .render import RENDER_HELPERS
     templates.env.globals.update(**RENDER_HELPERS)

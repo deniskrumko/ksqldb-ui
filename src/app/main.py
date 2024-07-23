@@ -1,4 +1,5 @@
 import traceback
+from collections import deque
 from pathlib import Path
 from typing import (
     Any,
@@ -23,6 +24,7 @@ from .routes import ALL_ROUTES
 
 app = FastAPI()
 app.settings = get_settings()
+app.history = deque(maxlen=50)
 
 static_dir = Path(__file__).parent.parent / 'static'
 app.mount("/static", StaticFiles(directory=static_dir), name="static")

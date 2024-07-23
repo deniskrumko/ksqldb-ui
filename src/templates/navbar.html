@@ -1,4 +1,3 @@
-{% with s=request.query_params.get('s') %}
 <nav class="navbar navbar-expand-lg" data-bs-theme="dark" id="navbar">
   <div class="nav-container">
     <a class="navbar-brand" href="/requests?s={{s}}">
@@ -13,6 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?s={{s}}">Requests</a>
+        <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history?s={{s}}">History</a>
         <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?s={{s}}">Streams</a>
         <a class="nav-link {% if request.path == '/queries' %}active{% endif %}" href="/queries?s={{s}}">Queries</a>
       </div>
@@ -28,4 +28,3 @@
     </div>
   </div>
 </nav>
-{% endwith %}

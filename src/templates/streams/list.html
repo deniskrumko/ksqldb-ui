@@ -5,7 +5,6 @@ ksqlDB UI - Streams
 {% endblock %}
 
 {% block body %}
-{% with s=request.query_params.get('s') %}
 <div class="my-container">
   <h2 class="my-h2">Queries</h2>
   <table class="table">
@@ -38,5 +37,4 @@ ksqlDB UI - Streams
     </tbody>
   </table>
 </div>
-{% endwith %}
 {% endblock %}
