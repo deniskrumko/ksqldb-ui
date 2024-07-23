@@ -1,5 +1,4 @@
 from typing import Any
-from urllib.parse import urljoin
 
 import httpx
 from fastapi.requests import Request
@@ -21,10 +20,10 @@ class KsqlRequest:
         return self._query
 
     async def execute(self) -> httpx.Response:
-        full_url = urljoin(self._server, 'ksql')
+        full_url = self._server / 'ksql'
         async with httpx.AsyncClient() as client:
             return await client.post(
-                url=full_url,
+                url=str(full_url),
                 json={
                     'ksql': self._query.as_string,
                     'streamsProperties': {},

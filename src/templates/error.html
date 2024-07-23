@@ -4,6 +4,7 @@
 <div class="container">
   <br>
   <h1 class="display-4">OMG 😱 Exception happened</h1>
+  <p style="font-size: 24px;">Active server: <code>{{ request.query_params['s'] }}</code></p>
   <br>
   <div class="alert alert-danger">
     {% if response_code %}

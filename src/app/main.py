@@ -19,9 +19,7 @@ from .helpers.templates import (
 )
 from .helpers.utils import make_list
 from .ksqldb.resources import KsqlException
-from .routes.index import router as index_router
-from .routes.requests import router as requests_router
-from .routes.streams import router as streams_router
+from .routes import ALL_ROUTES
 
 app = FastAPI()
 app.settings = get_settings()
@@ -29,9 +27,9 @@ app.settings = get_settings()
 static_dir = Path(__file__).parent.parent / 'static'
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-app.include_router(index_router)
-app.include_router(requests_router)
-app.include_router(streams_router)
+# Registering routes in app
+for router in ALL_ROUTES:
+    app.include_router(router)
 
 
 @app.middleware("http")

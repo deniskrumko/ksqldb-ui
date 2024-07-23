@@ -4,6 +4,8 @@ from typing import Optional
 
 from fastapi import Request
 
+from .urls import SimpleURL
+
 SETTINGS: Optional[dict] = None
 
 
@@ -34,6 +36,6 @@ def get_server_params(request: Request) -> dict:
     return dict(settings['servers'][server])
 
 
-def get_server(request: Request) -> str:
+def get_server(request: Request) -> SimpleURL:
     params = get_server_params(request)
-    return str(params['url'])
+    return SimpleURL(params['url'])

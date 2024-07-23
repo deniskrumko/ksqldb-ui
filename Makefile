@@ -2,9 +2,13 @@
 run:
 	docker-compose up --build
 
-# Run app on local machine
+# Run app on local machine (with local config)
 local:
 	APP_CONFIG=config/example.toml PYTHONPATH=src python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+
+# Run app on local machine (with prod config)
+prod:
+	APP_CONFIG=config/production.toml PYTHONPATH=src python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Open UI
 ui:

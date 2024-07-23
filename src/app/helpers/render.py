@@ -53,7 +53,7 @@ def render_response_value(v: Any) -> str:
 def render_topic_link(request: Request, name: str,) -> str:
     params = get_server_params(request)
     if link := params.get('topic_link', ''):
-        return f'<a href="{link.format(name)}" target="_blank">{name}</a>'
+        return f'<a href="{link.format(name)}" class="link-offset-2" target="_blank">{name}</a>'
 
     return name
 

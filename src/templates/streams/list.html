@@ -5,8 +5,9 @@ ksqlDB UI - Streams
 {% endblock %}
 
 {% block body %}
+{% with s=request.query_params.get('s') %}
 <div class="my-container">
-  <h2 class="my-h2">Streams</h2>
+  <h2 class="my-h2">Queries</h2>
   <table class="table">
     <thead>
       <tr>
@@ -29,13 +30,13 @@ ksqlDB UI - Streams
         <td>{{ stream.valueFormat }}</td>
         <td>{{ stream.isWindowed }}</td>
         <td>
-          <a href="/streams/{{ stream.name }}" class="btn btn-primary">Describe</a>
-          <a href="/streams/{{ stream.name }}/delete" class="btn btn-danger">Delete</a>
+          <a href="/streams/{{ stream.name }}?s={{s}}" class="btn btn-primary">Describe</a>
+          <a href="/streams/{{ stream.name }}/delete?s={{s}}" class="btn btn-danger">Delete</a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-
 </div>
+{% endwith %}
 {% endblock %}

@@ -14,6 +14,7 @@
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?s={{s}}">Requests</a>
         <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?s={{s}}">Streams</a>
+        <a class="nav-link {% if request.path == '/queries' %}active{% endif %}" href="/queries?s={{s}}">Queries</a>
       </div>
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?s=' + this.options[this.selectedIndex].value);">

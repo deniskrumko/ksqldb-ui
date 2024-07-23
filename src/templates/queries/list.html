@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Streams
+{% endblock %}
+
+{% block body %}
+{% with s=request.query_params.get('s') %}
+<div class="my-container">
+  <h2 class="my-h2">Streams</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">State</th>
+        <th scope="col">Query Type</th>
+        <th scope="col">Sinks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for q in queries %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ q.id }}</td>
+        <td>
+          {% if q.state == 'RUNNING' %}
+          <span class="badge text-bg-success">
+          {% else %}
+          <span class="badge text-bg-danger">
+          {% endif %}
+            {{ q.state }}
+          </span>
+        </td>
+        <td>
+          <span class="badge text-bg-secondary">{{ q.queryType }}</span>
+        </td>
+        <td>
+          <div class="resp">
+            <div class="key">Sinks</div>
+            <div class="value">
+              {% for sink in q.sinks %}
+              <div><code>{{ sink }}</code></div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="resp">
+            <div class="key">Kafka topics</div>
+            <div class="value">
+              {% for sink in q.sinkKafkaTopics %}
+              <div><code>{{ sink }}</code></div>
+              {% endfor %}
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endwith %}
+{% endblock %}

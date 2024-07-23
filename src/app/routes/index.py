@@ -5,7 +5,6 @@ from fastapi import (
 from fastapi.responses import RedirectResponse
 
 router = APIRouter()
-PAGE_TEMPLATE = 'index.html'
 
 
 @router.get("/", response_class=RedirectResponse)
