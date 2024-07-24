@@ -4,11 +4,11 @@ from fastapi import (
 )
 from fastapi.responses import Response
 
-from app.helpers.templates import render_template
-from app.ksqldb import (
+from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,
 )
+from app.core.templates import render_template
 
 router = APIRouter()
 

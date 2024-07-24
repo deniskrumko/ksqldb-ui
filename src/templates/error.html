@@ -4,7 +4,7 @@
 <div class="container">
   <br>
   <h1 class="display-4">OMG 😱 Exception happened</h1>
-  <p style="font-size: 24px;">Active server: <code>{{ request.query_params['s'] }}</code></p>
+  <p style="font-size: 24px;">Active server: <code>{{current_server}}</code></p>
   <br>
   <div class="alert alert-danger">
     {% if response_code %}
@@ -14,7 +14,7 @@
     {% endif %}
 
     {% if detail %}
-    <pre style="word-break: break-word; word-wrap: break-word; white-space: pre-wrap">{{ detail }}</pre>
+    <pre class="wrap-pre">{{ detail }}</pre>
     {% endif %}
 
     {% if response_data %}

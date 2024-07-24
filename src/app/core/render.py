@@ -4,7 +4,7 @@ from typing import Any
 
 from fastapi.requests import Request
 
-from .settings import get_server_params
+from .settings import get_server_options
 
 RENDER_HELPERS: dict = {}
 
@@ -51,7 +51,7 @@ def render_response_value(v: Any) -> str:
 
 @register
 def render_topic_link(request: Request, name: str,) -> str:
-    params = get_server_params(request)
+    params = get_server_options(request)
     if link := params.get('topic_link', ''):
         return f'<a href="{link.format(name)}" class="link-offset-2" target="_blank">{name}</a>'
 

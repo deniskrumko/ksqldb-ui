@@ -1,5 +1,9 @@
 {% extends "requests/index.html" %}
 
+{% block title %}
+ksqlDB UI - History
+{% endblock %}
+
 {% block right_section_header %}
 History
 {% endblock %}
@@ -9,12 +13,12 @@ History
   {% for entry in history %}
   <div class="resp">
     <div class="key">
-      {{ entry[0].strftime('%Y-%m-%d %H:%M:%S') }} – <a href="#" onclick="pasteToEditor(this)">Paste</a>
+      {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }} (env: {{ entry.server_name }}) – <a href="#" onclick="pasteToEditor(this)">Paste</a>
     </div>
-    <pre class="wrap-pre">{{ entry[1].raw }}</pre>
+    <pre class="wrap-pre">{{ entry.query }}</pre>
   </div>
   {% endfor %}
-  <form action="/history?s={{s}}" method="post">
+  <form action="/history?{{q}}" method="post">
     <button type="submit" class="btn btn-danger">Clear history</button>
   </form>
 {% else %}

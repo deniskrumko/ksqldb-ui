@@ -11,3 +11,7 @@ topic_link = 'http://your-development-kafka-ui.com/topics/{}'
 [servers.production]
 url = 'http://your-production-ksqldb.com'
 topic_link = 'http://your-production-kafka-ui.com/topics/{}'
+
+[history]
+enabled = true
+size = 50

@@ -3,3 +3,7 @@
 [servers.localhost]
 url = 'http://0.0.0.0:8088'
 topic_link = 'http://localhost:8090/topics/{}'
+
+[history]
+enabled = true
+size = 50

@@ -1,4 +1,11 @@
+from enum import Enum
 from typing import Any
+
+
+class KsqlEndpoints(Enum):
+    KSQL = 'ksql'
+    INFO = 'info'
+    HEALTH = 'healthcheck'
 
 
 class KsqlException(Exception):

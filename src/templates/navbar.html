@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg" data-bs-theme="dark" id="navbar">
   <div class="nav-container">
-    <a class="navbar-brand" href="/requests?s={{s}}">
+    <a class="navbar-brand" href="/">
       <img src="/static/logo.png" alt="ksqldb-ui" width="36" height="36">
       <span id="logo">
         ksqldb-ui
@@ -11,16 +11,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?s={{s}}">Requests</a>
-        <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history?s={{s}}">History</a>
-        <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?s={{s}}">Streams</a>
-        <a class="nav-link {% if request.path == '/queries' %}active{% endif %}" href="/queries?s={{s}}">Queries</a>
+        <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?{{q}}">Requests</a>
+        {% if request.app.history_enabled %}
+        <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history?{{q}}">History</a>
+        {% endif %}
+        <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?{{q}}">Streams</a>
+        <a class="nav-link {% if request.path == '/queries' %}active{% endif %}" href="/queries?{{q}}">Queries</a>
+        <a class="nav-link {% if request.path == '/status' %}active{% endif %}" href="/status?{{q}}">Status</a>
       </div>
       <form class="d-flex">
-        <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?s=' + this.options[this.selectedIndex].value);">
+        <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?{{server_query_param}}=' + this.options[this.selectedIndex].value);">
           {% for k, v in request.app.settings.servers.items()  %}
           <optgroup label="{{k}}">
-          <option value="{{k}}" {% if request.query_params.get('s') == k %}selected{% endif %}>{{v.url}}</option>
+          <option value="{{k}}" {% if current_server == k %}selected{% endif %}>{{v.url}}</option>
           </optgroup>
           {% endfor %}
         </select>

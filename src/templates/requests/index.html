@@ -10,10 +10,10 @@ ksqlDB UI - Requests
     <!-- LEFT SECTION -->
     <div class="col-md-6">
       <h2 class="my-h2">
-        Request (env: {{ request.query_params.get('s') }})
+        Request (env: {{current_server}})
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
-      <form action="/requests?s={{s}}" method="post" id="editorForm" >
+      <form action="/requests?{{q}}" method="post" id="editorForm" >
         <!-- EDITOR -->
         <div id="editor">{% if query %}{{ query.raw }}{% endif %}</div>
         <textarea name="query" id="query" hidden></textarea>

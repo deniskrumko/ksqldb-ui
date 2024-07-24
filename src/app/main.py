@@ -9,40 +9,62 @@ from typing import (
 from fastapi import (
     FastAPI,
     Request,
+    Response,
 )
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 
-from .helpers.settings import get_settings
-from .helpers.templates import (
-    TemplateResponse,
-    render_template,
+from .core.ksqldb.resources import KsqlException
+from .core.settings import (
+    SERVER_QUERY_PARAM,
+    get_server_name,
+    get_settings,
 )
-from .helpers.utils import make_list
-from .ksqldb.resources import KsqlException
-from .routes import ALL_ROUTES
+from .core.templates import render_template
+from .core.utils import make_list
 
 app = FastAPI()
 app.settings = get_settings()
-app.history = deque(maxlen=50)
+app.history_enabled = app.settings.get('history', {}).get('enabled', False)
+
+if app.history_enabled:
+    history_size = app.settings['history'].get('size', 50)
+    app.history = deque(maxlen=history_size)
 
 static_dir = Path(__file__).parent.parent / 'static'
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# Registering routes in app
-for router in ALL_ROUTES:
-    app.include_router(router)
+
+def register_routes() -> None:
+    from app.index import router as index_page
+    from app.queries import router as queries_page
+    from app.requests import router as requests_page
+    from app.status import router as status_page
+    from app.streams import router as streams_page
+
+    for route in (
+        index_page,
+        queries_page,
+        requests_page,
+        streams_page,
+        status_page,
+    ):
+        app.include_router(route)
+
+
+register_routes()
 
 
 @app.middleware("http")
 async def add_default_server(request: Request, call_next: Callable) -> Any:
+    """Add default server from settings if not set."""
     if (
         request.method == 'GET'
         and ('/static/' not in str(request.url))
-        and not request.query_params.get('s')
+        and not get_server_name(request)
     ):
         default_server = list(app.settings['servers'].keys())[0]
-        return RedirectResponse(f'?s={default_server}')
+        return RedirectResponse(f'?{SERVER_QUERY_PARAM}={default_server}')
 
     return await call_next(request)
 
@@ -50,7 +72,7 @@ async def add_default_server(request: Request, call_next: Callable) -> Any:
 @app.exception_handler(400)
 @app.exception_handler(404)
 @app.exception_handler(500)
-async def http_exception_handler(request: Request, exc: Exception) -> TemplateResponse:
+async def http_exception_handler(request: Request, exc: Exception) -> Response:
     params: dict = {
         'exception': exc.__class__.__name__,
         'detail': str(exc),

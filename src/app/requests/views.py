@@ -1,14 +1,14 @@
-from datetime import datetime
-
 from fastapi import (
     APIRouter,
     Request,
 )
 from starlette.responses import Response
 
-from app.helpers.templates import render_template
-from app.helpers.utils import make_list
-from app.ksqldb import KsqlRequest
+from app.core.ksqldb import KsqlRequest
+from app.core.templates import render_template
+from app.core.utils import make_list
+
+from .resources import add_request_to_history
 
 router = APIRouter()
 
@@ -23,30 +23,37 @@ async def show_request_editor(request: Request) -> Response:
 async def perform_request(request: Request) -> Response:
     """Perform request to ksqlDB server."""
     form_data = await request.form()
-    ksql_request = KsqlRequest(request, form_data['query'])
-    ksql_response = await ksql_request.execute()
+    context = {}
 
-    # Save request to history
-    request.app.history.append((datetime.now(), ksql_request.query))
+    if query := form_data['query']:
+        add_request_to_history(request, query)
 
-    response_code = ksql_response.status_code
-    response_data = make_list(ksql_response.json())
+        ksql_request = KsqlRequest(request, query)
+        ksql_response = await ksql_request.execute()
+        context = {
+            'query': query,
+            'response_code': ksql_response.status_code,
+            'response_data': make_list(ksql_response.json()),
+        }
+
     return render_template(
         'requests/index.html',
         request=request,
-        query=ksql_request.query,
-        response_code=response_code,
-        response_data=response_data,
+        **context,
     )
 
 
 @router.get("/history")
 async def show_history(request: Request) -> Response:
     """View to show requests history."""
+    history = []
+    if request.app.history_enabled:
+        history = list(reversed(request.app.history))
+
     return render_template(
         'requests/history.html',
         request=request,
-        history=list(reversed(request.app.history)),
+        history=history,
     )
 
 

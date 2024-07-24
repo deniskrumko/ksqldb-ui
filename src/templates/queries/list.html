@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams
+ksqlDB UI - Queries
 {% endblock %}
 
 {% block body %}
-{% with s=request.query_params.get('s') %}
 <div class="my-container">
-  <h2 class="my-h2">Streams</h2>
+  <h2 class="my-h2">Queries (env: {{current_server}})</h2>
   <table class="table">
     <thead>
       <tr>
@@ -58,5 +57,4 @@ ksqlDB UI - Streams
     </tbody>
   </table>
 </div>
-{% endwith %}
 {% endblock %}

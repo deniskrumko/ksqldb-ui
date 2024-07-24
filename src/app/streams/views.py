@@ -7,11 +7,11 @@ from fastapi.responses import (
     Response,
 )
 
-from app.helpers.templates import render_template
-from app.ksqldb import (
+from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,
 )
+from app.core.templates import render_template
 
 router = APIRouter()
 
@@ -38,9 +38,14 @@ async def detail_view(request: Request, stream_name: str) -> Response:
     return render_template('streams/details.html', request=request, stream=data[0])
 
 
-@router.get('/streams/{stream_name}/delete', response_class=RedirectResponse)
-async def delete_stream(request: Request, stream_name: str) -> str:
+@router.post('/streams/delete', response_class=RedirectResponse)
+async def delete_stream(request: Request) -> str:
     """Route to delete a stream."""
+    form_data = await request.form()
+    stream_name = form_data['stream_name']
+    if not stream_name:
+        raise ValueError('Stream name is not set')
+
     response = await KsqlRequest(request, f'DROP STREAM {stream_name}').execute()
     if not response.is_success:
         raise KsqlException('Failed to drop stream', response)

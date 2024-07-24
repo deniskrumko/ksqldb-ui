@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Status
+{% endblock %}
+
+{% block body %}
+{% if info or health %}
+<div class="my-container">
+  <div class="row">
+    <!-- LEFT SECTION -->
+    <div class="col-md-6">
+      <h2 class="my-h2">
+        Server info (env: {{current_server}})
+      </h2>
+
+      {% if info %}
+      {{render_response('URL', current_server_url)|safe}}
+      {% for k, v in info['KsqlServerInfo'].items() %}
+      {{render_response(k, v)|safe}}
+      {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="col-md-6">
+      <h2 class="my-h2">
+        Health
+      </h2>
+
+      {% if health %}
+        {% if health.isHealthy %}
+        <div class="alert alert-success">
+          <h2>Your ksqlDB server is healthy ✅</h2>
+          State: <span class="badge text-bg-success">{{ health.serverState }}</span>
+        {% else %}
+        <div class="alert alert-danger">
+          <h2>Your ksqlDB server is not healthy 🔥</h2>
+          State: <span class="badge text-bg-danger">{{ health.serverState }}</span>
+        {% endif %}
+
+        <br><br>
+        Components:
+        <ul>
+          {% for k, v in health.details.items() %}
+          <li>{{ k }} – {% if v %}✅{% else %}🔥{% endif %}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="container">
+  <br>
+  <h1 class="display-4">Server <code>{{current_server}}</code> is not responding</h1>
+  <p>Failed to get info or health check</p>
+  <br>
+  <div class="alert alert-danger">
+    <h3>{{exc.__class__.__name__}}</h3>
+    <pre class="wrap-pre">{{exc}}</pre>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
