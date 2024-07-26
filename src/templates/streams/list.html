@@ -23,14 +23,14 @@ ksqlDB UI - Streams
       {% for stream in streams %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td>{{ stream.name }}</td>
+        <td><code>{{ stream.name }}</code></td>
         <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
         <td>{{ stream.keyFormat }}</td>
         <td>{{ stream.valueFormat }}</td>
         <td>{{ stream.isWindowed }}</td>
         <td>
-          <a href="/streams/{{ stream.name }}?{{q}}" class="btn btn-primary">Describe</a>
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-stream-name="{{ stream.name }}">
+          <a href="/streams/{{ stream.name }}?{{q}}" class="btn btn-primary btn-sm">Describe</a>
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-stream-name="{{ stream.name }}">
             Delete
           </button>
         </td>
@@ -38,6 +38,7 @@ ksqlDB UI - Streams
       {% endfor %}
     </tbody>
   </table>
+  {% include "includes/request_response.html" %}
 </div>
 
 <!-- Modal -->

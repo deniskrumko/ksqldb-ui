@@ -40,6 +40,9 @@ ksqlDB UI - Requests
           {% endfor %}
         {% endfor %}
       </div>
+
+      {% include "includes/request_response.html" %}
+      <br>
       {% else %}
       {% block right_section %}
       <h1 class="display-3">Welcome to ksqldb-ui</h1>

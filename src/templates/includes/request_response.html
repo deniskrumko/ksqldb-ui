@@ -1,0 +1,14 @@
+<p class="d-inline-flex gap-1">
+  <a class="btn btn-outline-primary btn-original-response" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Show request and response
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+  <h2>Request</h2>
+  <p><code>{{request_method}} {{request_url}}</code></p>
+  {{render_json(request_data)|safe}}
+  <br>
+  <h2>Response</h2>
+  <p><code>HTTP {{response_code}}</code></p>
+  {{render_json(response_data)|safe}}
+</div>

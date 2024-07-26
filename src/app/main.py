@@ -25,10 +25,10 @@ from .core.utils import make_list
 
 app = FastAPI()
 app.settings = get_settings()
-app.history_enabled = app.settings.get('history', {}).get('enabled', False)
+app.history_enabled = app.settings.get('history', {}).get('enabled', True)
 
 if app.history_enabled:
-    history_size = app.settings['history'].get('size', 50)
+    history_size = app.settings.get('history', {}).get('size', 50)
     app.history = deque(maxlen=history_size)
 
 static_dir = Path(__file__).parent.parent / 'static'

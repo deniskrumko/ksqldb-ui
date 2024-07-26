@@ -30,7 +30,7 @@ def render_response(k: Any, v: Any) -> str:
     if v is None or v == []:
         return ''
 
-    v = render_response_value(v)
+    v = render_json(v)
     return f'''
     <div class="resp">
         <div class="key">{k}</div>
@@ -40,7 +40,7 @@ def render_response(k: Any, v: Any) -> str:
 
 
 @register
-def render_response_value(v: Any) -> str:
+def render_json(v: Any) -> str:
     if isinstance(v, (dict, list)):
         result = json.dumps(v, indent=4)
     else:
@@ -53,7 +53,10 @@ def render_response_value(v: Any) -> str:
 def render_topic_link(request: Request, name: str,) -> str:
     params = get_server_options(request)
     if link := params.get('topic_link', ''):
-        return f'<a href="{link.format(name)}" class="link-offset-2" target="_blank">{name}</a>'
+        return (
+            f'<a href="{link.format(name)}" class="link-offset-2" '
+            f'style="font-size: 14px;" target="_blank">{name}</a>'
+        )
 
     return name
 

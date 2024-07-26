@@ -21,7 +21,7 @@ ksqlDB UI - Queries
       {% for q in queries %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td>{{ q.id }}</td>
+        <td><code>{{ q.id }}</code></td>
         <td>
           {% if q.state == 'RUNNING' %}
           <span class="badge text-bg-success">
@@ -56,5 +56,6 @@ ksqlDB UI - Queries
       {% endfor %}
     </tbody>
   </table>
+  {% include "includes/request_response.html" %}
 </div>
 {% endblock %}

@@ -8,7 +8,10 @@ from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,
 )
-from app.core.templates import render_template
+from app.core.templates import (
+    httpx_response_to_context,
+    render_template,
+)
 
 router = APIRouter()
 
@@ -21,4 +24,9 @@ async def list_view(request: Request) -> Response:
         raise KsqlException('Failed to show queries', response)
 
     data = response.json()
-    return render_template('queries/list.html', request, queries=data[0]['queries'])
+    return render_template(
+        'queries/list.html',
+        request=request,
+        queries=data[0]['queries'],
+        **httpx_response_to_context(response),
+    )

@@ -11,7 +11,10 @@ from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,
 )
-from app.core.templates import render_template
+from app.core.templates import (
+    httpx_response_to_context,
+    render_template,
+)
 
 router = APIRouter()
 
@@ -24,7 +27,12 @@ async def list_view(request: Request) -> Response:
         raise KsqlException('Failed to show streams', response)
 
     data = response.json()
-    return render_template('streams/list.html', request, streams=data[0]['streams'])
+    return render_template(
+        'streams/list.html',
+        request=request,
+        streams=data[0]['streams'],
+        **httpx_response_to_context(response),
+    )
 
 
 @router.get('/streams/{stream_name}')

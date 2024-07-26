@@ -5,8 +5,10 @@ from fastapi import (
 from starlette.responses import Response
 
 from app.core.ksqldb import KsqlRequest
-from app.core.templates import render_template
-from app.core.utils import make_list
+from app.core.templates import (
+    httpx_response_to_context,
+    render_template,
+)
 
 from .resources import add_request_to_history
 
@@ -32,8 +34,7 @@ async def perform_request(request: Request) -> Response:
         ksql_response = await ksql_request.execute()
         context = {
             'query': query,
-            'response_code': ksql_response.status_code,
-            'response_data': make_list(ksql_response.json()),
+            **httpx_response_to_context(ksql_response),
         }
 
     return render_template(
