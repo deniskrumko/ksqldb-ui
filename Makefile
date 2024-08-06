@@ -10,6 +10,9 @@ local:
 prod:
 	APP_CONFIG=config/production.toml PYTHONPATH=src python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
+test:
+	PYTHONPATH=src pytest
+
 # Open UI
 ui:
 	open http://localhost:8080

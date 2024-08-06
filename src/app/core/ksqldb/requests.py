@@ -16,6 +16,8 @@ from .resources import (
 
 
 class KsqlRequest:
+    """Base class for requests to KSQL server."""
+
     ACCEPT_HEADER = 'application/vnd.ksql.v1+json'
 
     def __init__(
@@ -25,6 +27,7 @@ class KsqlRequest:
         endpoint: KsqlEndpoints = KsqlEndpoints.KSQL,
         method: str = 'POST',
     ) -> None:
+        """Initialize class instance."""
         self._server: SimpleURL = get_server_url(request)
         self._query = KsqlQuery(str(raw_query))
         self._endpoint = endpoint
@@ -32,9 +35,11 @@ class KsqlRequest:
 
     @property
     def query(self) -> KsqlQuery:
+        """Get KSQL query."""
         return self._query
 
     async def execute(self) -> httpx.Response:
+        """Execute KSQL request."""
         full_url = self._server / self._endpoint.value
         async with httpx.AsyncClient() as client:
             return await client.request(

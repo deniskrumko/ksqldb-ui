@@ -15,13 +15,14 @@ TEMPLATES: Optional[Jinja2Templates] = None
 
 
 def get_templates() -> Jinja2Templates:
+    """Get Jinja2Templates instance."""
     global TEMPLATES
 
     if TEMPLATES is not None:
         return TEMPLATES
 
     templates_dir = Path(__file__).parent.parent.parent / 'templates'
-    templates = Jinja2Templates(directory=templates_dir, context_processors=[extra_context])
+    templates = Jinja2Templates(directory=templates_dir, context_processors=[base_context])
 
     from .render import RENDER_HELPERS
     templates.env.globals.update(**RENDER_HELPERS)
@@ -31,11 +32,13 @@ def get_templates() -> Jinja2Templates:
 
 
 def render_template(template_name: str, request: Request, **kwargs: Any) -> TemplateResponse:
+    """Render template by name and context."""
     templates = get_templates()
     return templates.TemplateResponse(template_name, context={'request': request, **kwargs})
 
 
-def extra_context(request: Request) -> dict:
+def base_context(request: Request) -> dict:
+    """Base context for all templates."""
     from .settings import (
         SERVER_QUERY_PARAM,
         get_server_name,
@@ -52,6 +55,7 @@ def extra_context(request: Request) -> dict:
 
 
 def httpx_response_to_context(response: HttpxResponse) -> dict:
+    """Convert httpx.Response to context dict."""
     return {
         'request_url': response.request.url,
         'request_method': response.request.method,

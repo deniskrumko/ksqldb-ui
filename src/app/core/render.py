@@ -10,11 +10,15 @@ RENDER_HELPERS: dict = {}
 
 
 def register(fn: Any) -> Any:
+    """Register a render helper function."""
+    global RENDER_HELPERS
     RENDER_HELPERS[fn.__name__] = fn
     return fn
 
 
 class BootstrapLevel(Enum):
+    """Bootstrap levels in UI."""
+
     SUCCESS = 'success'
     WARNING = 'warning'
     DANGER = 'danger'
@@ -22,6 +26,7 @@ class BootstrapLevel(Enum):
 
 @register
 def render_response(k: Any, v: Any) -> str:
+    """Render KSQL response dict."""
     # Do not render @type field
     if k == '@type':
         return ''
@@ -41,6 +46,7 @@ def render_response(k: Any, v: Any) -> str:
 
 @register
 def render_json(v: Any) -> str:
+    """Render JSON data as pre."""
     if isinstance(v, (dict, list)):
         result = json.dumps(v, indent=4)
     else:
@@ -51,6 +57,7 @@ def render_json(v: Any) -> str:
 
 @register
 def render_topic_link(request: Request, name: str,) -> str:
+    """Render topic link (configured in settings)."""
     params = get_server_options(request)
     if link := params.get('topic_link', ''):
         return (
@@ -63,6 +70,7 @@ def render_topic_link(request: Request, name: str,) -> str:
 
 @register
 def render_level(status_code: int, data: list) -> str:
+    """Render response level using Bootstrap levels."""
     response_level = BootstrapLevel.SUCCESS.value
 
     if status_code >= 400:

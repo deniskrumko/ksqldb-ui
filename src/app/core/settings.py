@@ -11,6 +11,7 @@ SERVER_QUERY_PARAM: str = 's'
 
 
 def get_settings() -> dict:
+    """Get settings from config.toml file."""
     global SETTINGS
 
     if SETTINGS is not None:
@@ -28,6 +29,7 @@ def get_settings() -> dict:
 
 
 def get_server_options(request: Request) -> dict:
+    """Get current server from request."""
     server_name = get_server_name(request)
     if not server_name:
         raise ValueError('Server name is not set')
@@ -40,9 +42,11 @@ def get_server_options(request: Request) -> dict:
 
 
 def get_server_name(request: Request) -> str | None:
+    """Get current server name from request."""
     return request.query_params.get(SERVER_QUERY_PARAM)
 
 
 def get_server_url(request: Request) -> SimpleURL:
+    """Get current server url from request."""
     params = get_server_options(request)
     return SimpleURL(params['url'])
