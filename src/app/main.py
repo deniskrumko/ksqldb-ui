@@ -5,8 +5,8 @@ from typing import (
     Any,
     Callable,
 )
-import httpx
 
+import httpx
 from fastapi import (
     FastAPI,
     Request,
@@ -91,6 +91,6 @@ async def http_exception_handler(request: Request, exc: Exception) -> Response:
         params['response_code'] = exc.response.status_code
 
     if isinstance(exc, httpx.ReadError) and not str(exc):
-        params['headless_mode'] = True
+        params['booting_up'] = True
 
     return render_template('error.html', request=request, **params)

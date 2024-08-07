@@ -177,6 +177,21 @@
     #git-link:hover {
       color: #6200cb;
     }
+    .divider {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      color: #DDD;
+      margin: 15px 0px;
+    }
+
+    .divider::before, .divider::after {
+      flex: 1;
+      content: '';
+      padding: 1px;
+      background-color: #DDD;
+      margin: 5px;
+    }
   </style>
 
   <title>{% block title %}ksqlDB UI{% endblock %}</title>

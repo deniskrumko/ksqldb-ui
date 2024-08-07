@@ -15,7 +15,7 @@ ksqlDB UI - Requests
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
         <!-- EDITOR -->
-        <div id="editor">{% if query %}{{ query.raw }}{% endif %}</div>
+        <div id="editor">{% if query %}{{ query }}{% endif %}</div>
         <textarea name="query" id="query" hidden></textarea>
         <button type="submit" id="executeButton">execute</button>
       </form>
@@ -32,34 +32,32 @@ ksqlDB UI - Requests
           {% endif %}
         {% endblock %}
       </h2>
-      {% if response_data %}
-      <div>
-        {% for section in response_data %}
-          {% for k, v in section.items() %}
-          {{render_response(k, v)|safe}}
-          {% endfor %}
-        {% endfor %}
-      </div>
 
-      {% include "includes/request_response.html" %}
-      <br>
-      {% else %}
       {% block right_section %}
-      <h1 class="display-3">Welcome to ksqldb-ui</h1>
-      <p>
-        The interface is pretty simple:
-        <ul>
-          <li>
-            Type your query in <b class="b-hl">Request</b> section.
-            You can find query docs
-            <a href="https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/" class="link-offset-1" target="_blank">here</a>
-          </li>
-          <li>Click <b class="b-hl">execute</b> button or press <code>Shift + Enter</code> to perform request</li>
-          <li>More info on project homepage: <a id="git-link" href="https://github.com/deniskrumko/ksqldb-ui" target="_blank"><img src="/static/icons/github.svg" alt="github">deniskrumko/ksqldb-ui</a></li>
-        </ul>
-      </p>
+        {% if response_code %}
+        <!-- Show response -->
+        {% if response_data %}
+          <div>
+            {% for section in response_data %}
+              {% for k, v in section.items() %}
+              {{render_response(k, v)|safe}}
+              {% endfor %}
+
+              {% if not loop.last %}
+              <div class="divider">Next statement</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+        <h3>Empty response body</h3>
+        {% endif %}
+        {% include "includes/hidden_response_details.html" %}
+        <br>
+        {% else %}
+        <!-- Show welcoming page -->
+        {% include "includes/welcome.html" %}
+        {% endif %}
       {% endblock %}
-      {% endif %}
     </div>
   </div>
 </div>

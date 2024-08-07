@@ -6,6 +6,15 @@ ksqlDB UI - Streams
 
 {% block body %}
 <div class="my-container">
+
+  {% if deleted_stream %}
+  <!-- Alert -->
+   <br>
+  <div class="alert alert-success" role="alert">
+    Stream <b>{{ deleted_stream }}</b> successfully deleted!
+  </div>
+  {% endif %}
+
   <h2 class="my-h2">Streams (env: {{current_server}})</h2>
   <table class="table">
     <thead>
@@ -38,7 +47,7 @@ ksqlDB UI - Streams
       {% endfor %}
     </tbody>
   </table>
-  {% include "includes/request_response.html" %}
+  {% include "includes/hidden_response_details.html" %}
 </div>
 
 <!-- Modal -->
@@ -53,7 +62,7 @@ ksqlDB UI - Streams
         Do you really want to delete stream <code class="stream-name-title">Modal title</code> ?
       </div>
       <div class="modal-footer">
-        <form action="/streams/delete?{{q}}" method="POST">
+        <form action="/streams?{{q}}" method="POST">
           <input type="hidden" name="stream_name" id="modalBodyInput">
           <button type="submit" class="btn btn-danger">Yes, delete it 🔥</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, thanks</button>

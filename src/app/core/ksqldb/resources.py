@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import Any
 
+COMMENT_PREFIX = '--'
+
 
 class KsqlEndpoints(Enum):
     """Enum with all available KSQL endpoints."""
@@ -46,7 +48,10 @@ class KsqlQuery:
     @property
     def as_string(self) -> str:
         """Get KSQL query as string."""
-        query = ' '.join(v for v in str(self._raw_data).split() if v)
+        query = ' '.join(
+            line.strip() for line in str(self._raw_data).splitlines()
+            if line and not line.startswith(COMMENT_PREFIX)
+        )
 
         if not query.endswith(';'):
             query += ';'
