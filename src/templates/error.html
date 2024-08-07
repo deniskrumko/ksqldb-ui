@@ -17,6 +17,11 @@
     <pre class="wrap-pre">{{ detail }}</pre>
     {% endif %}
 
+    {% if headless_mode %}
+    Probably server <code>{{current_server}}</code> works in <b>non-interactive (headless) mode</b> and doesn't respond to REST requests.
+    <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">Learn more about it</a>
+    {% endif %}
+
     {% if response_data %}
     {% for section in response_data %}
       {% for k, v in section.items() %}
