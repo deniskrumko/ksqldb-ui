@@ -15,14 +15,14 @@ from fastapi import (
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 
-from .core.ksqldb.resources import KsqlException
-from .core.settings import (
+from app.core.ksqldb.resources import KsqlException
+from app.core.settings import (
     SERVER_QUERY_PARAM,
     get_server_name,
     get_settings,
 )
-from .core.templates import render_template
-from .core.utils import make_list
+from app.core.templates import render_template
+from app.core.utils import make_list
 
 app = FastAPI()
 app.settings = get_settings()

@@ -1,5 +1,12 @@
+volumes:
+  config: null
+
 services:
   ksqldb-ui:
     build: .
     ports:
       - 8080:8080
+    environment:
+      - APP_CONFIG=config/local.toml
+    volumes:
+      - ./config:/build/config
