@@ -25,8 +25,5 @@ class SimpleURL:
         return SimpleURL(f'{base}/{new_part}')
 
     def __eq__(self, value: Any) -> bool:
-        """Return True if value is equal to self."""
-        if not isinstance(value, SimpleURL):
-            raise TypeError('can only compare to other SimpleURL objects')
-
-        return self._url == value._url
+        """Compare URLs."""
+        return self._url == str(value)

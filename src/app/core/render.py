@@ -25,23 +25,31 @@ class BootstrapLevel(Enum):
 
 
 @register
-def render_response(k: Any, v: Any) -> str:
+def render_response(k: Any, v: Any, add_anchor: bool = False) -> str:
     """Render KSQL response dict."""
     # Do not render @type field
     if k == '@type':
         return ''
 
-    # Skip empty values
-    if v is None or v == []:
+    # Skip empty values (but not 0 or False)
+    if check_is_empty(v):
         return ''
 
     v = render_json(v)
+
+    id_tag = f'id="{k}"' if add_anchor else ''
     return f'''
-    <div class="resp">
+    <div class="resp" {id_tag}>
         <div class="key">{k}</div>
         <div class="value">{v}</div>
     </div>
     '''
+
+
+@register
+def check_is_empty(v: Any) -> bool:
+    """Check if value is empty."""
+    return v is None or v == [] or v == ''
 
 
 @register

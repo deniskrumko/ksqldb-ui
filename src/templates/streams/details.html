@@ -6,9 +6,28 @@ ksqlDB UI - Streams
 
 {% block body %}
 <div class="my-container">
-  <h2 class="my-h2">Stream {{ stream.sourceDescription.name }} (env: {{current_server}})</h2>
-  {% for k, v in stream.sourceDescription.items() %}
-  {{render_response(k, v)|safe}}
-  {% endfor %}
+  <div class="row">
+    <div class="col-md-10">
+      <h2 class="my-h2">Stream {{ stream.sourceDescription.name }} (env: {{current_server}})</h2>
+      {% for k, v in stream.sourceDescription.items() %}
+        {{render_response(k, v, True)|safe}}
+      {% endfor %}
+    </div>
+
+    <div class="col-md-2">
+      <div class="sticky-top">
+        <h2 class="my-h2">Response keys</h2>
+        {% for k, v in stream.sourceDescription.items() %}
+          {% if not check_is_empty(v) %}
+          <div>
+            <a href="#{{ k }}">{{ k }}</a>
+          </div>
+          {% endif %}
+        {% endfor %}
+        <br>
+        <a href="#logo" class="btn btn-outline-secondary">Go to top</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
