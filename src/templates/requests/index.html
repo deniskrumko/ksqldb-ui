@@ -84,10 +84,17 @@ ksqlDB UI - Requests
   }
 
   function adjustEditorHeight() {
+    let padding = 200
     const editor = document.getElementById('editor');
+    const topWarning = document.getElementById('top-warning-message');
+    if (topWarning) {
+      padding = 200 + topWarning.offsetHeight;
+    }
+
     const windowHeight = window.innerHeight;
     const editorTop = editor.getBoundingClientRect().top;
-    const newHeight = windowHeight - 200;
+    const newHeight = windowHeight - padding;
+
     editor.style.height = newHeight + 'px';
   }
 

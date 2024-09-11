@@ -46,7 +46,7 @@ def get_server_name(request: Request) -> str | None:
     return request.query_params.get(SERVER_QUERY_PARAM)
 
 
-def get_server_url(request: Request) -> SimpleURL:
+def get_server_url(request: Request, default_options: Optional[dict] = None) -> SimpleURL:
     """Get current server url from request."""
-    params = get_server_options(request)
+    params = default_options or get_server_options(request)
     return SimpleURL(params['url'])

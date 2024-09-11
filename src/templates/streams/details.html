@@ -15,7 +15,7 @@ ksqlDB UI - Streams
     </div>
 
     <div class="col-md-2">
-      <div class="sticky-top">
+      <div class="sticky-top" style="top: 72px;">
         <h2 class="my-h2">Response keys</h2>
         {% for k, v in stream.sourceDescription.items() %}
           {% if not check_is_empty(v) %}
@@ -25,7 +25,7 @@ ksqlDB UI - Streams
           {% endif %}
         {% endfor %}
         <br>
-        <a href="#logo" class="btn btn-outline-secondary">Go to top</a>
+        <a href="#top" class="btn btn-outline-secondary">Go to top</a>
       </div>
     </div>
   </div>

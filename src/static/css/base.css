@@ -178,3 +178,10 @@ pre {
     background-color: #DDD;
     margin: 5px;
 }
+
+#top-warning-message {
+    color: #fefefe;
+    background-color: #4c009e;
+    text-align: center;
+    padding: 5px 0px;
+}

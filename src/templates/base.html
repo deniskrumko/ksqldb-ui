@@ -20,8 +20,14 @@
   <title>{% block title %}ksqlDB UI{% endblock %}</title>
 </head>
 
-<body>
+<body id="top">
   {% include "includes/navbar.html" %}
+
+  <!-- Show warning message from config -->
+  {% if warning_message %}
+  <div id="top-warning-message">{{warning_message}}</div>
+  {% endif %}
+
   {% block body %}
   {% endblock %}
 </body>
