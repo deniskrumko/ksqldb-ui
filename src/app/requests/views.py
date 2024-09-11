@@ -29,7 +29,7 @@ async def perform_request(request: Request) -> Response:
         add_request_to_history(request, query)
 
         ksql_request = KsqlRequest(request, query)
-        ksql_response = await ksql_request.execute()
+        ksql_response = await ksql_request.execute(query_fallback=True)
         context = {'query': query}
 
     return render_template(

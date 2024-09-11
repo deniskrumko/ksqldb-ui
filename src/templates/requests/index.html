@@ -35,7 +35,7 @@ ksqlDB UI - Requests
 
       {% block right_section %}
         {% if x_response %}
-        <!-- Show response -->
+        <!-- Show JSON response -->
         {% if x_response.data %}
           <div>
             {% for section in x_response.data %}
@@ -48,6 +48,12 @@ ksqlDB UI - Requests
               {% endif %}
             {% endfor %}
           </div>
+        {% elif x_response.text %}
+        <!-- Show text response -->
+        {% for line in x_response.text.splitlines() %}
+        {{render_json(line)|safe}}
+        <br>
+        {% endfor %}
         {% else %}
         <h3>Empty response body</h3>
         {% endif %}

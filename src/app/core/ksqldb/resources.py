@@ -8,8 +8,16 @@ class KsqlEndpoints(Enum):
     """Enum with all available KSQL endpoints."""
 
     KSQL = 'ksql'
+    QUERY = 'query'
     INFO = 'info'
     HEALTH = 'healthcheck'
+
+
+class KsqlErrors(Enum):
+    """Enum with all available KSQL errors."""
+
+    BAD_STATEMENT = 40001
+    QUERY_ENDPOINT = 40002
 
 
 class KsqlException(Exception):

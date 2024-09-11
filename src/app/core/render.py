@@ -105,11 +105,11 @@ def render_level(response: ContextResponse) -> str:
 
     if response.code >= 400:
         response_level = BootstrapLevel.DANGER.value
-    elif len(response.data) == 0:
+    elif len(response.data) == 0 and not response.text:
         response_level = BootstrapLevel.WARNING.value
     else:
         for entry in response.data:
-            if entry['@type'] == 'warning_entity':
+            if entry.get('@type') == 'warning_entity':
                 return BootstrapLevel.WARNING.value
 
     return response_level

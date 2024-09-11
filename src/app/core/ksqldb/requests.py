@@ -11,6 +11,7 @@ from app.core.urls import SimpleURL
 
 from .resources import (
     KsqlEndpoints,
+    KsqlErrors,
     KsqlQuery,
 )
 
@@ -38,15 +39,30 @@ class KsqlRequest:
         """Get KSQL query."""
         return self._query
 
-    async def execute(self) -> httpx.Response:
-        """Execute KSQL request."""
-        full_url = self._server / self._endpoint.value
+    async def execute(self, query_fallback: bool = False) -> httpx.Response:
+        """Execute KSQL request to default endpoint."""
+        response = await self._request(self._endpoint)
+
+        # If with_fallback enabled, then try request to /query endpoint
+        if (
+            query_fallback
+            and response.status_code == 400
+            and response.json()['error_code'] == KsqlErrors.QUERY_ENDPOINT.value
+        ):
+            return await self._request(KsqlEndpoints.QUERY)
+
+        return response
+
+    async def _request(self, endpoint: KsqlEndpoints) -> httpx.Response:
+        """Get response from endpoint"""
+        full_url = self._server / endpoint.value
         async with httpx.AsyncClient() as client:
             return await client.request(
                 method=self._method,
                 url=str(full_url),
                 json={
                     'ksql': self._query.as_string,
+                    # TODO: Add custom streamsProperties
                     'streamsProperties': {},
                 },
                 headers={

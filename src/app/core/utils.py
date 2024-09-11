@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 import httpx
@@ -13,7 +14,14 @@ def make_list(value: Any) -> list:
 
 class ContextResponse:
     def __init__(self, httpx_response: httpx.Response):
-        self.data = make_list(httpx_response.json())
+        self.data = []
+        self.text = ''
+
+        try:
+            self.data = make_list(httpx_response.json())
+        except json.decoder.JSONDecodeError:
+            self.text = httpx_response.text
+
         self.code = httpx_response.status_code
 
 
