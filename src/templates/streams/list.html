@@ -39,7 +39,7 @@ ksqlDB UI - Streams
         <td>{{ stream.isWindowed }}</td>
         <td>
           <a href="/streams/{{ stream.name }}?{{q}}" class="btn btn-primary btn-sm">Describe</a>
-          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-stream-name="{{ stream.name }}">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
             Delete
           </button>
         </td>
@@ -50,51 +50,12 @@ ksqlDB UI - Streams
   {% include "includes/hidden_response_details.html" %}
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete stream</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you really want to delete stream <code class="stream-name-title">Modal title</code> ?
-      </div>
-      <div class="modal-footer">
-        <form action="/streams?{{q}}" method="POST">
-          <input type="hidden" name="stream_name" id="modalBodyInput">
-          <button type="submit" class="btn btn-danger">Yes, delete it 🔥</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, thanks</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+{% with objectType="stream", deleteEndpoint="/streams" %}
+  {% include "includes/modal_delete.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block js %}
 {{ super() }}
-<script>
-
-  const exampleModal = document.getElementById('exampleModal')
-if (exampleModal) {
-  exampleModal.addEventListener('show.bs.modal', event => {
-    // Button that triggered the modal
-    const button = event.relatedTarget
-    // Extract info from data-bs-* attributes
-    const recipient = button.getAttribute('data-bs-stream-name')
-    // If necessary, you could initiate an Ajax request here
-    // and then do the updating in a callback.
-
-    // Update the modal's content.
-    const modalTitle = exampleModal.querySelector('.stream-name-title')
-    const modalBodyInput = exampleModal.querySelector('#modalBodyInput')
-
-    modalTitle.textContent = `${recipient}`
-    modalBodyInput.value = recipient
-  })
-}
-
-</script>
+<script src="static/js/modal_delete.js"></script>
 {% endblock %}

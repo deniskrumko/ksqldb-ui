@@ -5,6 +5,7 @@ from typing import Any
 from fastapi.requests import Request
 
 from .settings import get_server_options
+from .utils import ContextResponse
 
 RENDER_HELPERS: dict = {}
 
@@ -77,16 +78,16 @@ def render_topic_link(request: Request, name: str,) -> str:
 
 
 @register
-def render_level(status_code: int, data: list) -> str:
+def render_level(response: ContextResponse) -> str:
     """Render response level using Bootstrap levels."""
     response_level = BootstrapLevel.SUCCESS.value
 
-    if status_code >= 400:
+    if response.code >= 400:
         response_level = BootstrapLevel.DANGER.value
-    elif len(data) == 0:
+    elif len(response.data) == 0:
         response_level = BootstrapLevel.WARNING.value
     else:
-        for entry in data:
+        for entry in response.data:
             if entry['@type'] == 'warning_entity':
                 return BootstrapLevel.WARNING.value
 

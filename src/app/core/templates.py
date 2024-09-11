@@ -9,7 +9,12 @@ from fastapi.templating import Jinja2Templates
 from httpx._models import Response as HttpxResponse
 from starlette.templating import _TemplateResponse as TemplateResponse
 
-from .utils import make_list
+from .utils import (
+    CONTEXT_REQUEST_KEY,
+    CONTEXT_RESPONSE_KEY,
+    ContextRequest,
+    ContextResponse,
+)
 
 TEMPLATES: Optional[Jinja2Templates] = None
 
@@ -31,10 +36,22 @@ def get_templates() -> Jinja2Templates:
     return templates
 
 
-def render_template(template_name: str, request: Request, **kwargs: Any) -> TemplateResponse:
+def render_template(
+    template_name: str,
+    request: Request,
+    response: Optional[HttpxResponse] = None,
+    **kwargs: Any,
+) -> TemplateResponse:
     """Render template by name and context."""
     templates = get_templates()
-    return templates.TemplateResponse(template_name, context={'request': request, **kwargs})
+    context = {'request': request, **kwargs}
+
+    # Convert httpx.Response to context dict.
+    if response is not None:
+        context[CONTEXT_RESPONSE_KEY] = ContextResponse(response)
+        context[CONTEXT_REQUEST_KEY] = ContextRequest(response.request)
+
+    return templates.TemplateResponse(template_name, context=context)
 
 
 def base_context(request: Request) -> dict:
@@ -51,15 +68,4 @@ def base_context(request: Request) -> dict:
         'current_server_url': get_server_url(request),
         'server_query_param': SERVER_QUERY_PARAM,
         'q': f'{SERVER_QUERY_PARAM}={server_name}',
-    }
-
-
-def httpx_response_to_context(response: HttpxResponse) -> dict:
-    """Convert httpx.Response to context dict."""
-    return {
-        'request_url': response.request.url,
-        'request_method': response.request.method,
-        'request_data': response.request.content.decode('utf-8'),
-        'response_code': response.status_code,
-        'response_data': make_list(response.json()),
     }

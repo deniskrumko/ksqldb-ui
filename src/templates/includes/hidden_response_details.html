@@ -5,10 +5,10 @@
 </p>
 <div class="collapse" id="collapseExample">
   <h2>Request</h2>
-  <p><code>{{request_method}} {{request_url}}</code></p>
-  {{render_json(request_data)|safe}}
+  <p><code>{{x_request.method}} {{x_request.url}}</code></p>
+  {{render_json(x_request.data)|safe}}
   <br>
   <h2>Response</h2>
-  <p><code>HTTP {{response_code}}</code></p>
-  {{render_json(response_data)|safe}}
+  <p><code>HTTP {{x_response.code}}</code></p>
+  {{render_json(x_response.data)|safe}}
 </div>

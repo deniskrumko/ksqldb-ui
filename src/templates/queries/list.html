@@ -6,6 +6,15 @@ ksqlDB UI - Queries
 
 {% block body %}
 <div class="my-container">
+
+  {% if deleted_query %}
+  <!-- Alert -->
+   <br>
+  <div class="alert alert-success" role="alert">
+    Query <b>{{ deleted_query }}</b> successfully deleted!
+  </div>
+  {% endif %}
+
   <h2 class="my-h2">Queries (env: {{current_server}})</h2>
   <table class="table">
     <thead>
@@ -15,6 +24,7 @@ ksqlDB UI - Queries
         <th scope="col">State</th>
         <th scope="col">Query Type</th>
         <th scope="col">Sinks</th>
+        <th scope="col">Controls</th>
       </tr>
     </thead>
     <tbody>
@@ -52,10 +62,24 @@ ksqlDB UI - Queries
             </div>
           </div>
         </td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ q.id }}">
+            Delete
+          </button>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% include "includes/hidden_response_details.html" %}
 </div>
+
+{% with objectType="query", deleteEndpoint="/queries" %}
+  {% include "includes/modal_delete.html" %}
+{% endwith %}
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script src="static/js/modal_delete.js"></script>
 {% endblock %}

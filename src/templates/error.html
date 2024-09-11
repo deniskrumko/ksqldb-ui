@@ -7,8 +7,8 @@
   <p style="font-size: 24px;">Active server: <code>{{current_server}}</code></p>
   <br>
   <div class="alert alert-danger">
-    {% if response_code %}
-    <h3>{{ exception }}<span class="badge text-bg-danger">HTTP {{ response_code }}</span></h3>
+    {% if x_response %}
+    <h3>{{ exception }}<span class="badge text-bg-danger">HTTP {{ x_response.code }}</span></h3>
     {% else %}
     <h3>{{ exception }}</h3>
     {% endif %}
@@ -22,8 +22,8 @@
     <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">Learn more about it</a>
     {% endif %}
 
-    {% if response_data %}
-    {% for section in response_data %}
+    {% if error_response %}
+    {% for section in error_response.data %}
       {% for k, v in section.items() %}
       {{render_response(k, v)|safe}}
       {% endfor %}

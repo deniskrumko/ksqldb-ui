@@ -10,10 +10,7 @@ from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,
 )
-from app.core.templates import (
-    httpx_response_to_context,
-    render_template,
-)
+from app.core.templates import render_template
 
 router = APIRouter()
 
@@ -29,8 +26,8 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
     return render_template(
         'streams/list.html',
         request=request,
+        response=response,
         streams=data[0]['streams'],
-        **httpx_response_to_context(response),
         **(extra_context or {}),
     )
 
@@ -39,7 +36,7 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
 async def delete_stream(request: Request) -> Response:
     """Route to delete a stream."""
     form_data = await request.form()
-    stream_name = form_data['stream_name']
+    stream_name = form_data['delete_object']
     if not stream_name:
         raise ValueError('Stream name is not set')
 
