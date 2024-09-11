@@ -46,10 +46,10 @@ ksqlDB UI - Queries
         </td>
         <td>
           <div class="resp">
-            <div class="key">Sinks</div>
+            <div class="key">Streams</div>
             <div class="value">
               {% for sink in q.sinks %}
-              <div><code>{{ sink }}</code></div>
+              <div>{{ render_stream_link(request, sink)|safe }}</div>
               {% endfor %}
             </div>
           </div>
@@ -57,7 +57,7 @@ ksqlDB UI - Queries
             <div class="key">Kafka topics</div>
             <div class="value">
               {% for sink in q.sinkKafkaTopics %}
-              <div><code>{{ sink }}</code></div>
+              <div>{{ render_topic_link(request, sink)|safe }}</div>
               {% endfor %}
             </div>
           </div>

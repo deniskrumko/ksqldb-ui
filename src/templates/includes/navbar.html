@@ -11,11 +11,11 @@
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link {% if request.path == '/requests' %}active{% endif %}" href="/requests?{{q}}">Requests</a>
         {% if request.app.history_enabled %}
-        <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history?{{q}}">History</a>
+        <a class="nav-link {% if '/history' in request.path %}active{% endif %}" href="/history?{{q}}">History</a>
         {% endif %}
-        <a class="nav-link {% if request.path == '/streams' %}active{% endif %}" href="/streams?{{q}}">Streams</a>
-        <a class="nav-link {% if request.path == '/queries' %}active{% endif %}" href="/queries?{{q}}">Queries</a>
-        <a class="nav-link {% if request.path == '/status' %}active{% endif %}" href="/status?{{q}}">Status</a>
+        <a class="nav-link {% if '/streams' in request.path %}active{% endif %}" href="/streams?{{q}}">Streams</a>
+        <a class="nav-link {% if '/queries' in request.path %}active{% endif %}" href="/queries?{{q}}">Queries</a>
+        <a class="nav-link {% if '/status' in request.path %}active{% endif %}" href="/status?{{q}}">Status</a>
       </div>
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector" onchange="this.options[this.selectedIndex].value && (window.location = '?{{server_query_param}}=' + this.options[this.selectedIndex].value);">

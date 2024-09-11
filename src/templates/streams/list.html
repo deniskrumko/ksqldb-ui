@@ -32,13 +32,12 @@ ksqlDB UI - Streams
       {% for stream in streams %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td><code>{{ stream.name }}</code></td>
+        <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
         <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
         <td>{{ stream.keyFormat }}</td>
         <td>{{ stream.valueFormat }}</td>
         <td>{{ stream.isWindowed }}</td>
         <td>
-          <a href="/streams/{{ stream.name }}?{{q}}" class="btn btn-primary btn-sm">Describe</a>
           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
             Delete
           </button>

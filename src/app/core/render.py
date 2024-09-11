@@ -4,7 +4,11 @@ from typing import Any
 
 from fastapi.requests import Request
 
-from .settings import get_server_options
+from .settings import (
+    SERVER_QUERY_PARAM,
+    get_server_name,
+    get_server_options,
+)
 from .utils import ContextResponse
 
 RENDER_HELPERS: dict = {}
@@ -69,12 +73,29 @@ def render_topic_link(request: Request, name: str,) -> str:
     """Render topic link (configured in settings)."""
     params = get_server_options(request)
     if link := params.get('topic_link', ''):
-        return (
-            f'<a href="{link.format(name)}" class="link-offset-2" '
-            f'style="font-size: 14px;" target="_blank">{name}</a>'
-        )
+        return str(render_link(link.format(name), name))
 
     return name
+
+
+@register
+def render_stream_link(request: Request, name: str, target: bool = False) -> str:
+    """Render topic link (configured in settings)."""
+    server_name = get_server_name(request=request)
+    href = f'/streams/{name}?{SERVER_QUERY_PARAM}={server_name}'
+    return str(render_link(href, name, target))
+
+
+@register
+def render_link(
+    href: str,
+    text: str,
+    target: bool = True,
+    style: str = 'font-size: 14px;',
+) -> str:
+    """Render link."""
+    target_blank = 'target="_blank"' if target else ''
+    return f'<a href="{href}" class="link-offset-2" style="{style}" {target_blank}>{text}</a>'
 
 
 @register
