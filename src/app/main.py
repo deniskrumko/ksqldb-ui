@@ -42,6 +42,7 @@ def register_routes() -> None:
     from app.requests import router as requests_page
     from app.status import router as status_page
     from app.streams import router as streams_page
+    from app.topics import router as topics_page
 
     for route in (
         index_page,
@@ -49,6 +50,7 @@ def register_routes() -> None:
         requests_page,
         streams_page,
         status_page,
+        topics_page,
     ):
         app.include_router(route)
 

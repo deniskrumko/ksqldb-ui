@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Topics
+{% endblock %}
+
+{% block body %}
+<div class="my-container">
+  <h2 class="my-h2">Topics (env: {{current_server}})</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Partitions</th>
+        <th scope="col">Replicas</th>
+        <th scope="col">Consumers</th>
+        <th scope="col">Groups</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in topics %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ render_topic_link(request, t.name) | safe }}</td>
+        <td>{{ t.replicaInfo | length }}</td>
+        <td>{{ t.replicaInfo[0] }}</td>
+        {% if t.consumerCount %}
+        <td>{{ t.consumerCount }}</td>
+        {% else %}
+        <td style="color: #ccc;">–</td>
+        {% endif %}
+        {% if t.consumerGroupCount %}
+        <td>{{ t.consumerGroupCount }}</td>
+        {% else %}
+        <td style="color: #ccc;">–</td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "includes/hidden_response_details.html" %}
+</div>
+{% endblock %}

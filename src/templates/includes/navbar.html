@@ -15,6 +15,7 @@
         {% endif %}
         <a class="nav-link {% if '/streams' in request.path %}active{% endif %}" href="/streams?{{q}}">Streams</a>
         <a class="nav-link {% if '/queries' in request.path %}active{% endif %}" href="/queries?{{q}}">Queries</a>
+        <a class="nav-link {% if '/topics' in request.path %}active{% endif %}" href="/topics?{{q}}">Topics</a>
         <a class="nav-link {% if '/status' in request.path %}active{% endif %}" href="/status?{{q}}">Status</a>
       </div>
       <form class="d-flex">
