@@ -4,6 +4,7 @@ from typing import Any
 
 from fastapi.requests import Request
 
+from .ksqldb import KsqlErrors
 from .settings import (
     SERVER_QUERY_PARAM,
     get_server_name,
@@ -30,7 +31,39 @@ class BootstrapLevel(Enum):
 
 
 @register
-def render_response(k: Any, v: Any, add_anchor: bool = False) -> str:
+def render_map(response: dict, **kwargs: Any) -> str:
+    if (
+        response.get('error_code') == KsqlErrors.BAD_STATEMENT.value
+        and 'Syntax Error' in response.get('message', '')
+    ):
+        return str(render_syntax_error_response(response, **kwargs))
+
+    result = ''
+    for k, v in response.items():
+        result += render_kv(k, v, **kwargs)
+
+    return result
+
+
+@register
+def render_syntax_error_response(response: dict) -> str:
+    query = response['statementText']
+    err_line, err_pos, *_ = response['message'].split(':')
+    if err_line != 'line 1':
+        raise ValueError('Unexpected line number, should be "line 1"')
+
+    position = int(err_pos) - 1
+    query = render_json(f'{query[:position]}<span class="error-highlight">{query[position:]}<span>')
+    return f'''
+    <div class="resp">
+        <h2>Invalid syntax at position {position}</h2>
+        <div>{query}</div>
+    </div>
+    '''
+
+
+@register
+def render_kv(k: Any, v: Any, add_anchor: bool = False) -> str:
     """Render KSQL response dict."""
     # Do not render @type field
     if k == '@type':
@@ -87,15 +120,10 @@ def render_stream_link(request: Request, name: str, target: bool = False) -> str
 
 
 @register
-def render_link(
-    href: str,
-    text: str,
-    target: bool = True,
-    style: str = 'font-size: 14px;',
-) -> str:
+def render_link(href: str, text: str, target: bool = True) -> str:
     """Render link."""
     target_blank = 'target="_blank"' if target else ''
-    return f'<a href="{href}" class="link-offset-2" style="{style}" {target_blank}>{text}</a>'
+    return f'<a href="{href}" class="link-offset-2 link-sm" {target_blank}>{text}</a>'
 
 
 @register

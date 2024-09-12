@@ -40,7 +40,7 @@ async def perform_request(request: Request) -> Response:
     )
 
 
-@router.get("/history")
+@router.get("/requests/history")
 async def show_history(request: Request) -> Response:
     """View to show requests history."""
     history = []
@@ -54,7 +54,7 @@ async def show_history(request: Request) -> Response:
     )
 
 
-@router.post('/history')
+@router.post('/requests/history')
 async def delete_history(request: Request) -> Response:
     """View to delete requests history."""
     request.app.history.clear()

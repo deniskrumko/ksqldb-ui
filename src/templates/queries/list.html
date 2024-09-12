@@ -28,27 +28,29 @@ ksqlDB UI - Queries - {{current_server.title() }}
       </tr>
     </thead>
     <tbody>
-      {% for q in queries %}
+      {% for query in queries %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td><code>{{ q.id }}</code></td>
         <td>
-          {% if q.state == 'RUNNING' %}
+          <a href="/queries/{{ query.id }}?{{q}}" class="link-offset-2 link-sm">{{ query.id }}</a>
+        </td>
+        <td>
+          {% if query.state == 'RUNNING' %}
           <span class="badge text-bg-success">
           {% else %}
           <span class="badge text-bg-danger">
           {% endif %}
-            {{ q.state }}
+            {{ query.state }}
           </span>
         </td>
         <td>
-          <span class="badge text-bg-secondary">{{ q.queryType }}</span>
+          <span class="badge text-bg-secondary">{{ query.queryType }}</span>
         </td>
         <td>
           <div class="resp">
             <div class="key">Streams</div>
             <div class="value">
-              {% for sink in q.sinks %}
+              {% for sink in query.sinks %}
               <div>{{ render_stream_link(request, sink)|safe }}</div>
               {% endfor %}
             </div>
@@ -56,14 +58,14 @@ ksqlDB UI - Queries - {{current_server.title() }}
           <div class="resp">
             <div class="key">Kafka topics</div>
             <div class="value">
-              {% for sink in q.sinkKafkaTopics %}
+              {% for sink in query.sinkKafkaTopics %}
               <div>{{ render_topic_link(request, sink)|safe }}</div>
               {% endfor %}
             </div>
           </div>
         </td>
         <td>
-          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ q.id }}">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ query.id }}">
             Delete
           </button>
         </td>

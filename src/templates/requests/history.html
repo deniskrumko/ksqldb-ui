@@ -18,7 +18,7 @@ History
     <pre class="wrap-pre">{{ entry.query }}</pre>
   </div>
   {% endfor %}
-  <form action="/history?{{q}}" method="post">
+  <form action="/requests/history?{{q}}" method="post">
     <button type="submit" class="btn btn-danger">Clear history</button>
   </form>
 {% else %}

@@ -12,7 +12,10 @@ ksqlDB UI - Requests - {{current_server.title() }}
     <!-- LEFT SECTION -->
     <div class="col-md-6" id="col-left-collapsable">
       <h2 class="my-h2">
-        Request (env: {{current_server}})
+        Request (env: {{current_server}}) –
+        {% if request.app.history_enabled %}
+        <a href="/requests/history?{{q}}" style="color: #b1b1b1">click here to view history</a>
+        {% endif %}
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
@@ -41,9 +44,7 @@ ksqlDB UI - Requests - {{current_server.title() }}
         {% if x_response.data %}
           <div>
             {% for section in x_response.data %}
-              {% for k, v in section.items() %}
-              {{render_response(k, v)|safe}}
-              {% endfor %}
+              {{render_map(section)|safe}}
 
               {% if not loop.last %}
               <div class="divider">Next statement</div>

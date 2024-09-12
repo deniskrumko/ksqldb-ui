@@ -116,6 +116,10 @@ pre {
     font-family: Zain, Menlo, Arial, sans-serif !important;
 }
 
+.link-sm {
+    font-size: 14px !important;
+}
+
 .btn-original-response {
     border-radius: 12px;
     color: #6200cb;
@@ -184,6 +188,8 @@ pre {
     background-color: #4c009e;
     text-align: center;
     padding: 5px 0px;
+    position: sticky;
+    top: 62px;
 }
 
 #collapse-left-button {
@@ -218,4 +224,10 @@ pre {
 }
 .right-collapse-enabled {
     left: calc(100% - 20px) !important;
+}
+
+.error-highlight {
+    background-color: #dc3645;
+    color: #fff;
+    padding: 3px;
 }

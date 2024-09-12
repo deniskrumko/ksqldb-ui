@@ -10,24 +10,13 @@ ksqlDB UI - Streams - {{current_server.title() }}
     <div class="col-md-10">
       <h2 class="my-h2">Stream {{ stream.sourceDescription.name }} (env: {{current_server}})</h2>
       {% for k, v in stream.sourceDescription.items() %}
-        {{render_response(k, v, add_anchor=True)|safe}}
+        {{render_kv(k, v, add_anchor=True)|safe}}
       {% endfor %}
     </div>
 
-    <div class="col-md-2">
-      <div class="sticky-top" style="top: 72px;">
-        <h2 class="my-h2">Response keys</h2>
-        {% for k, v in stream.sourceDescription.items() %}
-          {% if not check_is_empty(v) %}
-          <div>
-            <a href="#{{ k }}">{{ k }}</a>
-          </div>
-          {% endif %}
-        {% endfor %}
-        <br>
-        <a href="#top" class="btn btn-outline-secondary">Go to top</a>
-      </div>
-    </div>
+    {% with response_map=stream.sourceDescription %}
+      {% include "includes/response_keys.html" %}
+    {% endwith %}
   </div>
 </div>
 {% endblock %}

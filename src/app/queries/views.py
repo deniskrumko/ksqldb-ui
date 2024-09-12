@@ -47,3 +47,14 @@ async def delete_query(request: Request) -> Response:
     return await list_view(request, extra_context={
         'deleted_query': query_name,
     })
+
+
+@router.get('/queries/{query_name}')
+async def detail_view(request: Request, query_name: str) -> Response:
+    """View to show query details."""
+    response = await KsqlRequest(request, f'EXPLAIN {query_name}').execute()
+    if not response.is_success:
+        raise KsqlException('Failed to explain query', response)
+
+    data = response.json()
+    return render_template('queries/details.html', request=request, query=data[0])

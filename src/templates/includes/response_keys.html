@@ -1,0 +1,18 @@
+<div class="col-md-2">
+  {% if warning_message %}
+  <div class="sticky-top" style="top: 110px;">
+  {% else %}
+  <div class="sticky-top" style="top: 72px;">
+  {% endif %}
+    <h2 class="my-h2">Response keys</h2>
+    {% for k, v in response_map.items() %}
+      {% if not check_is_empty(v) %}
+      <div>
+        <a href="#{{ k }}">{{ k }}</a>
+      </div>
+      {% endif %}
+    {% endfor %}
+    <br>
+    <a href="#top" class="btn btn-outline-secondary">Go to top</a>
+  </div>
+</div>

@@ -15,9 +15,9 @@ ksqlDB UI - Status - {{current_server.title() }}
       </h2>
 
       {% if info %}
-      {{render_response('URL', current_server_url)|safe}}
+      {{render_kv('URL', current_server_url)|safe}}
       {% for k, v in info['KsqlServerInfo'].items() %}
-      {{render_response(k, v)|safe}}
+      {{render_kv(k, v)|safe}}
       {% endfor %}
       {% endif %}
     </div>
