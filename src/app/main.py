@@ -12,9 +12,9 @@ from fastapi import (
     Request,
     Response,
 )
-from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 
+from app.core.fastapi import CacheControlledStaticFiles
 from app.core.ksqldb.resources import KsqlException
 from app.core.settings import (
     SERVER_QUERY_PARAM,
@@ -33,7 +33,7 @@ if app.history_enabled:
     app.history = deque(maxlen=history_size)
 
 static_dir = Path(__file__).parent.parent / 'static'
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+app.mount("/static", CacheControlledStaticFiles(directory=static_dir), name="static")
 
 
 def register_routes() -> None:
