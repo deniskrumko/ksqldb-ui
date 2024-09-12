@@ -185,3 +185,37 @@ pre {
     text-align: center;
     padding: 5px 0px;
 }
+
+#collapse-left-button {
+    top: calc(50% + 35px);
+}
+
+#collapse-right-button {
+    top: calc(50% - 35px);
+}
+
+.collable-button {
+    z-index: 100;
+    position: fixed;
+    left: calc(50% - 5px);
+    background: #ededed;
+    color: #aaa;
+    display: inline-block;
+    font-size: 11px;
+    padding: 20px 2px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.collable-button:hover {
+    cursor: pointer;
+    background-color: #6200cb;
+    color: #ededed;
+}
+
+.left-collapse-enabled {
+    left: 12px !important;
+}
+.right-collapse-enabled {
+    left: calc(100% - 20px) !important;
+}

@@ -6,9 +6,11 @@ ksqlDB UI - Requests
 
 {% block body %}
 <div class="my-container">
+  <div id="collapse-right-button" class="collable-button"  data-toggle="tooltip" data-placement="left" title="Expand request area">›</div>
+  <div id="collapse-left-button" class="collable-button" data-toggle="tooltip" data-placement="right" title="Expand response area">‹</div>
   <div class="row">
     <!-- LEFT SECTION -->
-    <div class="col-md-6">
+    <div class="col-md-6" id="col-left-collapsable">
       <h2 class="my-h2">
         Request (env: {{current_server}})
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
@@ -22,7 +24,7 @@ ksqlDB UI - Requests
     </div>
 
     <!-- RIGHT SECTION -->
-    <div class="col-md-6">
+    <div class="col-md-6" id="col-right-collapsable">
       <h2 class="my-h2">
         {% block right_section_header %}
           {% if x_response %}
@@ -116,6 +118,26 @@ ksqlDB UI - Requests
     editor.focus();
     document.execCommand('copy');
     editor.selection.fromJSON(sel); // restore selection
+  });
+
+  $('#collapse-left-button').on('click', function() {
+    $('#col-left-collapsable').toggle();
+    $('#collapse-left-button').toggleClass('left-collapse-enabled');
+    $('#collapse-left-button').tooltip('toggleEnabled');
+
+    $('#collapse-right-button').toggle();
+    $('#col-right-collapsable').toggleClass('col-md-6');
+    $('#col-right-collapsable').toggleClass('col-md-12');
+  });
+
+  $('#collapse-right-button').on('click', function() {
+    $('#col-right-collapsable').toggle();
+    $('#collapse-right-button').toggleClass('right-collapse-enabled');
+    $('#collapse-right-button').tooltip('toggleEnabled');
+
+    $('#collapse-left-button').toggle();
+    $('#col-left-collapsable').toggleClass('col-md-6');
+    $('#col-left-collapsable').toggleClass('col-md-12');
   });
 
   $(function () {
