@@ -150,6 +150,6 @@ size = 50
 
 Some explanation:
 
-- `topic_link` is used to redirect to Apache Kafka or Redpanda UI to see topic messages. Topic name is passed to `{}` placeholder in the URL.
-- `warning_message` is shown in the UI if you are in production. Totally optional.
+- `topic_link` (optional) is used to redirect to Apache Kafka or Redpanda UI to see topic messages. Topic name is passed to `{}` placeholder in the URL.
+- `warning_message` (optional) is a string that contains message that will be shown then you switch to selected env.
 - `history` is enabled by default. If you want to disable it, set `history.enabled = false` in your config.
