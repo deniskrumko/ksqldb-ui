@@ -125,31 +125,4 @@ Other manifests (like `ingress.yml` and so on) you can do on your own :)
 
 # Config example
 
-Configuration supports multiple servers that can be selected in the UI.
-
-```toml
-[servers]
-
-[servers.localhost]
-url = 'http://0.0.0.0:8088'
-topic_link = 'http://localhost:8090/topics/{}'
-
-[servers.development]
-url = 'http://your-development-ksqldb.com'
-topic_link = 'http://your-development-kafka-ui.com/topics/{}'
-
-[servers.production]
-url = 'http://your-production-ksqldb.com'
-topic_link = 'http://your-production-kafka-ui.com/topics/{}'
-warning_message = 'This is a production environment. Please do not modify existing streams/queries.'
-
-[history]
-enabled = true
-size = 50
-```
-
-Some explanation:
-
-- `topic_link` (optional) is used to redirect to Apache Kafka or Redpanda UI to see topic messages. Topic name is passed to `{}` placeholder in the URL.
-- `warning_message` (optional) is a string that contains message that will be shown then you switch to selected env.
-- `history` is enabled by default. If you want to disable it, set `history.enabled = false` in your config.
+Configuration with comments is located in [config/example.toml](./config/example.toml) file. Please, take a look!

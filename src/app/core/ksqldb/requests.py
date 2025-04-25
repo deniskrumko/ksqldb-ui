@@ -6,7 +6,10 @@ from typing import (
 import httpx
 from fastapi.requests import Request
 
-from app.core.settings import get_server_url
+from app.core.settings import (
+    get_server_url,
+    get_setting,
+)
 from app.core.urls import SimpleURL
 
 from .resources import (
@@ -27,12 +30,14 @@ class KsqlRequest:
         raw_query: Optional[Any] = None,
         endpoint: KsqlEndpoints = KsqlEndpoints.KSQL,
         method: str = 'POST',
+        timeout: Optional[int] = None,
     ) -> None:
         """Initialize class instance."""
         self._server: SimpleURL = get_server_url(request)
         self._query = KsqlQuery(str(raw_query))
         self._endpoint = endpoint
         self._method = method
+        self._timeout = timeout or get_setting('http.timeout', 10)
 
     @property
     def query(self) -> KsqlQuery:
@@ -68,4 +73,5 @@ class KsqlRequest:
                 headers={
                     'Accept': self.ACCEPT_HEADER,
                 },
+                timeout=self._timeout,
             )

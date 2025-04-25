@@ -8,7 +8,19 @@
   <br>
   <div class="alert alert-danger">
     {% if x_response %}
-    <h3>{{ exception }}<span class="badge text-bg-danger">HTTP {{ x_response.code }}</span></h3>
+    <h3>
+      {{ exception }}
+      <span class="badge text-bg-danger">
+        HTTP {{ x_response.code }}
+      </span>
+    </h3>
+    {% elif error_response and error_response.code %}
+    <h3>
+      {{ exception }}
+      <span class="badge text-bg-danger">
+        HTTP {{ error_response.code }}
+      </span>
+    </h3>
     {% else %}
     <h3>{{ exception }}</h3>
     {% endif %}
@@ -22,7 +34,7 @@
     <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">Learn more about it</a>
     {% endif %}
 
-    {% if error_response %}
+    {% if error_response and error_response.data%}
     {% for section in error_response.data %}
       {% for k, v in section.items() %}
       {{render_kv(k, v)|safe}}
