@@ -11,7 +11,7 @@ from fastapi import Request
 from .urls import SimpleURL
 
 SETTINGS: Optional[dict] = None
-SERVER_QUERY_PARAM: str = 's'
+SERVER_QUERY_PARAM: str = "s"
 
 
 def get_settings() -> dict:
@@ -21,9 +21,9 @@ def get_settings() -> dict:
     if SETTINGS is not None:
         return SETTINGS
 
-    app_config = getenv('APP_CONFIG')
+    app_config = getenv("APP_CONFIG")
     if not app_config:
-        raise ValueError('APP_CONFIG env var is not set')
+        raise ValueError("APP_CONFIG env var is not set")
 
     with open(app_config, "rb") as f:
         data = tomllib.load(f)
@@ -38,7 +38,7 @@ def get_setting(name: str, default_value: Any | None = None) -> Any:
     settings = get_settings()
     current: Any = settings
 
-    for part in name.split('.'):
+    for part in name.split("."):
         if not isinstance(current, dict):
             return default_value
 
@@ -53,13 +53,13 @@ def get_server_options(request: Request) -> dict:
     """Get current server from request."""
     server_name = get_server_name(request)
     if not server_name:
-        raise ValueError('Server name is not set')
+        raise ValueError("Server name is not set")
 
     settings = get_settings()
-    if server_name not in settings['servers']:
+    if server_name not in settings["servers"]:
         raise ValueError(f'Server "{server_name}" is not found to config file')
 
-    return dict(settings['servers'][server_name])
+    return dict(settings["servers"][server_name])
 
 
 def get_server_name(request: Request) -> str | None:
@@ -70,4 +70,4 @@ def get_server_name(request: Request) -> str | None:
 def get_server_url(request: Request, default_options: Optional[dict] = None) -> SimpleURL:
     """Get current server url from request."""
     params = default_options or get_server_options(request)
-    return SimpleURL(params['url'])
+    return SimpleURL(params["url"])

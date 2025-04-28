@@ -18,15 +18,15 @@ router = APIRouter()
 @router.get("/topics")
 async def list_view(request: Request, extra_context: Optional[dict] = None) -> Response:
     """View to list all available queries."""
-    response = await KsqlRequest(request, 'SHOW TOPICS EXTENDED').execute()
+    response = await KsqlRequest(request, "SHOW TOPICS EXTENDED").execute()
     if not response.is_success:
-        raise KsqlException('Failed to show topics', response)
+        raise KsqlException("Failed to show topics", response)
 
     data = response.json()
     return render_template(
-        'topics/list.html',
+        "topics/list.html",
         request=request,
         response=response,
-        topics=data[0]['topics'],
+        topics=data[0]["topics"],
         **(extra_context or {}),
     )

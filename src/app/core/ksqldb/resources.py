@@ -1,16 +1,16 @@
 from enum import Enum
 from typing import Any
 
-COMMENT_PREFIX = '--'
+COMMENT_PREFIX = "--"
 
 
 class KsqlEndpoints(Enum):
     """Enum with all available KSQL endpoints."""
 
-    KSQL = 'ksql'
-    QUERY = 'query'
-    INFO = 'info'
-    HEALTH = 'healthcheck'
+    KSQL = "ksql"
+    QUERY = "query"
+    INFO = "info"
+    HEALTH = "healthcheck"
 
 
 class KsqlErrors(Enum):
@@ -46,7 +46,7 @@ class KsqlQuery:
 
     def __repr__(self) -> str:
         """Return object representation."""
-        return f'<{self.__class__.__name__}: {str(self)}>'
+        return f"<{self.__class__.__name__}: {str(self)}>"
 
     @property
     def raw(self) -> str:
@@ -56,11 +56,12 @@ class KsqlQuery:
     @property
     def as_string(self) -> str:
         """Get KSQL query as string."""
-        query = ' '.join(
-            line.strip() for line in str(self._raw_data).splitlines()
+        query = " ".join(
+            line.strip()
+            for line in str(self._raw_data).splitlines()
             if line and not line.startswith(COMMENT_PREFIX)
         )
 
-        if not query.endswith(';'):
-            query += ';'
+        if not query.endswith(";"):
+            query += ";"
         return query

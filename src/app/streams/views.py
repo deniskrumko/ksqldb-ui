@@ -18,43 +18,46 @@ router = APIRouter()
 @router.get("/streams")
 async def list_view(request: Request, extra_context: Optional[dict] = None) -> Response:
     """View to list all available streams."""
-    response = await KsqlRequest(request, 'SHOW STREAMS').execute()
+    response = await KsqlRequest(request, "SHOW STREAMS").execute()
     if not response.is_success:
-        raise KsqlException('Failed to show streams', response)
+        raise KsqlException("Failed to show streams", response)
 
     data = response.json()
     return render_template(
-        'streams/list.html',
+        "streams/list.html",
         request=request,
         response=response,
-        streams=data[0]['streams'],
+        streams=data[0]["streams"],
         **(extra_context or {}),
     )
 
 
-@router.post('/streams')
+@router.post("/streams")
 async def delete_stream(request: Request) -> Response:
     """Route to delete a stream."""
     form_data = await request.form()
-    stream_name = form_data['delete_object']
+    stream_name = form_data["delete_object"]
     if not stream_name:
-        raise ValueError('Stream name is not set')
+        raise ValueError("Stream name is not set")
 
-    response = await KsqlRequest(request, f'DROP STREAM {stream_name}').execute()
+    response = await KsqlRequest(request, f"DROP STREAM {stream_name}").execute()
     if not response.is_success:
-        raise KsqlException('Failed to drop stream', response)
+        raise KsqlException("Failed to drop stream", response)
 
-    return await list_view(request, extra_context={
-        'deleted_stream': stream_name,
-    })
+    return await list_view(
+        request,
+        extra_context={
+            "deleted_stream": stream_name,
+        },
+    )
 
 
-@router.get('/streams/{stream_name}')
+@router.get("/streams/{stream_name}")
 async def detail_view(request: Request, stream_name: str) -> Response:
     """View to show stream details."""
-    response = await KsqlRequest(request, f'DESCRIBE {stream_name}').execute()
+    response = await KsqlRequest(request, f"DESCRIBE {stream_name}").execute()
     if not response.is_success:
-        raise KsqlException('Failed to describe stream', response)
+        raise KsqlException("Failed to describe stream", response)
 
     data = response.json()
-    return render_template('streams/details.html', request=request, stream=data[0])
+    return render_template("streams/details.html", request=request, stream=data[0])

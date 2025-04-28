@@ -3,8 +3,8 @@ from typing import Any
 
 import httpx
 
-CONTEXT_RESPONSE_KEY = 'x_response'
-CONTEXT_REQUEST_KEY = 'x_request'
+CONTEXT_RESPONSE_KEY = "x_response"
+CONTEXT_REQUEST_KEY = "x_request"
 
 
 def make_list(value: Any) -> list:
@@ -15,7 +15,7 @@ def make_list(value: Any) -> list:
 class ContextResponse:
     def __init__(self, httpx_response: httpx.Response):
         self.data = []
-        self.text = ''
+        self.text = ""
 
         try:
             self.data = make_list(httpx_response.json())
@@ -27,6 +27,6 @@ class ContextResponse:
 
 class ContextRequest:
     def __init__(self, httpx_request: httpx.Request):
-        self.data = httpx_request.content.decode('utf-8')
+        self.data = httpx_request.content.decode("utf-8")
         self.method = httpx_request.method
         self.url = httpx_request.url

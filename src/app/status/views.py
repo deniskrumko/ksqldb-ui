@@ -17,22 +17,22 @@ router = APIRouter()
 @router.get("/status")
 async def get_server_status(request: Request) -> Response:
     """View to list all available queries."""
-    info = await KsqlRequest(request, endpoint=KsqlEndpoints.INFO, method='GET').execute()
+    info = await KsqlRequest(request, endpoint=KsqlEndpoints.INFO, method="GET").execute()
     if not info.is_success:
-        raise KsqlException('Failed to get info', info)
+        raise KsqlException("Failed to get info", info)
 
-    health = await KsqlRequest(request, endpoint=KsqlEndpoints.HEALTH, method='GET').execute()
+    health = await KsqlRequest(request, endpoint=KsqlEndpoints.HEALTH, method="GET").execute()
     if not health.is_success:
-        raise KsqlException('Failed to get health', health)
+        raise KsqlException("Failed to get health", health)
 
     properties = await KsqlRequest(request, raw_query="SHOW PROPERTIES;").execute()
     if not properties.is_success:
-        raise KsqlException('Failed to get properties', health)
+        raise KsqlException("Failed to get properties", health)
 
     return render_template(
-        'status/index.html',
+        "status/index.html",
         request,
         info=info.json(),
         health=health.json(),
-        properties=properties.json()[0]['properties'],
+        properties=properties.json()[0]["properties"],
     )

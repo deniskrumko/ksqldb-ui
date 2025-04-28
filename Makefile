@@ -23,6 +23,7 @@ deps:
 	pipenv install --dev
 
 check:
+	black .
 	isort .
 	flake8 .
 	mypy .

@@ -22,14 +22,14 @@ from .resources import (
 class KsqlRequest:
     """Base class for requests to KSQL server."""
 
-    ACCEPT_HEADER = 'application/vnd.ksql.v1+json'
+    ACCEPT_HEADER = "application/vnd.ksql.v1+json"
 
     def __init__(
         self,
         request: Request,
         raw_query: Optional[Any] = None,
         endpoint: KsqlEndpoints = KsqlEndpoints.KSQL,
-        method: str = 'POST',
+        method: str = "POST",
         timeout: Optional[int] = None,
     ) -> None:
         """Initialize class instance."""
@@ -37,7 +37,7 @@ class KsqlRequest:
         self._query = KsqlQuery(str(raw_query))
         self._endpoint = endpoint
         self._method = method
-        self._timeout = timeout or get_setting('http.timeout', 10)
+        self._timeout = timeout or get_setting("http.timeout", 10)
 
     @property
     def query(self) -> KsqlQuery:
@@ -52,7 +52,7 @@ class KsqlRequest:
         if (
             query_fallback
             and response.status_code == 400
-            and response.json()['error_code'] == KsqlErrors.QUERY_ENDPOINT.value
+            and response.json()["error_code"] == KsqlErrors.QUERY_ENDPOINT.value
         ):
             return await self._request(KsqlEndpoints.QUERY)
 
@@ -66,12 +66,12 @@ class KsqlRequest:
                 method=self._method,
                 url=str(full_url),
                 json={
-                    'ksql': self._query.as_string,
+                    "ksql": self._query.as_string,
                     # TODO: Add custom streamsProperties
-                    'streamsProperties': {},
+                    "streamsProperties": {},
                 },
                 headers={
-                    'Accept': self.ACCEPT_HEADER,
+                    "Accept": self.ACCEPT_HEADER,
                 },
                 timeout=self._timeout,
             )

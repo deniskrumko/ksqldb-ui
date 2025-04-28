@@ -15,27 +15,27 @@ router = APIRouter()
 @router.get("/requests")
 async def show_request_editor(request: Request) -> Response:
     """View to show request editor."""
-    return render_template('requests/index.html', request)
+    return render_template("requests/index.html", request)
 
 
-@router.post('/requests')
+@router.post("/requests")
 async def perform_request(request: Request) -> Response:
     """Perform request to ksqlDB server."""
     form_data = await request.form()
     context = {}
 
     ksql_response = None
-    if query := form_data['query']:
+    if query := form_data["query"]:
         add_request_to_history(request, query)
 
         ksql_request = KsqlRequest(request, query)
         ksql_response = await ksql_request.execute(query_fallback=True)
-        context['query'] = query
+        context["query"] = query
     else:
-        context['warning_msg'] = "Query is empty"
+        context["warning_msg"] = "Query is empty"
 
     return render_template(
-        'requests/index.html',
+        "requests/index.html",
         request=request,
         response=ksql_response,
         **context,
@@ -50,13 +50,13 @@ async def show_history(request: Request) -> Response:
         history = list(reversed(request.app.history))
 
     return render_template(
-        'requests/history.html',
+        "requests/history.html",
         request=request,
         history=history,
     )
 
 
-@router.post('/history')
+@router.post("/history")
 async def delete_history(request: Request) -> Response:
     """View to delete requests history."""
     request.app.history.clear()

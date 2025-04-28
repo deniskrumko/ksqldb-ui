@@ -18,7 +18,7 @@ RENDER_HELPERS: dict = {}
 
 def register(fn: Any) -> Any:
     """Register a render helper function."""
-    global RENDER_HELPERS
+    global RENDER_HELPERS  # noqa
     RENDER_HELPERS[fn.__name__] = fn
     return fn
 
@@ -26,20 +26,19 @@ def register(fn: Any) -> Any:
 class BootstrapLevel(Enum):
     """Bootstrap levels in UI."""
 
-    SUCCESS = 'success'
-    WARNING = 'warning'
-    DANGER = 'danger'
+    SUCCESS = "success"
+    WARNING = "warning"
+    DANGER = "danger"
 
 
 @register
 def render_map(response: dict, **kwargs: Any) -> str:
     if (
-        response.get('error_code') == KsqlErrors.BAD_STATEMENT.value
-        and 'Syntax Error' in response.get('message', '')
-    ):
+        response.get("error_code") == KsqlErrors.BAD_STATEMENT.value
+    ) and "Syntax Error" in response.get("message", ""):
         return str(render_syntax_error_response(response, **kwargs))
 
-    result = ''
+    result = ""
     for k, v in response.items():
         result += render_kv(k, v, **kwargs)
 
@@ -48,14 +47,14 @@ def render_map(response: dict, **kwargs: Any) -> str:
 
 @register
 def render_value(value: Any) -> str:
-    if value is True or (isinstance(value, str) and value.lower() == "true") :
+    if value is True or (isinstance(value, str) and value.lower() == "true"):
         return '<span class="badge text-bg-success">true</span>'
 
     if value is False or (isinstance(value, str) and value.lower() == "false"):
         return '<span class="badge text-bg-danger">false</span>'
 
     if value == "[hidden]" or value is None:
-        value = str(value).lstrip('[').rstrip(']').lower()
+        value = str(value).lstrip("[").rstrip("]").lower()
         return f'<span class="badge text-bg-secondary">{value}</span>'
 
     if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
@@ -71,15 +70,15 @@ def render_table(
     col_ignore: list[str] | None = None,
 ) -> str:
     if not data:
-        return ''
+        return ""
 
-    template = '''
+    template = """
     <table class="table">
     <thead>
       <tr>{columns}</tr>
     </thead>
     <tbody>{body}</tbody>
-    '''
+    """
 
     columns_keys = list(data[0].keys())
     columns = '<th scope="col">#</th>'
@@ -89,45 +88,45 @@ def render_table(
 
         columns += f'\n<th scope="col">{col.title()}</th>'
 
-    body = ''
+    body = ""
     for i, item in enumerate(data, start=1):
         item_body = f'<th scope="row">{i}</th>'
         for col in columns_keys:
             if col_ignore and col in col_ignore:
                 continue
 
-            td_class = ''
+            td_class = ""
             if col_break and col in col_break:
-                td_class += 'breaked'
+                td_class += "breaked"
 
             value = render_value(item[col])
-            item_body += f'\n<td class={td_class}>{value}</td>'
+            item_body += f"\n<td class={td_class}>{value}</td>"
 
-        body += f'<tr>{item_body}</tr>'
+        body += f"<tr>{item_body}</tr>"
 
     return template.format(columns=columns, body=body)
 
 
 @register
 def render_syntax_error_response(response: dict) -> str:
-    query = response['statementText']
-    err_line, err_pos, *rest = response['message'].split(':')
-    if err_line != 'line 1':
+    query = response["statementText"]
+    err_line, err_pos, *rest = response["message"].split(":")
+    if err_line != "line 1":
         raise ValueError('Unexpected line number, should be "line 1"')
 
     position = int(err_pos) - 1
     query = render_json(f'{query[:position]}<span class="error-highlight">{query[position:]}<span>')
 
-    result = f'''
+    result = f"""
     <div class="resp">
         <h2>Invalid syntax at position {position}</h2>
         <div class="key">Query</div>
         <div>{query}</div>
     </div>
-    '''
+    """
 
     with contextlib.suppress(Exception):
-        parts = "".join(rest).strip().split('\n')
+        parts = "".join(rest).strip().split("\n")
         result += render_kv(parts[0], "<br>".join(parts[1:]))
 
     return result
@@ -137,28 +136,28 @@ def render_syntax_error_response(response: dict) -> str:
 def render_kv(k: Any, v: Any, add_anchor: bool = False) -> str:
     """Render KSQL response dict."""
     # Do not render @type field
-    if k == '@type':
-        return ''
+    if k == "@type":
+        return ""
 
     # Skip empty values (but not 0 or False)
     if check_is_empty(v):
-        return ''
+        return ""
 
     v = render_json(v)
 
-    id_tag = f'id="{k}"' if add_anchor else ''
-    return f'''
+    id_tag = f'id="{k}"' if add_anchor else ""
+    return f"""
     <div class="resp" {id_tag}>
         <div class="key">{k}</div>
         <div class="value">{v}</div>
     </div>
-    '''
+    """
 
 
 @register
 def check_is_empty(v: Any) -> bool:
     """Check if value is empty."""
-    return v is None or v == [] or v == ''
+    return v is None or v == [] or v == ""
 
 
 @register
@@ -173,10 +172,13 @@ def render_json(v: Any) -> str:
 
 
 @register
-def render_topic_link(request: Request, name: str,) -> str:
+def render_topic_link(
+    request: Request,
+    name: str,
+) -> str:
     """Render topic link (configured in settings)."""
     params = get_server_options(request)
-    if link := params.get('topic_link', ''):
+    if link := params.get("topic_link", ""):
         return str(render_link(link.format(name), name))
 
     return name
@@ -186,14 +188,14 @@ def render_topic_link(request: Request, name: str,) -> str:
 def render_stream_link(request: Request, name: str, target: bool = False) -> str:
     """Render topic link (configured in settings)."""
     server_name = get_server_name(request=request)
-    href = f'/streams/{name}?{SERVER_QUERY_PARAM}={server_name}'
+    href = f"/streams/{name}?{SERVER_QUERY_PARAM}={server_name}"
     return str(render_link(href, name, target))
 
 
 @register
 def render_link(href: str, text: str, target: bool = True) -> str:
     """Render link."""
-    target_blank = 'target="_blank"' if target else ''
+    target_blank = 'target="_blank"' if target else ""
     return f'<a href="{href}" class="link-offset-2 link-sm breaked" {target_blank}>{text}</a>'
 
 
@@ -208,7 +210,7 @@ def render_level(response: ContextResponse) -> str:
         response_level = BootstrapLevel.WARNING.value
     else:
         for entry in response.data:
-            if entry.get('@type') == 'warning_entity':
+            if entry.get("@type") == "warning_entity":
                 return BootstrapLevel.WARNING.value
 
     return response_level

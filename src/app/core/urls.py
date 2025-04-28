@@ -18,11 +18,11 @@ class SimpleURL:
         """Return string representation."""
         return self._url
 
-    def __truediv__(self, other: str) -> 'SimpleURL':
+    def __truediv__(self, other: str) -> "SimpleURL":
         """Return new SimpleURL object."""
-        base = self._url.rstrip('/')
-        new_part = other.strip('/')
-        return SimpleURL(f'{base}/{new_part}')
+        base = self._url.rstrip("/")
+        new_part = other.strip("/")
+        return SimpleURL(f"{base}/{new_part}")
 
     def __eq__(self, value: Any) -> bool:
         """Compare URLs."""
