@@ -1,3 +1,4 @@
+import contextlib
 import json
 from enum import Enum
 from typing import Any
@@ -46,20 +47,90 @@ def render_map(response: dict, **kwargs: Any) -> str:
 
 
 @register
+def render_value(value: Any) -> str:
+    if value is True or (isinstance(value, str) and value.lower() == "true") :
+        return '<span class="badge text-bg-success">true</span>'
+
+    if value is False or (isinstance(value, str) and value.lower() == "false"):
+        return '<span class="badge text-bg-danger">false</span>'
+
+    if value == "[hidden]" or value is None:
+        value = str(value).lstrip('[').rstrip(']').lower()
+        return f'<span class="badge text-bg-secondary">{value}</span>'
+
+    if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
+        return f"<code>{value}</code>"
+
+    return str(value)
+
+
+@register
+def render_table(
+    data: list[dict],
+    col_break: list[str] | None = None,
+    col_ignore: list[str] | None = None,
+) -> str:
+    if not data:
+        return ''
+
+    template = '''
+    <table class="table">
+    <thead>
+      <tr>{columns}</tr>
+    </thead>
+    <tbody>{body}</tbody>
+    '''
+
+    columns_keys = list(data[0].keys())
+    columns = '<th scope="col">#</th>'
+    for col in columns_keys:
+        if col_ignore and col in col_ignore:
+            continue
+
+        columns += f'\n<th scope="col">{col.title()}</th>'
+
+    body = ''
+    for i, item in enumerate(data, start=1):
+        item_body = f'<th scope="row">{i}</th>'
+        for col in columns_keys:
+            if col_ignore and col in col_ignore:
+                continue
+
+            td_class = ''
+            if col_break and col in col_break:
+                td_class += 'breaked'
+
+            value = render_value(item[col])
+            item_body += f'\n<td class={td_class}>{value}</td>'
+
+        body += f'<tr>{item_body}</tr>'
+
+    return template.format(columns=columns, body=body)
+
+
+@register
 def render_syntax_error_response(response: dict) -> str:
     query = response['statementText']
-    err_line, err_pos, *_ = response['message'].split(':')
+    err_line, err_pos, *rest = response['message'].split(':')
     if err_line != 'line 1':
         raise ValueError('Unexpected line number, should be "line 1"')
 
     position = int(err_pos) - 1
     query = render_json(f'{query[:position]}<span class="error-highlight">{query[position:]}<span>')
-    return f'''
+
+    result = f'''
     <div class="resp">
         <h2>Invalid syntax at position {position}</h2>
+        <div class="key">Query</div>
         <div>{query}</div>
     </div>
     '''
+
+    with contextlib.suppress(Exception):
+        parts = "".join(rest).strip().split('\n')
+        result += render_kv(parts[0], "<br>".join(parts[1:]))
+
+    return result
 
 
 @register
@@ -123,7 +194,7 @@ def render_stream_link(request: Request, name: str, target: bool = False) -> str
 def render_link(href: str, text: str, target: bool = True) -> str:
     """Render link."""
     target_blank = 'target="_blank"' if target else ''
-    return f'<a href="{href}" class="link-offset-2 link-sm" {target_blank}>{text}</a>'
+    return f'<a href="{href}" class="link-offset-2 link-sm breaked" {target_blank}>{text}</a>'
 
 
 @register

@@ -1,27 +1,32 @@
 [http]
-# timeout for ksqldb requests
+# Timeout in seconds for ksqldb requests (default is 5 sec)
 timeout = 60
 
 [servers]
 
 [servers.localhost]
+# Displayed name of environment
+name = "Local"
+# URL to ksqldb server
 url = 'http://0.0.0.0:8088'
-# topic_link is used to redirect to Apache Kafka or Redpanda UI to see topic messages
+# Link to redirect to Apache Kafka or Redpanda UI to see topic messages
 # Topic name is passed to `{}` placeholder in the URL.
 topic_link = 'http://localhost:8090/topics/{}'
 
-[servers.development]
+[servers.dev]
+name = "Development"
 url = 'http://your-development-ksqldb.com'
 topic_link = 'http://your-development-kafka-ui.com/topics/{}'
 
-[servers.production]
+[servers.prod]
+name="Production"
 url = 'http://your-production-ksqldb.com'
 topic_link = 'http://your-production-kafka-ui.com/topics/{}'
-# warning_message – message that will be shown for this environment
-warning_message = 'This is a production environment! Please do not modify existing streams/queries.'
+# Message that will be shown for this environment
+warning_message = '⚠️ This is a production environment! Please do not modify existing streams/queries.'
 
 [history]
-# enable or disable query history
+# Enable or disable query history
 enabled = true
-# size of query history
+# Size of query history
 size = 50

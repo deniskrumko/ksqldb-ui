@@ -15,10 +15,10 @@ ksqlDB UI - Status - {{current_server.title() }}
       </h2>
 
       {% if info %}
-      {{render_kv('URL', current_server_url)|safe}}
-      {% for k, v in info['KsqlServerInfo'].items() %}
-      {{render_kv(k, v)|safe}}
-      {% endfor %}
+        {{render_kv('URL', current_server_url)|safe}}
+        {% for k, v in info['KsqlServerInfo'].items() %}
+        {{render_kv(k, v)|safe}}
+        {% endfor %}
       {% endif %}
     </div>
 
@@ -50,6 +50,14 @@ ksqlDB UI - Status - {{current_server.title() }}
       </div>
     </div>
   </div>
+
+  {% if properties %}
+  <br>
+  <h2>Server properties</h2>
+  <div class="row">
+    {{ render_table(properties, col_break=["value"], col_ignore=["scope"])|safe }}
+  </div>
+  {% endif %}
 </div>
 
 {% else %}

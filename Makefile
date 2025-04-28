@@ -22,7 +22,7 @@ deps:
 	pip install pipenv
 	pipenv install --dev
 
-lint:
+check:
 	isort .
 	flake8 .
 	mypy .

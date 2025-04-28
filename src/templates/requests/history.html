@@ -13,12 +13,17 @@ History
   {% for entry in history %}
   <div class="resp">
     <div class="key">
-      {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }} (env: {{ entry.server_name }}) – <a href="#" onclick="pasteToEditor(this)">Paste</a>
+      {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }}
+      (env: {{ entry.server_name }})
+      <div class="resp-key-buttons">
+        <a href="#" onclick="copyToClipboard(this)">Copy to clipboard</a>
+        <a href="#" onclick="pasteToEditor(this)">Paste as request</a>
+      </div>
     </div>
     <pre class="wrap-pre">{{ entry.query }}</pre>
   </div>
   {% endfor %}
-  <form action="/requests/history?{{q}}" method="post">
+  <form action="/history?{{q}}" method="post">
     <button type="submit" class="btn btn-danger">Clear history</button>
   </form>
 {% else %}
@@ -31,7 +36,22 @@ History
 {{ super() }}
 <script>
   function pasteToEditor(e) {
-    editor.setValue($(e).parent().next('pre').text());
+    editor.setValue($(e).parent().parent().next('pre').text());
+  }
+
+  function copyToClipboard(e) {
+    const text = $(e).parent().parent().next('pre').text();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    } else {
+      // fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
   }
 </script>
 {% endblock %}

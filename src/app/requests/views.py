@@ -30,7 +30,9 @@ async def perform_request(request: Request) -> Response:
 
         ksql_request = KsqlRequest(request, query)
         ksql_response = await ksql_request.execute(query_fallback=True)
-        context = {'query': query}
+        context['query'] = query
+    else:
+        context['warning_msg'] = "Query is empty"
 
     return render_template(
         'requests/index.html',
@@ -40,7 +42,7 @@ async def perform_request(request: Request) -> Response:
     )
 
 
-@router.get("/requests/history")
+@router.get("/history")
 async def show_history(request: Request) -> Response:
     """View to show requests history."""
     history = []
@@ -54,7 +56,7 @@ async def show_history(request: Request) -> Response:
     )
 
 
-@router.post('/requests/history')
+@router.post('/history')
 async def delete_history(request: Request) -> Response:
     """View to delete requests history."""
     request.app.history.clear()

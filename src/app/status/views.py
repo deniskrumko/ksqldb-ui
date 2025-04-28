@@ -25,4 +25,14 @@ async def get_server_status(request: Request) -> Response:
     if not health.is_success:
         raise KsqlException('Failed to get health', health)
 
-    return render_template('status/index.html', request, info=info.json(), health=health.json())
+    properties = await KsqlRequest(request, raw_query="SHOW PROPERTIES;").execute()
+    if not properties.is_success:
+        raise KsqlException('Failed to get properties', health)
+
+    return render_template(
+        'status/index.html',
+        request,
+        info=info.json(),
+        health=health.json(),
+        properties=properties.json()[0]['properties'],
+    )

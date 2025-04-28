@@ -12,17 +12,21 @@ ksqlDB UI - Requests - {{current_server.title() }}
     <!-- LEFT SECTION -->
     <div class="col-md-6" id="col-left-collapsable">
       <h2 class="my-h2">
-        Request (env: {{current_server}}) –
-        {% if request.app.history_enabled %}
-        <a href="/requests/history?{{q}}" style="color: #b1b1b1">click here to view history</a>
-        {% endif %}
+        Request (env: {{current_server}})
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
         <!-- EDITOR -->
         <div id="editor">{% if query %}{{ query }}{% endif %}</div>
         <textarea name="query" id="query" hidden></textarea>
-        <button type="submit" id="executeButton">execute</button>
+        <!-- Submit button -->
+        <button type="submit" class="btn-execute btn-execute-active" id="executeButton">execute</button>
+
+        <!-- Fake submit button -->
+        <button id="executeButtonWait" class="btn-execute btn-execute-wait" type="button" disabled style="display: none;">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          wait...
+        </button>
       </form>
     </div>
 
@@ -32,6 +36,8 @@ ksqlDB UI - Requests - {{current_server.title() }}
         {% block right_section_header %}
           {% if x_response %}
           Response  <span class="http-badge badge text-bg-{{ render_level(x_response) }}">HTTP {{ x_response.code }}</span>
+          {% elif warning_msg %}
+          Response
           {% else %}
           Introduction
           {% endif %}
@@ -40,31 +46,36 @@ ksqlDB UI - Requests - {{current_server.title() }}
 
       {% block right_section %}
         {% if x_response %}
-        <!-- Show JSON response -->
-        {% if x_response.data %}
-          <div>
-            {% for section in x_response.data %}
-              {{render_map(section)|safe}}
+          <!-- Show JSON response -->
+          {% if x_response.data %}
+            <div>
+              {% for section in x_response.data %}
+                {{render_map(section)|safe}}
 
-              {% if not loop.last %}
-              <div class="divider">Next statement</div>
-              {% endif %}
-            {% endfor %}
+                {% if not loop.last %}
+                <div class="divider">Next statement</div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% elif x_response.text %}
+          <!-- Show text response -->
+          {% for line in x_response.text.splitlines() %}
+          {{render_json(line)|safe}}
+          <br>
+          {% endfor %}
+          {% else %}
+          <h3>Empty response body</h3>
+          {% endif %}
+          {% include "includes/hidden_response_details.html" %}
+          <br>
+        {% elif warning_msg %}
+          <div class="alert alert-warning">
+            <h4 class="alert-heading">Warning</h4>
+            <div>{{ warning_msg }}</div>
           </div>
-        {% elif x_response.text %}
-        <!-- Show text response -->
-        {% for line in x_response.text.splitlines() %}
-        {{render_json(line)|safe}}
-        <br>
-        {% endfor %}
         {% else %}
-        <h3>Empty response body</h3>
-        {% endif %}
-        {% include "includes/hidden_response_details.html" %}
-        <br>
-        {% else %}
-        <!-- Show welcoming page -->
-        {% include "includes/welcome.html" %}
+          <!-- Show welcoming page -->
+          {% include "includes/welcome.html" %}
         {% endif %}
       {% endblock %}
     </div>
@@ -89,7 +100,11 @@ ksqlDB UI - Requests - {{current_server.title() }}
 
   // added event handler
   document.getElementById("editorForm").onsubmit = function (evt) {
-    updateHiddenInputs()
+    updateHiddenInputs();
+
+    // Show the wait button, hide the normal execute button
+    document.getElementById('executeButton').style.display = 'none';
+    document.getElementById('executeButtonWait').style.display = '';
   }
 
   function adjustEditorHeight() {

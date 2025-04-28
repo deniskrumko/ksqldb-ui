@@ -22,9 +22,7 @@ ksqlDB UI - Streams - {{current_server.title() }}
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Topic</th>
-        <th scope="col">Key Format</th>
-        <th scope="col">Value Format</th>
-        <th scope="col">Is Windowed</th>
+        <th scope="col">Format</th>
         <th scope="col">Controls</th>
       </tr>
     </thead>
@@ -34,9 +32,15 @@ ksqlDB UI - Streams - {{current_server.title() }}
         <th scope="row">{{ loop.index }}</th>
         <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
         <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
-        <td>{{ stream.keyFormat }}</td>
-        <td>{{ stream.valueFormat }}</td>
-        <td>{{ stream.isWindowed }}</td>
+        <td>
+          <span class="badge text-bg-secondary">key: {{ stream.keyFormat }}</span>
+          <br>
+          <span class="badge text-bg-secondary">val: {{ stream.valueFormat }}</span>
+          {% if stream.isWindowed %}
+          <br>
+          <span class="badge text-bg-danger">windowed</span>
+          {% endif %}
+        </td>
         <td>
           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
             Delete

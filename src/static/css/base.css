@@ -6,6 +6,14 @@ body {
     background-color: #6200cb;
 }
 
+.navbar-brand {
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
 .my-container {
     padding-left: 30px;
     padding-right: 30px;
@@ -39,11 +47,8 @@ body {
     font-size: 40px;
 }
 
-#executeButton {
-    border: 3px solid #6200cb;
-    background-color: #f8f5fb !important;
+.btn-execute {
     border-radius: 12px;
-    color: #6200cb;
     width: 100%;
     font-family: Zain, Menlo, Arial, sans-serif !important;
     font-weight: 900;
@@ -51,7 +56,19 @@ body {
     transition: 0.2s all ease;
 }
 
-#executeButton:hover {
+.btn-execute.btn-execute-active {
+    border: 3px solid #6200cb;
+    background-color: #f8f5fb !important;
+    color: #6200cb;
+}
+
+.btn-execute.btn-execute-wait {
+    border: 3px solid #906fb4;
+    background-color: #906fb4 !important;
+    color: #f8f5fb;
+}
+
+.btn-execute.btn-execute-active:hover {
     background-color: #6200cb !important;
     color: #f8f5fb !important;
 }
@@ -91,6 +108,14 @@ body {
     margin-bottom: 10px;
 }
 
+.resp-key-buttons {
+    float: right;
+
+    a {
+        margin-right: 5px;
+    }
+}
+
 .resp .key {
     font-size: 14px;
     color: #777;
@@ -100,6 +125,14 @@ body {
 pre {
     font-family: Menlo, monospace !important;
     font-size: 16px !important;
+}
+
+.badge {
+    font-weight: 400 !important;
+}
+
+.badge.text-bg-secondary {
+    background-color: #c9c2d1 !important;
 }
 
 .http-badge {
@@ -118,6 +151,10 @@ pre {
 
 .link-sm {
     font-size: 14px !important;
+}
+
+.breaked {
+    word-break: break-word !important;
 }
 
 .btn-original-response {
