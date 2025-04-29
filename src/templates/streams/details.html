@@ -9,6 +9,9 @@ ksqlDB UI - Streams - {{current_server_name}}
   <div class="row">
     <div class="col-md-10">
       <h2 class="title-h2">Stream {{ stream.sourceDescription.name }} on {{current_server_name}}</h2>
+
+      <div id="stream-statement" style="height: 200px;">{{ stream.sourceDescription.statement }}</div>
+      <textarea name="query" id="stream-state" hidden></textarea>
       {% for k, v in stream.sourceDescription.items() %}
         {{render_kv(k, v, add_anchor=True)|safe}}
       {% endfor %}
@@ -19,4 +22,20 @@ ksqlDB UI - Streams - {{current_server_name}}
     {% endwith %}
   </div>
 </div>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.35.3/ace.min.js"
+  integrity="sha512-FqIMgoMtiqZWCK+bRO5e4Dsj1uTSbl26DlpTlhoqyunc6o41hkU0fXpXMNLKsqPBIUf4OERya5kfbqscOT26VQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(document).ready(function() {
+  var editor = ace.edit("stream-statement");
+  editor.setTheme("ace/theme/chrome");
+  editor.session.setMode("ace/mode/sql");
+  editor.session.setUseWrapMode(true);
+  editor.resize()
+})
+</script>
 {% endblock %}
