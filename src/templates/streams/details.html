@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams - {{current_server.title() }}
+ksqlDB UI - Streams - {{current_server_name}}
 {% endblock %}
 
 {% block body %}
 <div class="my-container">
   <div class="row">
     <div class="col-md-10">
-      <h2 class="my-h2">Stream {{ stream.sourceDescription.name }} (env: {{current_server}})</h2>
+      <h2 class="title-h2">Stream {{ stream.sourceDescription.name }} on {{current_server_name}}</h2>
       {% for k, v in stream.sourceDescription.items() %}
         {{render_kv(k, v, add_anchor=True)|safe}}
       {% endfor %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams - {{current_server.title() }}
+ksqlDB UI - Streams - {{current_server_name}}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@ ksqlDB UI - Streams - {{current_server.title() }}
   </div>
   {% endif %}
 
-  <h2 class="my-h2">Streams (env: {{current_server}})</h2>
+  <h2 class="title-h2">Streams on {{current_server_name}}</h2>
   <table class="table">
     <thead>
       <tr>

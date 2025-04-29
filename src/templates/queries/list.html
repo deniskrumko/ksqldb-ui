@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Queries - {{current_server.title() }}
+ksqlDB UI - Queries - {{current_server_name}}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@ ksqlDB UI - Queries - {{current_server.title() }}
   </div>
   {% endif %}
 
-  <h2 class="my-h2">Queries (env: {{current_server}})</h2>
+  <h2 class="title-h2">Queries on {{current_server_name}}</h2>
   <table class="table">
     <thead>
       <tr>

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Topics - {{current_server.title() }}
+ksqlDB UI - Topics - {{current_server_name}}
 {% endblock %}
 
 {% block body %}
 <div class="my-container">
-  <h2 class="my-h2">Topics (env: {{current_server}}) – highlighted topics have active consumers</h2>
+  <h2 class="title-h2">Topics for {{current_server_name}}</h2>
   <table class="table">
     <thead>
       <tr>

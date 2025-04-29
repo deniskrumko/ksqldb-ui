@@ -83,12 +83,12 @@ body {
     color: #1945e3 !important;
 }
 
-.my-h2 {
-    font-size: 24px;
-    color: #b1b1b1;
+.title-h2 {
+    font-size: 30px;
+    color: #9389a2;
     font-weight: 400;
     font-family: Zain, Menlo, Arial, sans-serif !important;
-    margin: 10px 0px 5px 0px;
+    margin: 12px 0px 6px 0px;
 }
 
 .request-btn {
@@ -227,6 +227,7 @@ pre {
     padding: 5px 0px;
     position: sticky;
     top: 62px;
+    z-index: 100;
 }
 
 #collapse-left-button {

@@ -18,7 +18,7 @@ from app.core.fastapi import CacheControlledStaticFiles
 from app.core.ksqldb.resources import KsqlException
 from app.core.settings import (
     SERVER_QUERY_PARAM,
-    get_server_name,
+    get_server,
     get_settings,
 )
 from app.core.templates import render_template
@@ -61,11 +61,7 @@ register_routes()
 @app.middleware("http")
 async def add_default_server(request: Request, call_next: Callable) -> Any:
     """Add default server from settings if not set."""
-    if (
-        request.method == "GET"
-        and ("/static/" not in str(request.url))
-        and not get_server_name(request)
-    ):
+    if request.method == "GET" and ("/static/" not in str(request.url)) and not get_server(request):
         default_server = list(app.settings["servers"].keys())[0]
         return RedirectResponse(f"?{SERVER_QUERY_PARAM}={default_server}")
 

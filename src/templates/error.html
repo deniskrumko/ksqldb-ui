@@ -4,7 +4,7 @@
 <div class="container">
   <br>
   <h1 class="display-4">OMG 😱 Exception happened</h1>
-  <p style="font-size: 24px;">Active server: <code>{{current_server}}</code></p>
+  <p style="font-size: 24px;">Active server: <code>{{current_server_name}}</code></p>
   <br>
   <div class="alert alert-danger">
     {% if x_response %}
@@ -30,7 +30,7 @@
     {% endif %}
 
     {% if booting_up %}
-    Probably server <code>{{current_server}}</code> is <b>still booting</b> up or works in <b>non-interactive (headless) mode</b> and doesn't respond to REST requests.
+    Probably server <code>{{current_server_name}}</code> is <b>still booting</b> up or works in <b>non-interactive (headless) mode</b> and doesn't respond to REST requests.
     <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">Learn more about it</a>
     {% endif %}
 

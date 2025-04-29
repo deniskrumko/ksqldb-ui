@@ -3,7 +3,7 @@ from typing import Any
 
 from fastapi.requests import Request
 
-from app.core.settings import get_server_name
+from app.core.settings import get_server
 
 
 class RequestHistory:
@@ -18,5 +18,5 @@ class RequestHistory:
 def add_request_to_history(request: Request, query: Any) -> None:
     """Add request to history."""
     if request.app.history_enabled:
-        entry = RequestHistory(str(query), get_server_name(request) or "-")
+        entry = RequestHistory(str(query), get_server(request) or "-")
         request.app.history.append(entry)

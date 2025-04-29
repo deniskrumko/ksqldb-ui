@@ -51,7 +51,7 @@ def get_setting(name: str, default_value: Any | None = None) -> Any:
 
 def get_server_options(request: Request) -> dict:
     """Get current server from request."""
-    server_name = get_server_name(request)
+    server_name = get_server(request)
     if not server_name:
         raise ValueError("Server name is not set")
 
@@ -62,7 +62,7 @@ def get_server_options(request: Request) -> dict:
     return dict(settings["servers"][server_name])
 
 
-def get_server_name(request: Request) -> str | None:
+def get_server(request: Request) -> str | None:
     """Get current server name from request."""
     return request.query_params.get(SERVER_QUERY_PARAM)
 
@@ -71,3 +71,9 @@ def get_server_url(request: Request, default_options: Optional[dict] = None) -> 
     """Get current server url from request."""
     params = default_options or get_server_options(request)
     return SimpleURL(params["url"])
+
+
+def get_server_display_name(request: Request, default_options: Optional[dict] = None) -> SimpleURL:
+    """Get current server display name from request."""
+    params = default_options or get_server_options(request)
+    return SimpleURL(params.get("name", get_server(request)))

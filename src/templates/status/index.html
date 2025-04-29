@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Status - {{current_server.title() }}
+ksqlDB UI - Status - {{current_server_name}}
 {% endblock %}
 
 {% block body %}
@@ -10,8 +10,8 @@ ksqlDB UI - Status - {{current_server.title() }}
   <div class="row">
     <!-- LEFT SECTION -->
     <div class="col-md-6">
-      <h2 class="my-h2">
-        Server info (env: {{current_server}})
+      <h2 class="title-h2">
+        {{current_server_name}} server info
       </h2>
 
       {% if info %}
@@ -24,7 +24,7 @@ ksqlDB UI - Status - {{current_server.title() }}
 
     <!-- RIGHT SECTION -->
     <div class="col-md-6">
-      <h2 class="my-h2">
+      <h2 class="title-h2">
         Health
       </h2>
 
@@ -63,7 +63,7 @@ ksqlDB UI - Status - {{current_server.title() }}
 {% else %}
 <div class="container">
   <br>
-  <h1 class="display-4">Server <code>{{current_server}}</code> is not responding</h1>
+  <h1 class="display-4">Server <code>{{current_server_name}}</code> is not responding</h1>
   <p>Failed to get info or health check</p>
   <br>
   <div class="alert alert-danger">

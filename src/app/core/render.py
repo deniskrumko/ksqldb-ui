@@ -8,7 +8,7 @@ from fastapi.requests import Request
 from .ksqldb import KsqlErrors
 from .settings import (
     SERVER_QUERY_PARAM,
-    get_server_name,
+    get_server,
     get_server_options,
 )
 from .utils import ContextResponse
@@ -187,7 +187,7 @@ def render_topic_link(
 @register
 def render_stream_link(request: Request, name: str, target: bool = False) -> str:
     """Render topic link (configured in settings)."""
-    server_name = get_server_name(request=request)
+    server_name = get_server(request=request)
     href = f"/streams/{name}?{SERVER_QUERY_PARAM}={server_name}"
     return str(render_link(href, name, target))
 
