@@ -8,7 +8,8 @@ on:
       - '*'
 
 jobs:
-  docker:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +34,14 @@ jobs:
           tags: |
             deniskrumko/ksqldb-ui:latest
             deniskrumko/ksqldb-ui:${{ github.ref_name }}
+
+  release:
+    name: Release
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Release
         id: create-release
         uses: softprops/action-gh-release@v2
