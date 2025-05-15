@@ -4,22 +4,43 @@
 ksqlDB UI - Streams - {{current_server_name}}
 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="/static/css/stream.css">
+{% endblock %}
+
 {% block body %}
 <div class="my-container">
   <div class="row">
-    <div class="col-md-10">
-      <h2 class="title-h2">Stream {{ stream.sourceDescription.name }} on {{current_server_name}}</h2>
+    <div class="col">
+      <h2 class="title-h2">Stream <span class="accent-text">{{ stream.sourceDescription.name }}</span> on {{current_server_name}}</h2>
 
-      <div id="stream-statement" style="height: 200px;">{{ stream.sourceDescription.statement }}</div>
+      <!-- Bubbles -->
+      {{ render_bubbles(stream.sourceDescription, keys=["keyFormat", "valueFormat", "partitions", "replication",])|safe }}
+
+      <!-- Topic -->
+      <div class="section">Topic</div>
+      <div>{{ render_json(stream.sourceDescription.topic)|safe }}</div>
+
+      <!-- SQL statement -->
+      <div class="section">SQL statement</div>
+      <div id="stream-statement" class="ace-editor-custom">{{ stream.sourceDescription.statement }}</div>
       <textarea name="query" id="stream-state" hidden></textarea>
-      {% for k, v in stream.sourceDescription.items() %}
-        {{render_kv(k, v, add_anchor=True)|safe}}
-      {% endfor %}
-    </div>
 
-    {% with response_map=stream.sourceDescription %}
-      {% include "includes/response_keys.html" %}
-    {% endwith %}
+      <!-- Fields -->
+      <div class="section">Fields</div>
+      {{ render_stream_fields(stream.sourceDescription.fields)|safe }}
+
+        <!-- Stats -->
+      {% if stream.sourceDescription.clusterStatistics %}
+      <div class="section">Cluster statistics</div>
+      {{ render_table(stream.sourceDescription.clusterStatistics, show_line_numbers=False) | safe }}
+      {% endif %}
+
+      <!-- Original data -->
+      {% with data = stream %}
+        {% include "includes/hidden_data.html" %}
+      {% endwith %}
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -35,7 +56,7 @@ $(document).ready(function() {
   editor.setTheme("ace/theme/chrome");
   editor.session.setMode("ace/mode/sql");
   editor.session.setUseWrapMode(true);
-  editor.resize()
+  editor.setReadOnly(true);
 })
 </script>
 {% endblock %}

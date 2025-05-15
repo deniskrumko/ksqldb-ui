@@ -1,7 +1,12 @@
 import contextlib
 import json
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import (
+    Any,
+    Callable,
+    TypeVar,
+)
 
 from fastapi.requests import Request
 
@@ -15,8 +20,26 @@ from .utils import ContextResponse
 
 RENDER_HELPERS: dict = {}
 
+TABLE_TEMPLATE = """
+<table class="table">
+<thead>
+    <tr>{columns}</tr>
+</thead>
+<tbody>{body}</tbody>
+</table>
+"""
 
-def register(fn: Any) -> Any:
+BUBBLE_TEMPLATE = """
+<div class="bubble">
+    <div class="bubble-heading">{heading}</div>
+    <div class="bubble-body">{body}</div>
+</div>
+"""
+
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def register(fn: F) -> F:
     """Register a render helper function."""
     global RENDER_HELPERS  # noqa
     RENDER_HELPERS[fn.__name__] = fn
@@ -46,7 +69,36 @@ def render_map(response: dict, **kwargs: Any) -> str:
 
 
 @register
-def render_value(value: Any) -> str:
+def render_list(value: list | tuple) -> str:
+    return "<br>".join(render_value(v) for v in value)
+
+
+@dataclass
+class Options:
+    badge: bool = False
+    ignored: bool = False
+    breaked: bool = False
+
+    @classmethod
+    def from_string(cls, value: str) -> "Options":
+        return cls(
+            badge=any(v in value for v in ["badge", "pill"]),
+            ignored=any(v in value for v in ["hide", "ignore", "ignored"]),
+            breaked=any(v in value for v in ["br", "break", "breaked"]),
+        )
+
+
+@register
+def render_value(
+    value: Any,
+    options: Options | None = None,
+    parent_options: dict[str, Any] | None = None,
+) -> str:
+    opt = options or Options()
+
+    if opt.badge:
+        return f'<span class="badge text-bg-purple">{value}</span>'
+
     if value is True or (isinstance(value, str) and value.lower() == "true"):
         return '<span class="badge text-bg-success">true</span>'
 
@@ -60,51 +112,74 @@ def render_value(value: Any) -> str:
     if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
         return f"<code>{value}</code>"
 
+    if isinstance(value, (list, tuple)):
+        if value and isinstance(value[0], dict):
+            return render_table(list(value), **(parent_options or {}))
+
+        return render_list(value)
+
+    if isinstance(value, dict):
+        return render_map(value, **(parent_options or {}))
+
     return str(value)
 
 
 @register
 def render_table(
-    data: list[dict],
-    col_break: list[str] | None = None,
-    col_ignore: list[str] | None = None,
+    data: list[Any],
+    cols: list[str] | None = None,
+    show_line_numbers: bool = True,
+    options: dict[str, str | Options] | None = None,
+    **kwargs: Any,
 ) -> str:
+    """Render a table.
+
+    :param data: list of dicts with data
+    :param cols: list of columns to display. If None, then autodetect columns from first entry.
+    :param options: formatting options for each col
+    """
     if not data:
         return ""
 
-    template = """
-    <table class="table">
-    <thead>
-      <tr>{columns}</tr>
-    </thead>
-    <tbody>{body}</tbody>
-    """
+    opts: dict[str, Options] = {
+        k: Options.from_string(v) if isinstance(v, str) else v for k, v in (options or {}).items()
+    }
 
-    columns_keys = list(data[0].keys())
-    columns = '<th scope="col">#</th>'
+    columns_keys = cols or list(data[0].keys())
+    columns = '<th scope="col">#</th>' if show_line_numbers else ""
     for col in columns_keys:
-        if col_ignore and col in col_ignore:
+        if col in opts and opts[col].ignored:
             continue
 
         columns += f'\n<th scope="col">{col.title()}</th>'
 
     body = ""
     for i, item in enumerate(data, start=1):
-        item_body = f'<th scope="row">{i}</th>'
+        item_body = f'<th scope="row">{i}</th>' if show_line_numbers else ""
         for col in columns_keys:
-            if col_ignore and col in col_ignore:
+            opt = opts.get(col, Options())
+            if opt.ignored:
                 continue
 
             td_class = ""
-            if col_break and col in col_break:
+            if opt.breaked:
                 td_class += "breaked"
 
-            value = render_value(item[col])
+            value = render_value(
+                value=item.get(col),
+                options=opt,
+                parent_options={
+                    "cols": cols,
+                    "show_line_numbers": show_line_numbers,
+                    "options": options,
+                    "as_table": True,
+                },
+            )
             item_body += f"\n<td class={td_class}>{value}</td>"
 
         body += f"<tr>{item_body}</tr>"
 
-    return template.format(columns=columns, body=body)
+    return TABLE_TEMPLATE.format(columns=columns, body=body)
 
 
 @register
@@ -133,7 +208,7 @@ def render_syntax_error_response(response: dict) -> str:
 
 
 @register
-def render_kv(k: Any, v: Any, add_anchor: bool = False) -> str:
+def render_kv(k: Any, v: Any, add_anchor: bool = False, as_table: bool = False) -> str:
     """Render KSQL response dict."""
     # Do not render @type field
     if k == "@type":
@@ -143,7 +218,10 @@ def render_kv(k: Any, v: Any, add_anchor: bool = False) -> str:
     if check_is_empty(v):
         return ""
 
-    v = render_json(v)
+    if as_table and isinstance(v, (list, tuple)):
+        v = render_table(list(v))
+    else:
+        v = render_json(v)
 
     id_tag = f'id="{k}"' if add_anchor else ""
     return f"""
@@ -214,3 +292,38 @@ def render_level(response: ContextResponse) -> str:
                 return BootstrapLevel.WARNING.value
 
     return response_level
+
+
+@register
+def render_bubbles(data: dict, keys: list[str] | None = None) -> str:
+    def render(k: Any) -> str:
+        v = data.get(k)
+        return BUBBLE_TEMPLATE.format(heading=k, body=v)
+
+    keys = keys or list(data)
+    return "".join(render(k) for k in keys)
+
+
+@register
+def render_stream_fields(data: list) -> str:
+    def flatten(item: dict | list | None) -> dict | list | None:
+        if not item:
+            return None
+        elif isinstance(item, list):
+            return [flatten(i) for i in item]
+        else:
+            result = {
+                "name": item["name"],
+                "type": item.get("type", item["schema"]["type"]),
+            }
+            if fields := item["schema"].get("fields"):
+                result["fields"] = flatten(fields)
+            return result
+
+    return render_table(
+        [flatten(item) for item in data],
+        cols=["name", "type", "fields"],
+        options={
+            "type": Options(badge=True),
+        },
+    )

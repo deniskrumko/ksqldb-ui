@@ -1,0 +1,10 @@
+<p class="d-inline-flex gap-1">
+  <a class="btn-original-response" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Show original data
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+  {% for k, v in data.items() %}
+    {{render_kv(k, v, add_anchor=True)|safe}}
+  {% endfor %}
+</div>
