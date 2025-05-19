@@ -58,8 +58,8 @@ ksqlDB UI - Status - {{current_server_name}}
     {{ render_table(properties, options={"value": "break", "scope": "ignore", "level": "badge"})|safe }}
   </div>
   {% endif %}
-
-  <br><br>
+<!-- Original data -->
+{% include "includes/hidden_response_details.html" %}
 </div>
 
 {% else %}

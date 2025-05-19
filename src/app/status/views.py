@@ -35,4 +35,5 @@ async def get_server_status(request: Request) -> Response:
         info=info.json(),
         health=health.json(),
         properties=properties.json()[0]["properties"],
+        response=properties,
     )

@@ -1,4 +1,5 @@
 import contextlib
+import datetime
 import json
 from dataclasses import dataclass
 from enum import Enum
@@ -21,12 +22,14 @@ from .utils import ContextResponse
 RENDER_HELPERS: dict = {}
 
 TABLE_TEMPLATE = """
-<table class="table">
-<thead>
-    <tr>{columns}</tr>
-</thead>
-<tbody>{body}</tbody>
-</table>
+<div class="table-container">
+    <table class="table">
+    <thead>
+        <tr>{columns}</tr>
+    </thead>
+    <tbody>{body}</tbody>
+    </table>
+</div>
 """
 
 BUBBLE_TEMPLATE = """
@@ -78,6 +81,8 @@ class Options:
     badge: bool = False
     ignored: bool = False
     breaked: bool = False
+    timestamp: bool = False
+    kafka_topic: bool = False
 
     @classmethod
     def from_string(cls, value: str) -> "Options":
@@ -85,7 +90,17 @@ class Options:
             badge=any(v in value for v in ["badge", "pill"]),
             ignored=any(v in value for v in ["hide", "ignore", "ignored"]),
             breaked=any(v in value for v in ["br", "break", "breaked"]),
+            timestamp=any(v in value for v in ["timestamp", "ts"]),
+            kafka_topic=any(v in value for v in ["topic", "kafka_topic"]),
         )
+
+
+@register
+def render_timestamp(value: Any, container: str = "i", **kwargs: Any) -> str:
+    """Render timestamp as string."""
+    timestamp = int(value)
+    date = datetime.datetime.fromtimestamp(timestamp / 1000)
+    return f'<{container}>{date.strftime("%Y-%m-%d %H:%M:%S")}</{container}>' if timestamp else ""
 
 
 @register
@@ -93,8 +108,18 @@ def render_value(
     value: Any,
     options: Options | None = None,
     parent_options: dict[str, Any] | None = None,
+    **kwargs: Any,
 ) -> str:
     opt = options or Options()
+
+    if opt.kafka_topic:
+        return render_topic_link(
+            request=kwargs["request"],
+            name=value,
+        )
+
+    if opt.timestamp:
+        return render_timestamp(value)
 
     if opt.badge:
         return f'<span class="badge text-bg-purple">{value}</span>'
@@ -108,6 +133,9 @@ def render_value(
     if value == "[hidden]" or value is None:
         value = str(value).lstrip("[").rstrip("]").lower()
         return f'<span class="badge text-bg-secondary">{value}</span>'
+
+    if isinstance(value, (int, float)):
+        return f"<code>{value}</code>"
 
     if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
         return f"<code>{value}</code>"
@@ -174,6 +202,7 @@ def render_table(
                     "options": options,
                     "as_table": True,
                 },
+                **kwargs,
             )
             item_body += f"\n<td class={td_class}>{value}</td>"
 
@@ -208,7 +237,13 @@ def render_syntax_error_response(response: dict) -> str:
 
 
 @register
-def render_kv(k: Any, v: Any, add_anchor: bool = False, as_table: bool = False) -> str:
+def render_kv(
+    k: Any,
+    v: Any,
+    add_anchor: bool = False,
+    as_table: bool = False,
+    **kwargs: Any,
+) -> str:
     """Render KSQL response dict."""
     # Do not render @type field
     if k == "@type":
@@ -253,11 +288,12 @@ def render_json(v: Any) -> str:
 def render_topic_link(
     request: Request,
     name: str,
+    **kwargs: Any,
 ) -> str:
     """Render topic link (configured in settings)."""
     params = get_server_options(request)
     if link := params.get("topic_link", ""):
-        return str(render_link(link.format(name), name))
+        return str(render_link(link.format(name), name, **kwargs))
 
     return name
 
@@ -271,10 +307,15 @@ def render_stream_link(request: Request, name: str, target: bool = False) -> str
 
 
 @register
-def render_link(href: str, text: str, target: bool = True) -> str:
+def render_link(
+    href: str,
+    text: str,
+    target: bool = True,
+    classes: str = "link-offset-2 link-sm breaked",
+) -> str:
     """Render link."""
     target_blank = 'target="_blank"' if target else ""
-    return f'<a href="{href}" class="link-offset-2 link-sm breaked" {target_blank}>{text}</a>'
+    return f'<a href="{href}" class="{classes}" {target_blank}>{text}</a>'
 
 
 @register
@@ -295,9 +336,11 @@ def render_level(response: ContextResponse) -> str:
 
 
 @register
-def render_bubbles(data: dict, keys: list[str] | None = None) -> str:
+def render_bubbles(data: dict, keys: list[str] | None = None, lower: bool = False) -> str:
     def render(k: Any) -> str:
         v = data.get(k)
+        if lower:
+            v = str(v).lower()
         return BUBBLE_TEMPLATE.format(heading=k, body=v)
 
     keys = keys or list(data)

@@ -23,10 +23,16 @@ class KsqlErrors(Enum):
 class KsqlException(Exception):
     """Base class for KSQL exceptions."""
 
-    def __init__(self, info: str, response: Any) -> None:
+    def __init__(
+        self,
+        info: str,
+        response: Any,
+        list_page_url: str | None = None,
+    ) -> None:
         """Initialize class instance."""
         self.info = info
         self.response = response
+        self.list_page_url = list_page_url
 
     def __str__(self) -> str:
         """Return string representation."""

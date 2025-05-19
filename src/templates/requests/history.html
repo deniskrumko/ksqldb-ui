@@ -16,8 +16,8 @@ History
       {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }}
       (env: {{ entry.server_name }})
       <div class="resp-key-buttons">
-        <a href="#" onclick="copyToClipboard(this)">Copy to clipboard</a>
-        <a href="#" onclick="pasteToEditor(this)">Paste as request</a>
+        <span onclick="copyToClipboard(this)">Copy to clipboard</span>
+        <span onclick="pasteToEditor(this)">Paste as request</span>
       </div>
     </div>
     <pre class="wrap-pre">{{ entry.query }}</pre>

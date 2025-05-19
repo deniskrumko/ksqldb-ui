@@ -89,6 +89,7 @@ async def http_exception_handler(request: Request, exc: Exception) -> Response:
             "data": response_data,
             "code": exc.response.status_code,
         }
+        params["list_page_url"] = exc.list_page_url
 
     if isinstance(exc, httpx.ReadError) and not str(exc):
         params["booting_up"] = True

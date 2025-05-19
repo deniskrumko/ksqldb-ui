@@ -27,6 +27,6 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
         "topics/list.html",
         request=request,
         response=response,
-        topics=data[0]["topics"],
+        topics=sorted(data[0]["topics"], key=lambda x: x["name"].lower()),
         **(extra_context or {}),
     )

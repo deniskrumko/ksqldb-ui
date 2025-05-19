@@ -129,7 +129,7 @@ body {
     color: #9389a2;
     font-weight: 400;
     font-family: Zain, Menlo, Arial, sans-serif !important;
-    margin: 18px 0px 4px 0px;
+    margin: 22px 0px 4px 0px;
     padding: 0;
 }
 
@@ -153,8 +153,15 @@ body {
 .resp-key-buttons {
     float: right;
 
-    a {
-        margin-right: 5px;
+    span {
+        margin-right: 8px;
+        font-family: var(--bs-body-font-family);
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    span:hover {
+        color: #6200cb;
     }
 }
 
@@ -174,7 +181,7 @@ pre {
 }
 
 .badge.text-bg-secondary {
-    background-color: #c9c2d1 !important;
+    background-color: #b9afc4 !important;
 }
 
 .http-badge {
@@ -200,17 +207,18 @@ pre {
 }
 
 .btn-original-response {
+    background-color: #f5eaff;
     border-radius: 12px;
     color: #6200cb;
     text-decoration: none;
-    border: 1px solid transparent;
     padding: 4px 10px;
     transition: 0.2s all ease;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .btn-original-response:hover {
-    border: 1px solid #6200cb;
+    background-color: #6200cb;
+    color: #f5eaff;
 }
 
 .wrap-pre {
@@ -310,4 +318,23 @@ pre {
     background-color: #dc3645;
     color: #fff;
     padding: 3px;
+}
+
+.table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.table-container > table {
+    margin: 0px;
+}
+
+tbody > tr:last-child {
+    border-bottom: 1px solid white;
+}
+
+.topology {
+    display: none;
 }

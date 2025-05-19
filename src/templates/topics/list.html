@@ -20,7 +20,7 @@ ksqlDB UI - Topics - {{current_server_name}}
     </thead>
     <tbody>
       {% for t in topics %}
-      <tr {% if t.consumerCount %}class="table-success"{% endif %}>
+      <tr>
         <th scope="row">{{ loop.index }}</th>
         <td>{{ render_topic_link(request, t.name) | safe }}</td>
         <td>{{ t.replicaInfo | length }}</td>

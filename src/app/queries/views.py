@@ -57,7 +57,36 @@ async def detail_view(request: Request, query_name: str) -> Response:
     """View to show query details."""
     response = await KsqlRequest(request, f"EXPLAIN {query_name}").execute()
     if not response.is_success:
-        raise KsqlException("Failed to explain query", response)
+        raise KsqlException(
+            f"Failed to explain query {query_name}. Maybe wrong server?",
+            response,
+            list_page_url=str(request.url_for("list_view")),
+        )
 
     data = response.json()
-    return render_template("queries/details.html", request=request, query=data[0])
+    query = data[0]
+
+    try:
+        query_tasks = sorted(
+            [
+                {
+                    "id": task["taskId"],
+                    "topic": task["topicOffsets"][0]["topicPartitionEntity"]["topic"],
+                    "partition": task["topicOffsets"][0]["topicPartitionEntity"]["partition"],
+                    "end Offset": task["topicOffsets"][0]["endOffset"],
+                    "committed Offset": task["topicOffsets"][0]["committedOffset"],
+                }
+                for task in query["queryDescription"].get("tasksMetadata", [])
+            ],
+            key=lambda x: x["id"],
+        )
+    except Exception:
+        query_tasks = []
+
+    return render_template(
+        "queries/details.html",
+        request=request,
+        response=response,
+        query=query,
+        query_tasks=query_tasks,
+    )

@@ -57,7 +57,16 @@ async def detail_view(request: Request, stream_name: str) -> Response:
     """View to show stream details."""
     response = await KsqlRequest(request, f"DESCRIBE {stream_name}").execute()
     if not response.is_success:
-        raise KsqlException("Failed to describe stream", response)
+        raise KsqlException(
+            f"Failed to describe stream {stream_name}. Maybe wrong server?",
+            response,
+            list_page_url=str(request.url_for("list_view")),
+        )
 
     data = response.json()
-    return render_template("streams/details.html", request=request, stream=data[0])
+    return render_template(
+        "streams/details.html",
+        request=request,
+        response=response,
+        stream=data[0],
+    )

@@ -27,6 +27,11 @@
 
     {% if detail %}
     <pre class="wrap-pre">{{ detail }}</pre>
+    {% if list_page_url %}
+    <div style="margin: 10px 0px;">
+      <a href="{{list_page_url}}" class="btn btn-primary">Go back to list page</a>
+    </div>
+    {% endif %}
     {% endif %}
 
     {% if booting_up %}
