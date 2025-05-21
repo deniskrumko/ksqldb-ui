@@ -7,6 +7,7 @@ from fastapi import (
 from fastapi.responses import Response
 
 from app.core.ksqldb import (
+    KSQL_SYSTEM_STREAM,
     KsqlException,
     KsqlRequest,
 )
@@ -36,13 +37,26 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
 async def delete_stream(request: Request) -> Response:
     """Route to delete a stream."""
     form_data = await request.form()
-    stream_name = form_data["delete_object"]
+    stream_name = str(form_data["delete_object"])
     if not stream_name:
         raise ValueError("Stream name is not set")
 
+    if stream_name == KSQL_SYSTEM_STREAM:
+        raise ValueError(
+            f"Cannot delete {KSQL_SYSTEM_STREAM} system stream from ksqldb-ui. "
+            "This is a protection measure.",
+        )
+
+    # for some cases we need to quote the stream name
+    if stream_name != stream_name.upper():
+        stream_name = f'"{stream_name}"'
+
     response = await KsqlRequest(request, f"DROP STREAM {stream_name}").execute()
     if not response.is_success:
-        raise KsqlException("Failed to drop stream", response)
+        raise KsqlException(
+            f"Failed to drop stream {stream_name}",
+            response=response,
+        )
 
     return await list_view(
         request,
@@ -59,7 +73,7 @@ async def detail_view(request: Request, stream_name: str) -> Response:
     if not response.is_success:
         raise KsqlException(
             f"Failed to describe stream {stream_name}. Maybe wrong server?",
-            response,
+            response=response,
             list_page_url=str(request.url_for("list_view")),
         )
 
