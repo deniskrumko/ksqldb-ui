@@ -3,6 +3,7 @@ from .requests import (
     KsqlRequest,
 )
 from .resources import (
+    KSQL_SYSTEM_STREAM,
     KsqlErrors,
     KsqlException,
     KsqlQuery,
