@@ -51,6 +51,8 @@ services:
 
 3. Open browser and navigate to http://localhost:8080
 
+Checkout working example of `ksqlDB` + `ksqlDB-UI` below.
+
 ## Kubernetes manifests
 
 **deployment.yml**:
@@ -126,3 +128,24 @@ Other manifests (like `ingress.yml` and so on) you can do on your own :)
 # Config example
 
 Configuration with comments is located in [config/example.toml](./config/example.toml) file. Please, take a look!
+
+# Working example
+
+In [docker-compose.yml](./docker-compose.yml) there are three components to work with:
+- ksqldb
+- ksqldb-ui
+- Redpanda (this is just like Apache Kafka but better 😎)
+
+To run this example:
+
+1. Download [docker-compose.yml](./docker-compose.yml) locally
+
+2. Run command:
+
+```bash
+docker-compose up -d
+```
+
+3. Open ksqldb-ui in browser: http://localhost:8080 to create streams/queries
+
+4. Open redpanda in browser: http://localhost:8090 to create topics

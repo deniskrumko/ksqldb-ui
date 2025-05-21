@@ -1,0 +1,10 @@
+# Example config for docker-compose.yml
+[servers]
+
+[servers.localhost]
+url = 'http://ksqldb:8088'
+topic_link = 'http://localhost:8090/topics/{}'
+
+[history]
+enabled = true
+size = 50

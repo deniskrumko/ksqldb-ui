@@ -1,6 +1,19 @@
+# DOCKER COMPOSE
+# ==============
+
 # Run app in Docker
-run:
-	docker-compose up --build
+up:
+	docker-compose up --build -d
+
+# Stop app in Docker
+down:
+	docker-compose down
+
+logs:
+	docker-compose logs ksqldb-ui -f
+
+# LOCAL RUN
+# =========
 
 # Run app on local machine (with local config)
 local:
@@ -9,6 +22,9 @@ local:
 # Run app on local machine (with prod config)
 prod:
 	APP_CONFIG=config/production.toml PYTHONPATH=src python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+
+# LOCAL DEVELOPMENT
+# =================
 
 test:
 	PYTHONPATH=src pytest

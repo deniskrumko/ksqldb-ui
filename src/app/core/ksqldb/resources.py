@@ -2,6 +2,7 @@ from enum import Enum
 from typing import Any
 
 COMMENT_PREFIX = "--"
+KSQL_SYSTEM_STREAM = "KSQL_PROCESSING_LOG"
 
 
 class KsqlEndpoints(Enum):
