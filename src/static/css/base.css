@@ -147,7 +147,7 @@ body {
 
 .resp {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .resp-key-buttons {
@@ -189,6 +189,7 @@ pre {
     font-size: 14px !important;
     font-weight: 200 !important;
     margin-left: 6px !important;
+    cursor:default;
 }
 
 .b-hl {
@@ -257,7 +258,7 @@ pre {
     font-size: 14px;
     display: flex;
     align-items: center;
-    color: #DDD;
+    color: #777;
     margin: 15px 0px;
 }
 

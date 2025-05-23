@@ -35,7 +35,21 @@ ksqlDB UI - Requests - {{current_server_name}}
       <h2 class="title-h2">
         {% block right_section_header %}
           {% if x_response %}
-          Response  <span class="http-badge badge text-bg-{{ render_level(x_response) }}">HTTP {{ x_response.code }}</span>
+          Response
+          <span class="http-badge badge text-bg-{{ render_level(x_response) }}">
+            HTTP {{ x_response.code }}
+          </span>
+
+          {% if preprocess_error %}
+          <span class="http-badge badge text-bg-warning" data-toggle="tooltip" data-placement="bottom" title='Looks like there is a bug in ksqldb-ui code. Please report it on GitHub.'>
+            Failed to preprocess
+          </span>
+          {% elif preprocessed_data %}
+          <span class="http-badge badge text-bg-secondary" data-toggle="tooltip" data-placement="bottom" title='Response was preprocessed to be more human friendly 😎 Scroll to the end and click "Show original response" to see unprocessed response.'>
+            Preprocessed
+          </span>
+          {% endif %}
+
           {% elif warning_msg %}
           Response
           {% else %}
@@ -45,7 +59,16 @@ ksqlDB UI - Requests - {{current_server_name}}
       </h2>
 
       {% block right_section %}
-        {% if x_response %}
+        {% if preprocess_error %}
+          <div class="alert alert-warning">
+            <h4 class="alert-heading">Error during preprocessing</h4>
+            <div>{{ preprocess_error }}</div>
+          </div>
+        {% endif%}
+
+        {% if preprocessed_data %}
+          {{render_preprocessed_data(preprocessed_data)|safe}}
+        {% elif x_response %}
           <!-- Show JSON response -->
           {% if x_response.data %}
             <div>
@@ -66,8 +89,6 @@ ksqlDB UI - Requests - {{current_server_name}}
           {% else %}
           <h3>Empty response body</h3>
           {% endif %}
-          {% include "includes/hidden_response_details.html" %}
-          <br>
         {% elif warning_msg %}
           <div class="alert alert-warning">
             <h4 class="alert-heading">Warning</h4>
@@ -77,6 +98,8 @@ ksqlDB UI - Requests - {{current_server_name}}
           <!-- Show welcoming page -->
           {% include "includes/welcome.html" %}
         {% endif %}
+        {% include "includes/hidden_response_details.html" %}
+        <br>
       {% endblock %}
     </div>
   </div>
@@ -90,6 +113,7 @@ ksqlDB UI - Requests - {{current_server_name}}
   integrity="sha512-FqIMgoMtiqZWCK+bRO5e4Dsj1uTSbl26DlpTlhoqyunc6o41hkU0fXpXMNLKsqPBIUf4OERya5kfbqscOT26VQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+  var formIsSubmitting = false;
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/chrome");
   editor.session.setMode("ace/mode/sql");
@@ -98,13 +122,23 @@ ksqlDB UI - Requests - {{current_server_name}}
     document.getElementById("query").value = editor.getValue();
   }
 
-  // added event handler
-  document.getElementById("editorForm").onsubmit = function (evt) {
-    updateHiddenInputs();
-
+  function showLoadingAnimation() {
     // Show the wait button, hide the normal execute button
     document.getElementById('executeButton').style.display = 'none';
     document.getElementById('executeButtonWait').style.display = '';
+  }
+
+  // added event handler
+  document.getElementById("editorForm").onsubmit = function (evt) {
+    if (formIsSubmitting) {
+      // Prevent double submission
+      evt.preventDefault();
+      return;
+    }
+
+    formIsSubmitting = true;
+    updateHiddenInputs();
+    showLoadingAnimation();
   }
 
   function adjustEditorHeight() {
@@ -165,7 +199,14 @@ ksqlDB UI - Requests - {{current_server_name}}
     name: 'submitForm',
     bindKey: {win: 'Shift-Enter', mac: 'Shift-Enter'},
     exec: function(editor) {
-        updateHiddenInputs()
+        if (formIsSubmitting) {
+            // Prevent double submission
+            return;
+        }
+
+        formIsSubmitting = true;
+        updateHiddenInputs();
+        showLoadingAnimation();
         document.getElementById('editorForm').submit();
     },
     readOnly: false // false если команда должна быть доступна в режиме редактирования

@@ -12,6 +12,10 @@ from typing import (
 from fastapi.requests import Request
 
 from .ksqldb import KsqlErrors
+from .preprocess import (
+    PreprocessedData,
+    Schema,
+)
 from .settings import (
     SERVER_QUERY_PARAM,
     get_server,
@@ -141,7 +145,7 @@ def render_value(
         return f"<code>{value}</code>"
 
     if isinstance(value, (list, tuple)):
-        if value and isinstance(value[0], dict):
+        if value and isinstance(value[0], (dict, Schema)):
             return render_table(list(value), **(parent_options or {}))
 
         return render_list(value)
@@ -154,7 +158,7 @@ def render_value(
 
 @register
 def render_table(
-    data: list[Any],
+    data: list[Any] | None,
     cols: list[str] | None = None,
     show_line_numbers: bool = True,
     options: dict[str, str | Options] | None = None,
@@ -254,7 +258,7 @@ def render_kv(
         return ""
 
     if as_table and isinstance(v, (list, tuple)):
-        v = render_table(list(v))
+        v = render_table(list(v), **kwargs)
     else:
         v = render_json(v)
 
@@ -265,6 +269,25 @@ def render_kv(
         <div class="value">{v}</div>
     </div>
     """
+
+
+@register
+def render_preprocessed_data(data: PreprocessedData) -> str:
+    """Render preprocessed data."""
+    result = render_kv(
+        "Schema",
+        data.schema_list,
+        as_table=True,
+        show_line_numbers=False,
+        options={
+            "type": Options(badge=True),
+        },
+    )
+
+    for index, row in enumerate(data.rows, start=1):
+        result += render_kv(f"Row {index}/{len(data.rows)}", row)
+    result += f'<div class="divider">{data.final_message}</div>'
+    return result
 
 
 @register

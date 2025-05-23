@@ -5,6 +5,7 @@ from fastapi import (
 from starlette.responses import Response
 
 from app.core.ksqldb import KsqlRequest
+from app.core.preprocess import preprocess_data
 from app.core.templates import render_template
 
 from .resources import add_request_to_history
@@ -22,7 +23,7 @@ async def show_request_editor(request: Request) -> Response:
 async def perform_request(request: Request) -> Response:
     """Perform request to ksqlDB server."""
     form_data = await request.form()
-    context = {}
+    context: dict = {}
 
     ksql_response = None
     if query := form_data["query"]:
@@ -31,6 +32,11 @@ async def perform_request(request: Request) -> Response:
         ksql_request = KsqlRequest(request, query)
         ksql_response = await ksql_request.execute(query_fallback=True)
         context["query"] = query
+
+        try:
+            context["preprocessed_data"] = preprocess_data(ksql_response)
+        except Exception as e:
+            context["preprocess_error"] = repr(e)
     else:
         context["warning_msg"] = "Query is empty"
 
