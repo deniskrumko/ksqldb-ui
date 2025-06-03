@@ -17,20 +17,29 @@ from starlette.responses import RedirectResponse
 from app.core.fastapi import CacheControlledStaticFiles
 from app.core.ksqldb.resources import KsqlException
 from app.core.settings import (
-    SERVER_QUERY_PARAM,
-    get_server,
+    README,
+    Server,
+    Settings,
+    get_server_code,
     get_settings,
 )
-from app.core.templates import render_template
+from app.core.templates import (
+    ERROR_TEMPLATE,
+    render_template,
+)
 from app.core.utils import make_list
 
 app = FastAPI()
-app.settings = get_settings()
-app.history_enabled = app.settings.get("history", {}).get("enabled", True)
 
-if app.history_enabled:
-    history_size = app.settings.get("history", {}).get("size", 50)
-    app.history = deque(maxlen=history_size)
+try:
+    settings: Settings = get_settings()
+except Exception as e:
+    print(f"\n{e}\n{README}#configuration\n")  # noqa
+    raise SystemExit(1)
+
+app.settings = settings
+if settings.history.enabled:
+    app.history = deque(maxlen=settings.history.size)
 
 static_dir = Path(__file__).parent.parent / "static"
 app.mount("/static", CacheControlledStaticFiles(directory=static_dir), name="static")
@@ -61,9 +70,13 @@ register_routes()
 @app.middleware("http")
 async def add_default_server(request: Request, call_next: Callable) -> Any:
     """Add default server from settings if not set."""
-    if request.method == "GET" and ("/static/" not in str(request.url)) and not get_server(request):
-        default_server = list(app.settings["servers"].keys())[0]
-        return RedirectResponse(f"?{SERVER_QUERY_PARAM}={default_server}")
+    if (
+        request.method == "GET"
+        and ("/static/" not in str(request.url))
+        and not get_server_code(request, raise_exc=False)
+    ):
+        server: Server = app.settings.default_server
+        return RedirectResponse(f"?{server.queue}")
 
     return await call_next(request)
 
@@ -94,4 +107,4 @@ async def http_exception_handler(request: Request, exc: Exception) -> Response:
     if isinstance(exc, httpx.ReadError) and not str(exc):
         params["booting_up"] = True
 
-    return render_template("error.html", request=request, **params)
+    return render_template(ERROR_TEMPLATE, request=request, **params)

@@ -16,11 +16,7 @@ from .preprocess import (
     PreprocessedData,
     Schema,
 )
-from .settings import (
-    SERVER_QUERY_PARAM,
-    get_server,
-    get_server_options,
-)
+from .settings import get_server
 from .utils import ContextResponse
 
 RENDER_HELPERS: dict = {}
@@ -110,11 +106,14 @@ def render_timestamp(value: Any, container: str = "i", **kwargs: Any) -> str:
 @register
 def render_value(
     value: Any,
-    options: Options | None = None,
+    options: Options | str | None = None,
     parent_options: dict[str, Any] | None = None,
     **kwargs: Any,
 ) -> str:
-    opt = options or Options()
+    if isinstance(options, str):
+        opt = Options.from_string(options)
+    else:
+        opt = options or Options()
 
     if opt.kafka_topic:
         return render_topic_link(
@@ -314,9 +313,9 @@ def render_topic_link(
     **kwargs: Any,
 ) -> str:
     """Render topic link (configured in settings)."""
-    params = get_server_options(request)
-    if link := params.get("topic_link", ""):
-        return str(render_link(link.format(name), name, **kwargs))
+    server = get_server(request)
+    if server.topic_link:
+        return str(render_link(server.topic_link.format(name), name, **kwargs))
 
     return name
 
@@ -324,21 +323,21 @@ def render_topic_link(
 @register
 def render_stream_link(request: Request, name: str, target: bool = False) -> str:
     """Render topic link (configured in settings)."""
-    server_name = get_server(request=request)
-    href = f"/streams/{name}?{SERVER_QUERY_PARAM}={server_name}"
+    server = get_server(request)
+    href = f"/streams/{name}?{server.queue}"
     return str(render_link(href, name, target))
 
 
 @register
 def render_link(
     href: str,
-    text: str,
+    text: str | None = None,
     target: bool = True,
     classes: str = "link-offset-2 link-sm breaked",
 ) -> str:
     """Render link."""
     target_blank = 'target="_blank"' if target else ""
-    return f'<a href="{href}" class="{classes}" {target_blank}>{text}</a>'
+    return f'<a href="{href}" class="{classes}" {target_blank}>{text or href}</a>'
 
 
 @register

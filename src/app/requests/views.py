@@ -52,7 +52,7 @@ async def perform_request(request: Request) -> Response:
 async def show_history(request: Request) -> Response:
     """View to show requests history."""
     history = []
-    if request.app.history_enabled:
+    if request.app.settings.history.enabled:
         history = list(reversed(request.app.history))
 
     return render_template(

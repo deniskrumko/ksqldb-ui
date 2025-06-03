@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Queries - {{current_server_name}}
+ksqlDB UI - Queries - {{ current_server.display_name }}
 {% endblock %}
 
 {% block css %}
@@ -12,7 +12,7 @@ ksqlDB UI - Queries - {{current_server_name}}
 <div class="my-container">
   <div class="row">
     <div class="col">
-      <h2 class="title-h2">Query {{ query.queryDescription.id }} on {{ current_server_name }}</h2>
+      <h2 class="title-h2">Query {{ query.queryDescription.id }} on {{ current_server.display_name }}</h2>
 
       <!-- Bubbles -->
       {{ render_bubbles(query.queryDescription, keys=["state", "queryType"], lower=True)|safe}}

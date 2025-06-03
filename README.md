@@ -125,9 +125,11 @@ data:
 
 Other manifests (like `ingress.yml` and so on) you can do on your own :)
 
-# Config example
+# Configuration
 
 Configuration with comments is located in [config/example.toml](./config/example.toml) file. Please, take a look!
+
+To run app you need to specify `APP_CONFIG` env var with path to config file.
 
 # Working example
 

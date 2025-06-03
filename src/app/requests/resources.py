@@ -8,15 +8,18 @@ from app.core.settings import get_server
 
 class RequestHistory:
 
-    def __init__(self, query: str, server_name: str):
+    def __init__(self, query: str, server_code: str):
         """Initialize class instance."""
         self.query = query
-        self.server_name = server_name
+        self.server_code = server_code
         self.date = datetime.now()
 
 
 def add_request_to_history(request: Request, query: Any) -> None:
     """Add request to history."""
-    if request.app.history_enabled:
-        entry = RequestHistory(str(query), get_server(request) or "-")
+    if request.app.settings.history.enabled:
+        entry = RequestHistory(
+            query=str(query),
+            server_code=get_server(request).code,
+        )
         request.app.history.append(entry)

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams - {{current_server_name}}
+ksqlDB UI - Streams - {{ current_server.display_name }}
 {% endblock %}
 
 {% block css %}
@@ -12,11 +12,13 @@ ksqlDB UI - Streams - {{current_server_name}}
 <div class="my-container">
   <div class="row">
     <div class="col">
-      <h2 class="title-h2">Stream <span class="accent-text">{{ stream.sourceDescription.name }}</span> on
-        {{current_server_name}}</h2>
+      <h2 class="title-h2">
+        Stream <span class="accent-text">{{ stream.sourceDescription.name }}</span> on {{ current_server.display_name }}
+      </h2>
 
       <!-- Bubbles -->
-      {{ render_bubbles(stream.sourceDescription, keys=["keyFormat", "valueFormat", "partitions", "replication",])|safe}}
+      {{ render_bubbles(stream.sourceDescription, keys=["keyFormat", "valueFormat", "partitions",
+      "replication",])|safe}}
 
       <!-- Topology -->
       <div class="section">Stream topology</div>
@@ -29,7 +31,7 @@ ksqlDB UI - Streams - {{current_server_name}}
       </div>
       {% endfor %}
       {% for query in stream.sourceDescription.writeQueries %}
-        <div class="topology write-query" data-name="{{query.id}}"></div>
+      <div class="topology write-query" data-name="{{query.id}}"></div>
       {% endfor %}
 
       <!-- SVG -->
@@ -56,11 +58,12 @@ ksqlDB UI - Streams - {{current_server_name}}
       <!-- Stats -->
       {% if stream.sourceDescription.clusterStatistics %}
       <div class="section">Cluster statistics</div>
-      {{ render_table(stream.sourceDescription.clusterStatistics, show_line_numbers=False, options={"timestamp": "ts"})| safe }}
+      {{ render_table(stream.sourceDescription.clusterStatistics, show_line_numbers=False, options={"timestamp": "ts"})|
+      safe }}
       {% endif %}
 
       <!-- Original data -->
-       <br>
+      <br>
       {% include "includes/hidden_response_details.html" %}
     </div>
   </div>
@@ -80,17 +83,17 @@ ksqlDB UI - Streams - {{current_server_name}}
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/static/js/stream.js"></script>
 <script>
-let globalGraph = null;
+  let globalGraph = null;
 
-document.addEventListener("DOMContentLoaded", function () {
-  initAceEditor();
-  const svgObj = initSvgCanvas();
-  globalGraph = buildGraph("{{q}}");
-  renderGraph(globalGraph, svgObj);
-});
+  document.addEventListener("DOMContentLoaded", function () {
+    initAceEditor();
+    const svgObj = initSvgCanvas();
+    globalGraph = buildGraph("{{q}}");
+    renderGraph(globalGraph, svgObj);
+  });
 
-window.addEventListener('resize', function () {
-  handleResize(globalGraph);
-});
+  window.addEventListener('resize', function () {
+    handleResize(globalGraph);
+  });
 </script>
 {% endblock %}

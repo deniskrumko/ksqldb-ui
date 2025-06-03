@@ -17,11 +17,17 @@ logs:
 
 # Run app on local machine (with local config)
 local:
-	APP_CONFIG=config/example.toml PYTHONPATH=src python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+	PYTHONBREAKPOINT=ipdb.set_trace \
+	APP_CONFIG=config/local.toml \
+	PYTHONPATH=src \
+	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app on local machine (with prod config)
 prod:
-	APP_CONFIG=config/production.toml PYTHONPATH=src python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+	PYTHONBREAKPOINT=ipdb.set_trace \
+	APP_CONFIG=config/production.toml \
+	PYTHONPATH=src \
+	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # LOCAL DEVELOPMENT
 # =================

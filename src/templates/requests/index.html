@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Requests - {{current_server_name}}
+ksqlDB UI - Requests - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -12,7 +12,7 @@ ksqlDB UI - Requests - {{current_server_name}}
     <!-- LEFT SECTION -->
     <div class="col-md-6" id="col-left-collapsable">
       <h2 class="title-h2">
-        Request to {{current_server_name}}
+        Request to {{ current_server.display_name }}
         <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >

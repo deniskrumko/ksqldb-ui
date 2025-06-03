@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from httpx._models import Response as HttpxResponse
 from starlette.templating import _TemplateResponse as TemplateResponse
 
+from .settings import get_server_code
 from .utils import (
     CONTEXT_REQUEST_KEY,
     CONTEXT_RESPONSE_KEY,
@@ -17,6 +18,8 @@ from .utils import (
 )
 
 TEMPLATES: Optional[Jinja2Templates] = None
+ERROR_TEMPLATE = "error.html"
+ERROR_NO_SERVER_TEMPLATE = "error_no_server.html"
 
 
 def get_templates() -> Jinja2Templates:
@@ -27,7 +30,7 @@ def get_templates() -> Jinja2Templates:
         return TEMPLATES
 
     templates_dir = Path(__file__).parent.parent.parent / "templates"
-    templates = Jinja2Templates(directory=templates_dir, context_processors=[base_context])
+    templates = Jinja2Templates(directory=templates_dir)
 
     from .render import RENDER_HELPERS
 
@@ -52,26 +55,29 @@ def render_template(
         context[CONTEXT_RESPONSE_KEY] = ContextResponse(response)
         context[CONTEXT_REQUEST_KEY] = ContextRequest(response.request)
 
+    if base_context := get_base_context(request):
+        context.update(base_context)
+    else:
+        template_name = ERROR_NO_SERVER_TEMPLATE
+        context["code"] = get_server_code(request, raise_exc=False)
+
     return templates.TemplateResponse(template_name, context=context)
 
 
-def base_context(request: Request) -> dict:
+def get_base_context(request: Request) -> dict:
     """Base context for all templates."""
     from .settings import (
         SERVER_QUERY_PARAM,
         get_server,
-        get_server_display_name,
-        get_server_options,
-        get_server_url,
     )
 
-    server = get_server(request)
-    server_options = get_server_options(request)
-    return {
-        "current_server": server,
-        "current_server_name": get_server_display_name(request),
-        "current_server_url": get_server_url(request, server_options),
-        "warning_message": server_options.get("warning_message"),
-        "server_query_param": SERVER_QUERY_PARAM,
-        "q": f"{SERVER_QUERY_PARAM}={server}",
-    }
+    try:
+        server = get_server(request)
+        return {
+            "current_server": server,
+            "warning_message": server.warning_message,
+            "server_query_param": SERVER_QUERY_PARAM,
+            "q": server.queue,
+        }
+    except Exception:
+        return {}
