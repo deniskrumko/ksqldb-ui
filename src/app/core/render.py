@@ -1,6 +1,7 @@
 import contextlib
 import datetime
 import json
+from collections import deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import (
@@ -16,11 +17,7 @@ from .preprocess import (
     PreprocessedData,
     Schema,
 )
-from .settings import (
-    SERVER_QUERY_PARAM,
-    get_server,
-    get_server_options,
-)
+from .settings import get_server
 from .utils import ContextResponse
 
 RENDER_HELPERS: dict = {}
@@ -82,6 +79,7 @@ def render_list(value: list | tuple) -> str:
 
 @dataclass
 class Options:
+    code: bool = False
     badge: bool = False
     ignored: bool = False
     breaked: bool = False
@@ -91,6 +89,7 @@ class Options:
     @classmethod
     def from_string(cls, value: str) -> "Options":
         return cls(
+            code=any(v in value for v in ["code", "pre"]),
             badge=any(v in value for v in ["badge", "pill"]),
             ignored=any(v in value for v in ["hide", "ignore", "ignored"]),
             breaked=any(v in value for v in ["br", "break", "breaked"]),
@@ -110,11 +109,17 @@ def render_timestamp(value: Any, container: str = "i", **kwargs: Any) -> str:
 @register
 def render_value(
     value: Any,
-    options: Options | None = None,
+    options: Options | str | None = None,
     parent_options: dict[str, Any] | None = None,
     **kwargs: Any,
 ) -> str:
-    opt = options or Options()
+    if isinstance(options, str):
+        opt = Options.from_string(options)
+    else:
+        opt = options or Options()
+
+    if opt.code:
+        return f"<code>{value}</code>"
 
     if opt.kafka_topic:
         return render_topic_link(
@@ -141,8 +146,12 @@ def render_value(
     if isinstance(value, (int, float)):
         return f"<code>{value}</code>"
 
-    if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
-        return f"<code>{value}</code>"
+    if isinstance(value, str):
+        if value.isdigit() or value[1:].isdigit():
+            return f"<code>{value}</code>"
+
+        if value.startswith("http://") or value.startswith("https://"):
+            return render_link(value, classes="link-offset-2")
 
     if isinstance(value, (list, tuple)):
         if value and isinstance(value[0], (dict, Schema)):
@@ -153,7 +162,32 @@ def render_value(
     if isinstance(value, dict):
         return render_map(value, **(parent_options or {}))
 
+    if isinstance(value, deque):
+        value = list(reversed(value))
+        if value and hasattr(value[0], "keys"):
+            return render_table(value)
+        else:
+            return render_list(value)
+
     return str(value)
+
+
+@register
+def render_dict_table(data: dict, **kwargs: Any) -> str:
+    return render_table(
+        data=[{"key": k, "value": v} for k, v in data.items()],
+        cols=["key", "value"],
+        **kwargs,
+    )
+
+
+@register
+def render_list_table(data: list, col_name: str = "value", **kwargs: Any) -> str:
+    return render_table(
+        data=[{col_name: v} for v in data],
+        cols=[col_name],
+        **kwargs,
+    )
 
 
 @register
@@ -245,6 +279,7 @@ def render_kv(
     k: Any,
     v: Any,
     add_anchor: bool = False,
+    add_copy_button: bool = False,
     as_table: bool = False,
     **kwargs: Any,
 ) -> str:
@@ -262,10 +297,23 @@ def render_kv(
     else:
         v = render_json(v)
 
+    k_buttons = ""
+    if add_copy_button:
+        k_buttons += """
+        <img src="/static/icons/copy.png" alt="Copy" onclick="copyRespValue(this)"
+        class="request-btn"
+        data-toggle="tooltip" data-placement="top" title="Copy">
+        """
+
     id_tag = f'id="{k}"' if add_anchor else ""
     return f"""
     <div class="resp" {id_tag}>
-        <div class="key">{k}</div>
+        <div class="key">
+            {k}
+            <div class="resp-key-buttons">
+            {k_buttons}
+            </div>
+        </div>
         <div class="value">{v}</div>
     </div>
     """
@@ -285,7 +333,11 @@ def render_preprocessed_data(data: PreprocessedData) -> str:
     )
 
     for index, row in enumerate(data.rows, start=1):
-        result += render_kv(f"Row {index}/{len(data.rows)}", row)
+        result += render_kv(
+            k=f"Row {index}/{len(data.rows)}",
+            v=row,
+            add_copy_button=True,
+        )
     result += f'<div class="divider">{data.final_message}</div>'
     return result
 
@@ -314,9 +366,9 @@ def render_topic_link(
     **kwargs: Any,
 ) -> str:
     """Render topic link (configured in settings)."""
-    params = get_server_options(request)
-    if link := params.get("topic_link", ""):
-        return str(render_link(link.format(name), name, **kwargs))
+    server = get_server(request)
+    if server.topic_link:
+        return str(render_link(server.topic_link.format(name), name, **kwargs))
 
     return name
 
@@ -324,21 +376,21 @@ def render_topic_link(
 @register
 def render_stream_link(request: Request, name: str, target: bool = False) -> str:
     """Render topic link (configured in settings)."""
-    server_name = get_server(request=request)
-    href = f"/streams/{name}?{SERVER_QUERY_PARAM}={server_name}"
+    server = get_server(request)
+    href = f"/streams/{name}?{server.query}"
     return str(render_link(href, name, target))
 
 
 @register
 def render_link(
     href: str,
-    text: str,
+    text: str | None = None,
     target: bool = True,
     classes: str = "link-offset-2 link-sm breaked",
 ) -> str:
     """Render link."""
     target_blank = 'target="_blank"' if target else ""
-    return f'<a href="{href}" class="{classes}" {target_blank}>{text}</a>'
+    return f'<a href="{href}" class="{classes}" {target_blank}>{text or href}</a>'
 
 
 @register

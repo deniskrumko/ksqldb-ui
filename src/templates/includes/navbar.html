@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg" data-bs-theme="dark" id="navbar">
   <div class="nav-container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/requests{% if current_server %}?{{current_server.query}}{% endif %}">
       <img src="/static/images/logo.png" alt="ksqldb-ui" width="36" height="36">
       <span id="logo">ksqldb-ui</span>
     </a>
@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link {% if '/requests' in request.path %}active{% endif %}" href="/requests?{{q}}">Requests</a>
-        {% if request.app.history_enabled %}
+        {% if request.app.settings.history.enabled %}
         <a class="nav-link {% if '/history' in request.path %}active{% endif %}" href="/history?{{q}}">History</a>
         {% endif %}
         <a class="nav-link {% if '/streams' in request.path %}active{% endif %}" href="/streams?{{q}}">Streams</a>
@@ -19,20 +19,18 @@
         <a class="nav-link {% if '/topics' in request.path %}active{% endif %}" href="/topics?{{q}}">Topics</a>
         <a class="nav-link {% if '/status' in request.path %}active{% endif %}" href="/status?{{q}}">Status</a>
       </div>
+      {% if current_server %}
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector"
           onchange="this.options[this.selectedIndex].value && (window.location = '?{{server_query_param}}=' + this.options[this.selectedIndex].value);">
-          {% for k, v in request.app.settings.servers.items() %}
-          <option value="{{k}}" {% if current_server==k %}selected{% endif %}>
-            {% if v.name %}
-            {{v.name}}
-            {% else %}
-            {{v.url}}
-            {% endif %}
+          {% for code, server in request.app.settings.servers.items() %}
+          <option value="{{code}}" {% if current_server.code==code %}selected{% endif %}>
+            {{server.display_name}}
           </option>
           {% endfor %}
         </select>
       </form>
+      {% endif %}
     </div>
   </div>
 </nav>

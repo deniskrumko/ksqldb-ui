@@ -7,8 +7,8 @@ import httpx
 from fastapi.requests import Request
 
 from app.core.settings import (
-    get_server_url,
-    get_setting,
+    get_server,
+    get_settings,
 )
 from app.core.urls import SimpleURL
 
@@ -33,11 +33,11 @@ class KsqlRequest:
         timeout: Optional[int] = None,
     ) -> None:
         """Initialize class instance."""
-        self._server: SimpleURL = get_server_url(request)
+        self._server: SimpleURL = get_server(request).simple_url
         self._query = KsqlQuery(str(raw_query))
         self._endpoint = endpoint
         self._method = method
-        self._timeout = timeout or get_setting("http.timeout", 10)
+        self._timeout = timeout or get_settings().http.timeout
 
     @property
     def query(self) -> KsqlQuery:

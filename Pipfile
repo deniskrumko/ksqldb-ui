@@ -8,12 +8,15 @@ python_version = "3.12"
 
 [packages]
 fastapi = "*"
+pydantic = "*"
 uvicorn = "*"
 jinja2 = "*"
 httpx = "*"
+dynaconf = "*"
 python-multipart = "*"
 
 [dev-packages]
+ipdb = "*"
 black = "*"
 mypy = "*"
 isort = "*"

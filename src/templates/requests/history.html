@@ -1,57 +1,52 @@
 {% extends "requests/index.html" %}
 
 {% block title %}
-ksqlDB UI - History - {{current_server_name}}
+ksqlDB UI - History - {{ current_server.display_name }}
 {% endblock %}
 
 {% block right_section_header %}
 History
+{% if history %}
+<img src="/static/icons/trash.png" onclick="clearHistory();" alt="Clear" class="request-btn" data-toggle="tooltip"
+  data-placement="top" title="Clear history">
+{% endif %}
 {% endblock %}
 
 {% block right_section %}
 {% if history %}
-  {% for entry in history %}
-  <div class="resp">
-    <div class="key">
-      {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }}
-      (env: {{ entry.server_name }})
-      <div class="resp-key-buttons">
-        <span onclick="copyToClipboard(this)">Copy to clipboard</span>
-        <span onclick="pasteToEditor(this)">Paste as request</span>
-      </div>
+{% for entry in history %}
+<div class="resp">
+  <div class="key">
+    {{ entry.date.strftime('%Y-%m-%d %H:%M:%S') }}
+    (env: {{ entry.server_code }})
+    <div class="resp-key-buttons">
+      <img src="/static/icons/paste.png" alt="Paste" onclick="pasteRespValue(this)" class="request-btn"
+        data-toggle="tooltip" data-placement="top" title="Paste">
+      <img src="/static/icons/copy.png" alt="Copy" onclick="copyRespValue(this)" class="request-btn"
+        data-toggle="tooltip" data-placement="top" title="Copy">
     </div>
-    <pre class="wrap-pre">{{ entry.query }}</pre>
   </div>
-  {% endfor %}
-  <form action="/history?{{q}}" method="post">
-    <button type="submit" class="btn btn-danger">Clear history</button>
-  </form>
+  <div class="value">
+     <pre class="wrap-pre">{{ entry.query }}</pre>
+  </div>
+</div>
+{% endfor %}
+<form action="/history?{{q}}" method="post" id="clear-history-form">
+  <button type="submit" class="btn btn-danger">Clear history</button>
+</form>
+<br>
+<br>
 {% else %}
-  <h1 class="display-3">Make your first request to <b>become a history</b> 😎</h1>
-  <p>👈 Just type something here and click execute!</p>
+<h1 class="display-3">Make your first request to <b>become a history</b> 😎</h1>
+<p>Just add your cool request here and click <b class="b-hl">execute</b> button or press <span class="badge text-bg-purple">Shift + Enter</span></p>
 {% endif %}
 {% endblock %}
 
 {% block js %}
 {{ super() }}
 <script>
-  function pasteToEditor(e) {
-    editor.setValue($(e).parent().parent().next('pre').text());
-  }
-
-  function copyToClipboard(e) {
-    const text = $(e).parent().parent().next('pre').text();
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-    } else {
-      // fallback for older browsers
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-    }
+  function clearHistory() {
+    document.getElementById('clear-history-form').submit();
   }
 </script>
 {% endblock %}

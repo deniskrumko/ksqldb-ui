@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Status - {{current_server_name}}
+ksqlDB UI - Status - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -11,11 +11,11 @@ ksqlDB UI - Status - {{current_server_name}}
     <!-- LEFT SECTION -->
     <div class="col-md-6">
       <h2 class="title-h2">
-        {{current_server_name}} server info
+        {{ current_server.display_name }} server info
       </h2>
 
       {% if info %}
-        {{render_kv('URL', current_server_url)|safe}}
+        {{render_kv('URL', current_server.simple_url)|safe}}
         {% for k, v in info['KsqlServerInfo'].items() %}
         {{render_kv(k, v)|safe}}
         {% endfor %}
@@ -47,6 +47,7 @@ ksqlDB UI - Status - {{current_server_name}}
           {% endfor %}
         </ul>
       {% endif %}
+      {{ render_link("/debug", "Debug page", target=False)|safe }}
       </div>
     </div>
   </div>
@@ -58,6 +59,8 @@ ksqlDB UI - Status - {{current_server_name}}
     {{ render_table(properties, options={"value": "break", "scope": "ignore", "level": "badge"})|safe }}
   </div>
   {% endif %}
+
+<br>
 <!-- Original data -->
 {% include "includes/hidden_response_details.html" %}
 </div>
@@ -65,7 +68,7 @@ ksqlDB UI - Status - {{current_server_name}}
 {% else %}
 <div class="container">
   <br>
-  <h1 class="display-4">Server <code>{{current_server_name}}</code> is not responding</h1>
+  <h1 class="display-4">Server <code>{{ current_server.display_name }}</code> is not responding</h1>
   <p>Failed to get info or health check</p>
   <br>
   <div class="alert alert-danger">
