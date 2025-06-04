@@ -117,10 +117,16 @@ class Settings(BaseModel):
 SETTINGS: Optional[Settings] = None
 
 
+def init_settings(settings: Settings) -> None:
+    if not isinstance(settings, Settings):
+        raise TypeError('Settings must be <Settings> instance')
+
+    global SETTINGS
+    SETTINGS = settings
+
+
 def get_settings() -> Settings:
     """Get settings from .toml file or env vars."""
-    global SETTINGS
-
     if SETTINGS is not None:
         return SETTINGS
 
@@ -131,7 +137,7 @@ def get_settings() -> Settings:
         ),
     )
 
-    SETTINGS = settings
+    init_settings(settings)
     return settings
 
 

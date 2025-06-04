@@ -48,7 +48,7 @@ prod:
 # LOCAL DEVELOPMENT
 # =================
 
-test:
+tests:
 	PYTHONPATH=src pytest
 
 # Open UI
