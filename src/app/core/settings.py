@@ -1,24 +1,35 @@
 from os import getenv
 from typing import (
+    Any,
     Mapping,
     Optional,
 )
 
+import pydantic
 from dynaconf import Dynaconf
 from fastapi import Request
 from pydantic import BaseModel
 
 from .urls import SimpleURL
+from .utils import flatten_dict
 
+ENV_VAR_PREFIX = "KSQLDB_UI"
 SERVER_QUERY_PARAM: str = "s"
 README = "https://github.com/deniskrumko/ksqldb-ui/blob/master/README.md"
 
 
-class HTTPSettings(BaseModel):
+class LowercaseKeyMixin:
+
+    @pydantic.model_validator(mode="before")
+    def normalize_keys(cls, data: dict[str, Any]) -> dict[str, Any]:
+        return {k.lower(): v for k, v in data.items()}
+
+
+class HTTPSettings(LowercaseKeyMixin, BaseModel):
     timeout: int = 5
 
 
-class Server(BaseModel):
+class Server(LowercaseKeyMixin, BaseModel):
     code: str
     url: str
     name: str | None = None
@@ -41,11 +52,11 @@ class Server(BaseModel):
         return SimpleURL(self.url)
 
     @property
-    def queue(self) -> str:
+    def query(self) -> str:
         return f"{SERVER_QUERY_PARAM}={self.code}"
 
 
-class HistorySettings(BaseModel):
+class HistorySettings(LowercaseKeyMixin, BaseModel):
     enabled: bool = True
     size: int = 50
 
@@ -76,7 +87,7 @@ class Settings(BaseModel):
             http=HTTPSettings(**config.get("http", {})),
             history=HistorySettings(**config.get("history", {})),
             servers={
-                code: Server(code=code, **params)
+                code.lower(): Server(code=code.lower(), **params)
                 for code, params in config.get("servers", {}).items()
             },
         )
@@ -87,6 +98,20 @@ class Settings(BaseModel):
             )
 
         return settings
+
+    @property
+    def as_flatten_dict(self) -> dict:
+        data = self.model_dump()
+        for server in data["servers"].values():
+            server.pop("code")  # internal field
+
+        return flatten_dict(data)
+
+    @property
+    def avaiable_env_vars(self) -> list[str]:
+        return [
+            f"{ENV_VAR_PREFIX}__{key.replace('.', '__').upper()}" for key in self.as_flatten_dict
+        ]
 
 
 SETTINGS: Optional[Settings] = None
@@ -101,7 +126,7 @@ def get_settings() -> Settings:
 
     settings = Settings.from_config(
         Dynaconf(
-            envvar_prefix="KSQLDB_UI_",
+            envvar_prefix=ENV_VAR_PREFIX + "_",
             settings_file=getenv("APP_CONFIG"),
         ),
     )

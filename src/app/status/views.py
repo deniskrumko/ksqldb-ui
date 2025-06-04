@@ -37,3 +37,9 @@ async def get_server_status(request: Request) -> Response:
         properties=properties.json()[0]["properties"],
         response=properties,
     )
+
+
+@router.get("/debug")
+async def debug_page(request: Request) -> Response:
+    """Debug page."""
+    return render_template("status/debug.html", request)

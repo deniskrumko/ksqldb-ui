@@ -77,7 +77,7 @@ def get_base_context(request: Request) -> dict:
             "current_server": server,
             "warning_message": server.warning_message,
             "server_query_param": SERVER_QUERY_PARAM,
-            "q": server.queue,
+            "q": server.query,
         }
     except Exception:
         return {}

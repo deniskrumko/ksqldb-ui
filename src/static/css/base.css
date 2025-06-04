@@ -6,6 +6,10 @@ body {
     background-color: #6200cb;
 }
 
+.width100 {
+    width: 100%;
+}
+
 .text-bg-purple {
     background-color: #6200cb;
 }
@@ -67,7 +71,7 @@ body {
     font-size: 16px;
     border-radius: 12px;
     border: 1px solid #ddd;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 #logo {
@@ -135,14 +139,24 @@ body {
 
 .request-btn {
     float: right;
-    height: 18px;
+    height: 24px;
     transition: 0.2s all ease;
     margin: 4px;
+    opacity: 0.2;
 }
 
 .request-btn:hover {
     cursor: pointer;
-    filter: brightness(0.7);
+    opacity: 1;
+}
+
+.request-btn:active {
+    transform: scale(1.1);
+}
+
+.request-btn.active {
+    opacity: 0.9;
+    filter: brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(7497%) hue-rotate(259deg) brightness(90%) contrast(101%);
 }
 
 .resp {
@@ -153,15 +167,11 @@ body {
 .resp-key-buttons {
     float: right;
 
-    span {
-        margin-right: 8px;
-        font-family: var(--bs-body-font-family);
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    span:hover {
-        color: #6200cb;
+    img {
+        height: 18px;
+        margin: 4px;
+        position: relative;
+        top: -3px;
     }
 }
 
@@ -174,6 +184,10 @@ body {
 pre {
     font-family: Menlo, monospace !important;
     font-size: 16px !important;
+}
+
+.resp .value .wrap-pre {
+    width: 100%;
 }
 
 .badge {
@@ -323,7 +337,7 @@ pre {
 
 .table-container {
     border-radius: 12px;
-    overflow: hidden;
+    overflow-x: scroll;
     border: 1px solid #ddd;
     background-color: #fff;
 }
@@ -338,4 +352,10 @@ tbody > tr:last-child {
 
 .topology {
     display: none;
+}
+
+@media (max-width: 767px) {
+    .collable-button {
+        display: none;
+    }
 }

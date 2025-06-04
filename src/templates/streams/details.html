@@ -45,10 +45,12 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
       <div class="section">
         SQL statement
         <div class="resp-key-buttons">
-          <span href="#" onclick="copyAceEditorToClipboard('sql-statement');">Copy to clipboard</span>
+          <img src="/static/icons/copy.png" alt="Copy" onclick="copyEditor('sql-statement');" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy">
+
+          <img src="/static/icons/wrap.png" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')" class="request-btn" data-toggle="tooltip" data-placement="top" title="Wrap text">
         </div>
       </div>
-      <div id="sql-statement" class="ace-editor-custom">{{ stream.sourceDescription.statement }}</div>
+      <div id="sql-statement" class="ace-editor-custom width100">{{ stream.sourceDescription.statement }}</div>
       <textarea name="query" id="stream-state" hidden></textarea>
 
       <!-- Fields -->
@@ -87,6 +89,8 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
 
   document.addEventListener("DOMContentLoaded", function () {
     initAceEditor();
+    loadWrapText('sql-statement');
+
     const svgObj = initSvgCanvas();
     globalGraph = buildGraph("{{q}}");
     renderGraph(globalGraph, svgObj);

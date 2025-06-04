@@ -22,6 +22,22 @@ local:
 	PYTHONPATH=src \
 	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
+# Run app using env vars only
+usingenv:
+	PYTHONBREAKPOINT=ipdb.set_trace \
+	PYTHONPATH=src \
+	KSQLDB_UI__SERVERS__LOCALHOST__URL=http://local.ksqldb \
+	KSQLDB_UI__SERVERS__LOCALHOST__NAME=Localhost \
+	KSQLDB_UI__SERVERS__PRODUCTION__URL=http://prod.ksqldb \
+	KSQLDB_UI__SERVERS__PRODUCTION__DEFAULT=true \
+	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+
+# Run app using env vars only
+noconfig:
+	PYTHONBREAKPOINT=ipdb.set_trace \
+	PYTHONPATH=src \
+	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+
 # Run app on local machine (with prod config)
 prod:
 	PYTHONBREAKPOINT=ipdb.set_trace \

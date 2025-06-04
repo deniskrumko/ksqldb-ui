@@ -1,6 +1,7 @@
 import contextlib
 import datetime
 import json
+from collections import deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import (
@@ -78,6 +79,7 @@ def render_list(value: list | tuple) -> str:
 
 @dataclass
 class Options:
+    code: bool = False
     badge: bool = False
     ignored: bool = False
     breaked: bool = False
@@ -87,6 +89,7 @@ class Options:
     @classmethod
     def from_string(cls, value: str) -> "Options":
         return cls(
+            code=any(v in value for v in ["code", "pre"]),
             badge=any(v in value for v in ["badge", "pill"]),
             ignored=any(v in value for v in ["hide", "ignore", "ignored"]),
             breaked=any(v in value for v in ["br", "break", "breaked"]),
@@ -115,6 +118,9 @@ def render_value(
     else:
         opt = options or Options()
 
+    if opt.code:
+        return f"<code>{value}</code>"
+
     if opt.kafka_topic:
         return render_topic_link(
             request=kwargs["request"],
@@ -140,8 +146,12 @@ def render_value(
     if isinstance(value, (int, float)):
         return f"<code>{value}</code>"
 
-    if isinstance(value, str) and (value.isdigit() or value[1:].isdigit()):
-        return f"<code>{value}</code>"
+    if isinstance(value, str):
+        if value.isdigit() or value[1:].isdigit():
+            return f"<code>{value}</code>"
+
+        if value.startswith("http://") or value.startswith("https://"):
+            return render_link(value, classes="link-offset-2")
 
     if isinstance(value, (list, tuple)):
         if value and isinstance(value[0], (dict, Schema)):
@@ -152,7 +162,32 @@ def render_value(
     if isinstance(value, dict):
         return render_map(value, **(parent_options or {}))
 
+    if isinstance(value, deque):
+        value = list(reversed(value))
+        if value and hasattr(value[0], "keys"):
+            return render_table(value)
+        else:
+            return render_list(value)
+
     return str(value)
+
+
+@register
+def render_dict_table(data: dict, **kwargs: Any) -> str:
+    return render_table(
+        data=[{"key": k, "value": v} for k, v in data.items()],
+        cols=["key", "value"],
+        **kwargs,
+    )
+
+
+@register
+def render_list_table(data: list, col_name: str = "value", **kwargs: Any) -> str:
+    return render_table(
+        data=[{col_name: v} for v in data],
+        cols=[col_name],
+        **kwargs,
+    )
 
 
 @register
@@ -244,6 +279,7 @@ def render_kv(
     k: Any,
     v: Any,
     add_anchor: bool = False,
+    add_copy_button: bool = False,
     as_table: bool = False,
     **kwargs: Any,
 ) -> str:
@@ -261,10 +297,23 @@ def render_kv(
     else:
         v = render_json(v)
 
+    k_buttons = ""
+    if add_copy_button:
+        k_buttons += """
+        <img src="/static/icons/copy.png" alt="Copy" onclick="copyRespValue(this)"
+        class="request-btn"
+        data-toggle="tooltip" data-placement="top" title="Copy">
+        """
+
     id_tag = f'id="{k}"' if add_anchor else ""
     return f"""
     <div class="resp" {id_tag}>
-        <div class="key">{k}</div>
+        <div class="key">
+            {k}
+            <div class="resp-key-buttons">
+            {k_buttons}
+            </div>
+        </div>
         <div class="value">{v}</div>
     </div>
     """
@@ -284,7 +333,11 @@ def render_preprocessed_data(data: PreprocessedData) -> str:
     )
 
     for index, row in enumerate(data.rows, start=1):
-        result += render_kv(f"Row {index}/{len(data.rows)}", row)
+        result += render_kv(
+            k=f"Row {index}/{len(data.rows)}",
+            v=row,
+            add_copy_button=True,
+        )
     result += f'<div class="divider">{data.final_message}</div>'
     return result
 
@@ -324,7 +377,7 @@ def render_topic_link(
 def render_stream_link(request: Request, name: str, target: bool = False) -> str:
     """Render topic link (configured in settings)."""
     server = get_server(request)
-    href = f"/streams/{name}?{server.queue}"
+    href = f"/streams/{name}?{server.query}"
     return str(render_link(href, name, target))
 
 

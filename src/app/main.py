@@ -76,7 +76,7 @@ async def add_default_server(request: Request, call_next: Callable) -> Any:
         and not get_server_code(request, raise_exc=False)
     ):
         server: Server = app.settings.default_server
-        return RedirectResponse(f"?{server.queue}")
+        return RedirectResponse(f"?{server.query}")
 
     return await call_next(request)
 

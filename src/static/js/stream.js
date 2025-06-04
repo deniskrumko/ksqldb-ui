@@ -3,7 +3,6 @@ function initAceEditor() {
   var editor = ace.edit("sql-statement");
   editor.setTheme("ace/theme/chrome");
   editor.session.setMode("ace/mode/sql");
-  editor.session.setUseWrapMode(true);
   editor.setReadOnly(true);
 }
 

@@ -5,7 +5,7 @@
   <br>
   <h1 class="display-4">OMG 😱 Exception happened</h1>
   <p>
-    Your active ksqlDB server is <b>{{ current_server.display_name }}</b>:
+    Your selected ksqlDB server is <b>{{ current_server.display_name }}</b>:
     {{ render_link(current_server.simple_url, classes='link-offset-2')|safe }}
   </p>
   <br>
@@ -69,6 +69,7 @@
     </div>
   </div>
   {% endif %}
+  {{ render_link("/debug", "Debug page")|safe }}
   <br><br>
 </div>
 {% endblock %}

@@ -12,10 +12,10 @@ services:
     # build: .
     environment:
       APP_CONFIG: /config.toml
+      KSQLDB_UI__SERVERS__LOCALHOST__URL: http://ksqldb:8088
+      KSQLDB_UI__SERVERS__LOCALHOST__TOPIC_LINK: http://localhost:8090/topics/{}
     networks:
       - ksqldb_test_network
-    volumes:
-      - ./config/compose.toml:/config.toml
     ports:
       - 8080:8080
 

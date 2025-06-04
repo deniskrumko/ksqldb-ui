@@ -13,7 +13,8 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     <div class="col-md-6" id="col-left-collapsable">
       <h2 class="title-h2">
         Request to {{ current_server.display_name }}
-        <img src="/static/icons/clipboard.svg" alt="Copy" id="clipboard" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+        <img src="/static/icons/copy.png" alt="Copy" onclick="copyEditor('editor')" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy request">
+        <img src="/static/icons/wrap.png" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" class="request-btn" data-toggle="tooltip" data-placement="top" title="Wrap text">
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
         <!-- EDITOR -->
@@ -156,19 +157,8 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     editor.style.height = newHeight + 'px';
   }
 
-  // Call the function on page load
-  adjustEditorHeight();
-
   // Recalculate on window resize
   window.addEventListener('resize', adjustEditorHeight);
-
-  $('#clipboard').on('click', function() {
-    var sel = editor.selection.toJSON(); // save selection
-    editor.selectAll();
-    editor.focus();
-    document.execCommand('copy');
-    editor.selection.fromJSON(sel); // restore selection
-  });
 
   $('#collapse-left-button').on('click', function() {
     $('#col-left-collapsable').toggle();
@@ -212,7 +202,12 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     readOnly: false // false если команда должна быть доступна в режиме редактирования
   });
 
-editor.focus();
+  document.addEventListener("DOMContentLoaded", function() {
+    adjustEditorHeight();
+    loadWrapText('editor');
+    editor.focus();
+  });
+
 </script>
 
 {% endblock %}

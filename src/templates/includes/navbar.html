@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg" data-bs-theme="dark" id="navbar">
   <div class="nav-container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/requests{% if current_server %}?{{current_server.query}}{% endif %}">
       <img src="/static/images/logo.png" alt="ksqldb-ui" width="36" height="36">
       <span id="logo">ksqldb-ui</span>
     </a>
