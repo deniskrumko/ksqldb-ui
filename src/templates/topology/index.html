@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB UI - Topology - {{ current_server.display_name }}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/stream.css">
+<link rel="stylesheet" href="/static/css/topology.css">
+{% endblock %}
+
+{% block body %}
+<div class="my-container">
+  <h2 class="title-h2">
+    Streams and queries topology for {{ current_server.display_name }}
+  </h2>
+
+  <!-- Hidden data -->
+  {% for stream in streams %}
+  <div class="topology stream" data-name="{{stream.name}}" data-topic="{{stream.topic}}"></div>
+  {% for query in stream["readQueries"] %}
+  {% for sink in query["sinks"] %}
+  <div class="topology query" data-name="{{query.id}}" data-state="{{query.state}}" data-source="{{stream.name}}"
+    data-sink="{{sink}}"></div>
+  {% endfor %}
+  {% endfor %}
+  {% endfor %}
+
+  <!-- SVG -->
+  <div id="svg-parent"></div>
+
+  <!-- Original response -->
+  {% include "includes/hidden_response_details.html" %}
+</div>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"
+  integrity="sha512-vc58qvvBdrDR4etbxMdlTt4GBQk1qjvyORR2nrsPsFPyrs+/u5c3+1Ct6upOgdZoIl7eq6k3a1UPDSNAQi/32A=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre-d3/0.6.4/dagre-d3.min.js"
+  integrity="sha512-fdYLm4hXxJ/tPMptvdDDwuJme6jTgvoZ0g6pflEkyG9MqPejLspnCjkwX3bD69GFT2N/refZGjPr6b9RdoCyxQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/static/js/stream.js"></script>
+<script src="/static/js/topology.js"></script>
+<script>
+  let globalGraph = null;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Load global topology
+    initSvgCanvas();
+    globalGraph = buildTopology("{{q}}");
+    renderGraph(globalGraph);
+
+    // Init all tooltips
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+  window.addEventListener('resize', function () {
+    renderGraph(globalGraph);
+  });
+</script>
+{% endblock %}

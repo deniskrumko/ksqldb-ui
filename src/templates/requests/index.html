@@ -74,7 +74,7 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
           {% if x_response.data %}
             <div>
               {% for section in x_response.data %}
-                {{render_map(section)|safe}}
+                {{render_section(section)|safe}}
 
                 {% if not loop.last %}
                 <div class="divider">Next statement</div>

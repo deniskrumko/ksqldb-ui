@@ -12,13 +12,21 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
 <div class="my-container">
   <div class="row">
     <div class="col">
-      <h2 class="title-h2">Query {{ query.queryDescription.id }} on {{ current_server.display_name }}</h2>
+      <h2 class="title-h2">Query <span>{{ query.queryDescription.id }}</span> on {{ current_server.display_name }}</h2>
 
       <!-- Bubbles -->
       {{ render_bubbles(query.queryDescription, keys=["state", "queryType"], lower=True)|safe}}
 
       <!-- Topology -->
-      <div class="section">Query topology</div>
+      <div class="section">
+        Query topology
+
+        <div class="resp-key-buttons">
+          <a href="/topology/?{{current_server.query}}&highlight={{ query.queryDescription.id }}">
+            <img src="/static/icons/open-link.png" class="request-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="Open full">
+          </a>
+        </div>
+      </div>
 
       <div class="topology current" data-name="{{query.queryDescription.id}}"></div>
       {% for source in query.queryDescription.sources %}
@@ -56,7 +64,6 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
       {% endif %}
 
       <!-- Original data -->
-      <br>
       {% include "includes/hidden_response_details.html" %}
     </div>
   </div>

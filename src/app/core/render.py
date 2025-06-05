@@ -59,7 +59,7 @@ class BootstrapLevel(Enum):
 
 
 @register
-def render_map(response: dict, **kwargs: Any) -> str:
+def render_section(response: dict, **kwargs: Any) -> str:
     if (
         response.get("error_code") == KsqlErrors.BAD_STATEMENT.value
     ) and "Syntax Error" in response.get("message", ""):
@@ -73,8 +73,13 @@ def render_map(response: dict, **kwargs: Any) -> str:
 
 
 @register
-def render_list(value: list | tuple) -> str:
-    return "<br>".join(render_value(v) for v in value)
+def render_list(value: list | tuple, enum: bool = False) -> str:
+    """Render plain list."""
+    rendered_values = (render_value(v) for v in value)
+    if enum:
+        rendered_values = (f"{i}. {val}" for i, val in enumerate(rendered_values, start=1))
+
+    return "<br>".join(rendered_values)
 
 
 @dataclass
@@ -159,8 +164,9 @@ def render_value(
 
         return render_list(value)
 
+    # TODO: Maybe change to different renderer
     if isinstance(value, dict):
-        return render_map(value, **(parent_options or {}))
+        return render_section(value, **(parent_options or {}))
 
     if isinstance(value, deque):
         value = list(reversed(value))

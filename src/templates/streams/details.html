@@ -13,7 +13,7 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
   <div class="row">
     <div class="col">
       <h2 class="title-h2">
-        Stream <span class="accent-text">{{ stream.sourceDescription.name }}</span> on {{ current_server.display_name }}
+        Stream <span>{{ stream.sourceDescription.name }}</span> on {{ current_server.display_name }}
       </h2>
 
       <!-- Bubbles -->
@@ -21,7 +21,14 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
       "replication",])|safe}}
 
       <!-- Topology -->
-      <div class="section">Stream topology</div>
+      <div class="section">
+        Stream topology
+        <div class="resp-key-buttons">
+          <a href="/topology/?{{current_server.query}}&highlight={{ stream.sourceDescription.name }}">
+            <img src="/static/icons/open-link.png" class="request-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="Open full">
+          </a>
+        </div>
+      </div>
       <div class="topology current" data-name="{{stream.sourceDescription.name}}"></div>
       {% for query in stream.sourceDescription.readQueries %}
       <div class="topology read-query" data-name="{{query.id}}">
@@ -67,7 +74,6 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
       {% endif %}
 
       <!-- Original data -->
-      <br>
       {% include "includes/hidden_response_details.html" %}
     </div>
   </div>

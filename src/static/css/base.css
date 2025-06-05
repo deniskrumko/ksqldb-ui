@@ -132,6 +132,10 @@ body {
     margin: 12px 0px 6px 0px;
 }
 
+.title-h2 > span {
+    color: #6200cb;
+}
+
 .section {
     font-size: 24px;
     line-height: 20px;
@@ -224,6 +228,14 @@ pre {
 
 .breaked {
     word-break: break-word !important;
+}
+
+.nopadding {
+    padding: 0px !important;
+}
+
+.nomargin {
+    margin: 0px !important;
 }
 
 .btn-original-response {
