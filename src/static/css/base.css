@@ -42,6 +42,11 @@ body {
     padding: 10px 10px 16px 10px;
 }
 
+.hint {
+    color: #999;
+    font-size: 12px;
+}
+
 .navbar-brand {
     transition: all 0.3s ease;
 }

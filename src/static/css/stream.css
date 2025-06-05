@@ -1,6 +1,12 @@
-#svg-canvas {
+#svg-parent {
+    overflow: scroll;
+    width: 100%;
     border: 1px solid #ddd;
     border-radius: 12px;
+}
+
+#svg-canvas {
+
     background-color: #fff;
 }
 

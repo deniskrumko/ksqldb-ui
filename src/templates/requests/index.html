@@ -180,11 +180,7 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     $('#col-left-collapsable').toggleClass('col-md-12');
   });
 
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-  // Добавление команды для перехвата Shift + Enter
+  // Send form on Shift + Enter
   editor.commands.addCommand({
     name: 'submitForm',
     bindKey: {win: 'Shift-Enter', mac: 'Shift-Enter'},
@@ -199,13 +195,17 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
         showLoadingAnimation();
         document.getElementById('editorForm').submit();
     },
-    readOnly: false // false если команда должна быть доступна в режиме редактирования
+    readOnly: false
   });
 
   document.addEventListener("DOMContentLoaded", function() {
+    // Load editor
     adjustEditorHeight();
     loadWrapText('editor');
     editor.focus();
+
+    // Init all tooltips
+    $('[data-toggle="tooltip"]').tooltip()
   });
 
 </script>
