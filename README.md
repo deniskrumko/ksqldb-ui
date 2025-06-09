@@ -143,15 +143,16 @@ url = "http://localhost:8090"
 
 **Parameters description**
 
-| Parameter                       | Description                                                                                             | Default | Required |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|---------|----------|
-| `http.timeout`                  | Timeout in seconds for ksqldb requests                                                                  | 5       | no       |
-| `history.enabled`               | Enable request history. Every user will see common history                                              | true    | no       |
-| `history.size`                  | how many requests will be saved to history (works as queue)                                             | 50      | no       |
-| `server.<code>.url`             | URL to ksqldb server API                                                                                |         | yes      |
-| `server.<code>.name`            | custom name of environment (if empty - use server code)                                                 |         | no       |
-| `server.<code>.topic_link`      | link to redirect to Kafka UI to see topic messages. Topic name is passed to `{}` placeholder in the URL |         | no       |
-| `server.<code>.warning_message` | This message will be displayed as warning on every page in UI                                           |         | no       |
+| Parameter                       | Description                                                                                                                          | Default | Required |
+|---------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------|----------|
+| `http.timeout`                  | Timeout in seconds for ksqldb requests                                                                                               | 5       | no       |
+| `history.enabled`               | Enable request history. Every user will see common history                                                                           | true    | no       |
+| `history.size`                  | how many requests will be saved to history (works as queue)                                                                          | 50      | no       |
+| `server.<code>.url`             | URL to ksqldb server API                                                                                                             |         | yes      |
+| `server.<code>.name`            | custom name of environment (if empty - use server code)                                                                              |         | no       |
+| `server.<code>.topic_link`      | link to redirect to Kafka UI to see topic messages. Topic name is passed to `{}` placeholder in the URL                              |         | no       |
+| `server.<code>.warning_message` | This message will be displayed as warning on every page in UI                                                                        |         | no       |
+| `server.<code>.filters`         | Filter groups for stream/query list pages. Allows to quick search keyword in stream/query name. Must be a list of lists with strings |         | no       |
 
 ## Using only environment variables
 
@@ -172,6 +173,7 @@ url = 'http://localhost:8080'
 
 [servers.production]
 url = 'http://production:8080'
+filters = [['Alice', 'Bob'], ['Red', 'Green', 'Yellow']]
 ```
 
 ... can be replaces using these env vars:
@@ -180,6 +182,7 @@ url = 'http://production:8080'
 KSQLDB_UI__HTTP__TIMEOUT=60
 KSQLDB_UI__SERVERS__LOCALHOST__URL=http://localhost:8080
 KSQLDB_UI__SERVERS__PRODUCTION__URL=http://production:8080
+KSQLDB_UI__SERVERS__PRODUCTION__FILTERS="[['Alice', 'Bob'], ['Red', 'Green', 'Yellow']]"
 ```
 
 Notes:

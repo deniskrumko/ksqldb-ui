@@ -34,6 +34,7 @@ class Server(LowercaseKeyMixin, BaseModel):
     url: str
     name: str | None = None
     default: bool = False
+    filters: list[list[str]] | None = None
     topic_link: str | None = None
     warning_message: str | None = None
 
@@ -112,6 +113,10 @@ class Settings(BaseModel):
         return [
             f"{ENV_VAR_PREFIX}__{key.replace('.', '__').upper()}" for key in self.as_flatten_dict
         ]
+
+    @property
+    def sorted_servers(self) -> list[Server]:
+        return sorted(self.servers.values(), key=lambda x: x.code)
 
 
 SETTINGS: Optional[Settings] = None

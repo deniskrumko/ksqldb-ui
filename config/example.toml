@@ -10,6 +10,7 @@ name = "Production"
 url = 'http://your-production-ksqldb.com'
 topic_link = 'http://your-production-kafka-ui.com/topics/{}'
 warning_message = '⚠️ This is a production environment! Please do not modify existing streams/queries.'
+filters = [['Alice', 'Bob'], ['Red', 'Green', 'Yellow']]
 
 [servers.dev]
 name = "Development"
