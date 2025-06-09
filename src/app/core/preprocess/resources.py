@@ -86,7 +86,45 @@ def parse_schema_list(fields_str: str) -> list[Schema]:
 
 
 @dataclass
-class PreprocessedData:
+class SelectResult:
     rows: list
     schema_list: list[Schema] | None = None
     final_message: str | None = None
+
+    def render(self) -> str:
+        """Render preprocessed data."""
+        from ..render import (
+            Options,
+            render_kv,
+        )
+
+        result = render_kv(
+            "Schema",
+            self.schema_list,
+            as_table=True,
+            show_line_numbers=False,
+            options={
+                "type": Options(badge=True),
+            },
+        )
+
+        for index, row in enumerate(self.rows, start=1):
+            result += render_kv(
+                k=f"Row {index}/{len(self.rows)}",
+                v=row,
+                add_copy_button=True,
+            )
+        result += f'<div class="divider">{self.final_message}</div>'
+        return result
+
+
+@dataclass
+class TableRenderer:
+    items: list[dict]
+    cols: list[str] | None = None
+    options: dict[str, str] | None = None
+
+    def render(self) -> str:
+        from ..render import render_table
+
+        return render_table(self.items, cols=self.cols, options=self.options)  # type: ignore

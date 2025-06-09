@@ -1,12 +1,24 @@
+from typing import (
+    Protocol,
+    runtime_checkable,
+)
+
 import httpx
 
 from .resources import (
-    PreprocessedData,
+    SelectResult,
+    TableRenderer,
     parse_schema_list,
 )
 
 
-def preprocess_data(response: httpx.Response) -> PreprocessedData | None:
+@runtime_checkable
+class Renderable(Protocol):
+    def render(self) -> str:
+        pass
+
+
+def preprocess_data(response: httpx.Response) -> Renderable | None:
     """Preprocess data from ksqlDB response."""
     if response.status_code != 200:
         return None
@@ -18,10 +30,44 @@ def preprocess_data(response: httpx.Response) -> PreprocessedData | None:
     if "header" in data[0]:
         return preprocess_select(data)
 
+    resp_type = data[0].get("@type")
+    if resp_type == "function_names":
+        return TableRenderer(items=data[0]["functions"], options={"type": "badge"})
+
+    if resp_type == "properties":
+        return TableRenderer(items=data[0]["properties"])
+
+    if resp_type == "queries":
+        return TableRenderer(
+            items=data[0]["queries"],
+            cols=[
+                "id",
+                "queryType",
+                "state",
+                "sinks",
+                "sinkKafkaTopics",
+                "queryString",
+            ],
+            options={
+                "queryString": "collapse",
+                "queryType": "badge",
+                "state": "badge",
+            },
+        )
+
+    if resp_type == "streams":
+        return TableRenderer(
+            items=data[0]["streams"],
+            options={
+                "keyFormat": "badge",
+                "valueFormat": "valueFormat",
+            },
+        )
+
     return None
 
 
-def preprocess_select(data: list) -> PreprocessedData:
+def preprocess_select(data: list) -> SelectResult:
     """Preprocess SELECT query data from ksqlDB response."""
     # Extract schema from header
     header = data[0].get("header", {})
@@ -35,7 +81,7 @@ def preprocess_select(data: list) -> PreprocessedData:
             preprocessed_row = {col.name: val for col, val in zip(schema_list, row)}
             preprocessed_data.append(preprocessed_row)
 
-    return PreprocessedData(
+    return SelectResult(
         rows=preprocessed_data,
         schema_list=schema_list,
         final_message=data[-1].get("finalMessage"),

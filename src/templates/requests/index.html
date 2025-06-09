@@ -68,7 +68,7 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
         {% endif%}
 
         {% if preprocessed_data %}
-          {{render_preprocessed_data(preprocessed_data)|safe}}
+          {{ render_value(preprocessed_data)|safe}}
         {% elif x_response %}
           <!-- Show JSON response -->
           {% if x_response.data %}
