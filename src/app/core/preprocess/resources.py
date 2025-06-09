@@ -1,23 +1,11 @@
 from dataclasses import dataclass
-from typing import Any
 
 
 @dataclass
 class Schema:
     name: str
-    type_: str
+    type: str
     fields: list["Schema"] | None = None
-
-    def keys(self) -> list[str]:
-        """Return keys of the schema."""
-        return ["name", "type", "fields"]
-
-    def get(self, key: str) -> Any:
-        """Get value by key."""
-        if key == "type":
-            return self.type_
-
-        return getattr(self, key)
 
 
 def parse_schema_list(fields_str: str) -> list[Schema]:
@@ -75,7 +63,7 @@ def parse_schema_list(fields_str: str) -> list[Schema]:
         fields.append(
             Schema(
                 name=name,
-                type_=type_,
+                type=type_,
                 fields=nested,
             ),
         )
@@ -105,6 +93,7 @@ class SelectResult:
             show_line_numbers=False,
             options={
                 "type": Options(badge=True),
+                "fields": Options(hide_empty_column=True),
             },
         )
 

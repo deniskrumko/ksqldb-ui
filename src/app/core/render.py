@@ -14,7 +14,6 @@ from typing import (
 from fastapi.requests import Request
 
 from .ksqldb import KsqlErrors
-from .preprocess import Schema
 from .settings import get_server
 from .utils import ContextResponse
 
@@ -82,13 +81,29 @@ def render_list(value: list | tuple, enum: bool = False) -> str:
 
 @dataclass
 class Options:
+    # Wrap as code
     code: bool = False
+
+    # Render as badge
     badge: bool = False
+
+    # Don't display value
     ignored: bool = False
+
+    # Word break
     breaked: bool = False
+
+    # Render timestamp as datetime
     timestamp: bool = False
+
+    # Render kafka topic as link
     kafka_topic: bool = False
+
+    # Render as collapsible element
     collapsible: bool = False
+
+    # Hide table elements if empty
+    hide_empty_column: bool = False
 
     @classmethod
     def from_string(cls, value: str) -> "Options":
@@ -100,6 +115,7 @@ class Options:
             timestamp=any(v in value for v in ["timestamp", "ts"]),
             kafka_topic=any(v in value for v in ["topic", "kafka_topic"]),
             collapsible=any(v in value for v in ["collapsible", "collapse"]),
+            hide_empty_column=any(v in value for v in ["empty_column"]),
         )
 
 
@@ -165,7 +181,7 @@ def render_value(
             return render_link(value, classes="link-offset-2")
 
     if isinstance(value, (list, tuple)):
-        if value and isinstance(value[0], (dict, Schema)):
+        if value and (isinstance(value[0], dict) or dataclasses.is_dataclass(value[0])):
             return render_table(list(value), **(parent_options or {}))
 
         return render_list(value)
@@ -216,44 +232,53 @@ def render_table(
     :param cols: list of columns to display. If None, then autodetect columns from first entry.
     :param options: formatting options for each col
     """
+
+    def get_value(obj: object, name: str) -> Any:
+        if dataclasses.is_dataclass(obj):
+            return getattr(obj, name)
+        return obj.get(name)
+
     if not data:
         return ""
 
+    first_el = data[0]
     opts: dict[str, Options] = {
         k: Options.from_string(v) if isinstance(v, str) else v for k, v in (options or {}).items()
     }
 
-    if not cols and not hasattr(data[0], "keys"):
-        raise TypeError(f"Object of type {type(data[0])} has no methods keys()")
+    columns_keys = cols
+    if not columns_keys:
+        if hasattr(first_el, "keys"):
+            columns_keys = list(first_el.keys())
+        elif dataclasses.is_dataclass(first_el):
+            columns_keys = [field.name for field in dataclasses.fields(first_el)]
+        else:
+            raise TypeError(f"Object of type {type(first_el)} has no methods keys()")
 
-    columns_keys = cols or list(data[0].keys())
+    filtered_columns_keys = []
     columns = '<th scope="col">#</th>' if show_line_numbers else ""
     for col in columns_keys:
-        if col in opts and opts[col].ignored:
-            continue
+        if opt := opts.get(col):
+            if opt.ignored:
+                continue
+            if opt.hide_empty_column:
+                if not any(get_value(item, col) for item in data):
+                    continue
 
         columns += f'\n<th scope="col">{col.title()}</th>'
+        filtered_columns_keys.append(col)
 
     body = ""
     for i, item in enumerate(data, start=1):
         item_body = f'<th scope="row">{i}</th>' if show_line_numbers else ""
-        for col in columns_keys:
+        for col in filtered_columns_keys:
             opt = opts.get(col, Options())
-            if opt.ignored:
-                continue
-
             td_class = ""
             if opt.breaked:
                 td_class += "breaked"
 
-            value = None
-            if dataclasses.is_dataclass(item):
-                value = getattr(item, col)
-            else:
-                value = item.get(col)
-
             rendered_value = render_value(
-                value=value,
+                value=get_value(item, col),
                 options=opt,
                 parent_options={
                     "cols": cols,
@@ -441,5 +466,6 @@ def render_stream_fields(data: list) -> str:
         cols=["name", "type", "fields"],
         options={
             "type": Options(badge=True),
+            "fields": Options(hide_empty_column=True),
         },
     )
