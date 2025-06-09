@@ -65,3 +65,4 @@ check:
 	isort .
 	flake8 .
 	mypy .
+	@$(MAKE) tests

@@ -119,7 +119,7 @@ SETTINGS: Optional[Settings] = None
 
 def init_settings(settings: Settings) -> None:
     if not isinstance(settings, Settings):
-        raise TypeError('Settings must be <Settings> instance')
+        raise TypeError("Settings must be <Settings> instance")
 
     global SETTINGS
     SETTINGS = settings

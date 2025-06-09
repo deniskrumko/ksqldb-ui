@@ -1,4 +1,5 @@
 import contextlib
+import dataclasses
 import datetime
 import json
 from collections import deque
@@ -13,10 +14,7 @@ from typing import (
 from fastapi.requests import Request
 
 from .ksqldb import KsqlErrors
-from .preprocess import (
-    PreprocessedData,
-    Schema,
-)
+from .preprocess import Schema
 from .settings import get_server
 from .utils import ContextResponse
 
@@ -59,7 +57,7 @@ class BootstrapLevel(Enum):
 
 
 @register
-def render_map(response: dict, **kwargs: Any) -> str:
+def render_section(response: dict, **kwargs: Any) -> str:
     if (
         response.get("error_code") == KsqlErrors.BAD_STATEMENT.value
     ) and "Syntax Error" in response.get("message", ""):
@@ -73,8 +71,13 @@ def render_map(response: dict, **kwargs: Any) -> str:
 
 
 @register
-def render_list(value: list | tuple) -> str:
-    return "<br>".join(render_value(v) for v in value)
+def render_list(value: list | tuple, enum: bool = False) -> str:
+    """Render plain list."""
+    rendered_values = (render_value(v) for v in value)
+    if enum:
+        rendered_values = (f"{i}. {val}" for i, val in enumerate(rendered_values, start=1))
+
+    return "<br>".join(rendered_values)
 
 
 @dataclass
@@ -85,6 +88,7 @@ class Options:
     breaked: bool = False
     timestamp: bool = False
     kafka_topic: bool = False
+    collapsible: bool = False
 
     @classmethod
     def from_string(cls, value: str) -> "Options":
@@ -95,6 +99,7 @@ class Options:
             breaked=any(v in value for v in ["br", "break", "breaked"]),
             timestamp=any(v in value for v in ["timestamp", "ts"]),
             kafka_topic=any(v in value for v in ["topic", "kafka_topic"]),
+            collapsible=any(v in value for v in ["collapsible", "collapse"]),
         )
 
 
@@ -133,6 +138,12 @@ def render_value(
     if opt.badge:
         return f'<span class="badge text-bg-purple">{value}</span>'
 
+    if opt.collapsible:
+        return f"<details><summary>Collapsed</summary>{value}</details>"
+
+    if hasattr(value, "render"):
+        return str(value.render())
+
     if value is True or (isinstance(value, str) and value.lower() == "true"):
         return '<span class="badge text-bg-success">true</span>'
 
@@ -159,8 +170,9 @@ def render_value(
 
         return render_list(value)
 
+    # TODO: Maybe change to different renderer
     if isinstance(value, dict):
-        return render_map(value, **(parent_options or {}))
+        return render_section(value, **(parent_options or {}))
 
     if isinstance(value, deque):
         value = list(reversed(value))
@@ -211,6 +223,9 @@ def render_table(
         k: Options.from_string(v) if isinstance(v, str) else v for k, v in (options or {}).items()
     }
 
+    if not cols and not hasattr(data[0], "keys"):
+        raise TypeError(f"Object of type {type(data[0])} has no methods keys()")
+
     columns_keys = cols or list(data[0].keys())
     columns = '<th scope="col">#</th>' if show_line_numbers else ""
     for col in columns_keys:
@@ -231,8 +246,14 @@ def render_table(
             if opt.breaked:
                 td_class += "breaked"
 
-            value = render_value(
-                value=item.get(col),
+            value = None
+            if dataclasses.is_dataclass(item):
+                value = getattr(item, col)
+            else:
+                value = item.get(col)
+
+            rendered_value = render_value(
+                value=value,
                 options=opt,
                 parent_options={
                     "cols": cols,
@@ -242,7 +263,7 @@ def render_table(
                 },
                 **kwargs,
             )
-            item_body += f"\n<td class={td_class}>{value}</td>"
+            item_body += f"\n<td class={td_class}>{rendered_value}</td>"
 
         body += f"<tr>{item_body}</tr>"
 
@@ -317,29 +338,6 @@ def render_kv(
         <div class="value">{v}</div>
     </div>
     """
-
-
-@register
-def render_preprocessed_data(data: PreprocessedData) -> str:
-    """Render preprocessed data."""
-    result = render_kv(
-        "Schema",
-        data.schema_list,
-        as_table=True,
-        show_line_numbers=False,
-        options={
-            "type": Options(badge=True),
-        },
-    )
-
-    for index, row in enumerate(data.rows, start=1):
-        result += render_kv(
-            k=f"Row {index}/{len(data.rows)}",
-            v=row,
-            add_copy_button=True,
-        )
-    result += f'<div class="divider">{data.final_message}</div>'
-    return result
 
 
 @register

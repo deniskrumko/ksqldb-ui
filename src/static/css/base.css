@@ -42,6 +42,11 @@ body {
     padding: 10px 10px 16px 10px;
 }
 
+.hint {
+    color: #999;
+    font-size: 12px;
+}
+
 .navbar-brand {
     transition: all 0.3s ease;
 }
@@ -125,6 +130,10 @@ body {
     font-weight: 400;
     font-family: Zain, Menlo, Arial, sans-serif !important;
     margin: 12px 0px 6px 0px;
+}
+
+.title-h2 > span {
+    color: #6200cb;
 }
 
 .section {
@@ -219,6 +228,14 @@ pre {
 
 .breaked {
     word-break: break-word !important;
+}
+
+.nopadding {
+    padding: 0px !important;
+}
+
+.nomargin {
+    margin: 0px !important;
 }
 
 .btn-original-response {

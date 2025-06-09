@@ -1,3 +1,5 @@
+const svgMargin = 40;
+
 // Initializes the Ace editor for displaying the SQL statement.
 function initAceEditor() {
   var editor = ace.edit("sql-statement");
@@ -115,8 +117,29 @@ function buildGraph(query) {
   return g;
 }
 
+// Initializes the SVG canvas for the topology graph.
+function initSvgCanvas() {
+  const svgParent = document.getElementById("svg-parent");
+  let svgObj = document.getElementById("svg-canvas");
+  if (!svgObj) {
+    svgObj = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgObj.setAttribute("id", "svg-canvas");
+    svgParent.appendChild(svgObj);
+  }
+
+  svgObj.setAttribute("width", "200");
+  svgObj.setAttribute("height", "10");
+  return svgObj;
+}
+
 // Renders the dagreD3 graph inside the SVG element.
-function renderGraph(g, svgObj) {
+function renderGraph(g, recenter=false) {
+  const svgObj = document.getElementById("svg-canvas");
+  if (!svgObj) {
+    console.error('SVG object not initialized yet');
+    return;
+  }
+
   // Clear previous content
   while (svgObj.firstChild) {
     svgObj.removeChild(svgObj.firstChild);
@@ -131,35 +154,24 @@ function renderGraph(g, svgObj) {
   // Make node labels clickable
   d3.selectAll("g.node a").style("pointer-events", "all");
 
+  let innerHeight = g.graph().height + svgMargin;
+  let innerWidth = g.graph().width + svgMargin;
+
+  const svgParent = document.getElementById("svg-parent");
+  const pageWidth = (svgParent.offsetWidth || document.body.offsetWidth || 960) - 2;
+  if (innerWidth < pageWidth) {
+    innerWidth = pageWidth;
+  }
+
+  svgObj.setAttribute("height", innerHeight);
+  svgObj.setAttribute("width", innerWidth);
+
   // Center the graph
   var width = parseInt(svgObj.getAttribute("width"), 10) || 960;
   var xCenterOffset = (width - g.graph().width) / 2;
   svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
-  svgObj.setAttribute("height", g.graph().height + 40);
-}
 
-// Initializes the SVG canvas for the topology graph.
-function initSvgCanvas() {
-  const svgParent = document.getElementById("svg-parent");
-  const pageWidth = svgParent.offsetWidth || document.body.offsetWidth || 960;
-  let svgObj = document.getElementById("svg-canvas");
-  if (!svgObj) {
-    svgObj = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgObj.setAttribute("id", "svg-canvas");
-    svgParent.appendChild(svgObj);
-  }
-  svgObj.setAttribute("width", pageWidth);
-  svgObj.setAttribute("height", "10");
-  return svgObj;
-}
-
-// Handles window resize event to update the SVG graph width and re-render.
-function handleResize(g) {
-  const svgParent = document.getElementById("svg-parent");
-  const svgObj = document.getElementById("svg-canvas");
-  if (svgParent && svgObj && g) {
-    const newWidth = svgParent.offsetWidth || document.body.offsetWidth || 960;
-    svgObj.setAttribute("width", newWidth);
-    renderGraph(g, svgObj);
+  if (recenter && innerWidth > pageWidth) {
+    svgParent.scrollLeft = (innerWidth - pageWidth) / 2 + svgMargin;
   }
 }
