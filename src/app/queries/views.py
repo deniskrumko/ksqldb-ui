@@ -27,7 +27,7 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
         "queries/list.html",
         request=request,
         response=response,
-        queries=data[0]["queries"],
+        queries=sorted(data[0]["queries"], key=lambda x: x["id"]),
         **(extra_context or {}),
     )
 

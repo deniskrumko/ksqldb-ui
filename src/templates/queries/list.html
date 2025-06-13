@@ -17,6 +17,8 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
 
   <h2 class="title-h2">Queries on {{ current_server.display_name }}</h2>
 
+  {% include "includes/list_page_filters.html" %}
+
   <table class="table nomargin">
     <thead>
       <tr>
@@ -29,7 +31,7 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
     </thead>
     <tbody>
       {% for query in queries %}
-      <tr>
+      <tr class="list-view-row" data-filter-name="{{ query.id }}">
         <th scope="row">{{ loop.index }}</th>
         <td>
           <a href="/queries/{{ query.id }}?{{q}}" class="link-offset-2 link-sm breaked">{{ query.id }}</a>
@@ -83,4 +85,5 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
 {% block js %}
 {{ super() }}
 <script src="/static/js/modal_delete.js"></script>
+<script src="/static/js/list_page.js"></script>
 {% endblock %}

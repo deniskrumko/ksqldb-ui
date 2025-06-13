@@ -24,8 +24,8 @@
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector"
           onchange="this.options[this.selectedIndex].value && (window.location = '?{{server_query_param}}=' + this.options[this.selectedIndex].value);">
-          {% for code, server in request.app.settings.servers.items() %}
-          <option value="{{code}}" {% if current_server.code==code %}selected{% endif %}>
+          {% for server in request.app.settings.sorted_servers %}
+          <option value="{{server.code}}" {% if current_server.code==server.code %}selected{% endif %}>
             {{server.display_name}}
           </option>
           {% endfor %}

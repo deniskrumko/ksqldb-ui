@@ -371,6 +371,50 @@ tbody > tr:last-child {
     display: none;
 }
 
+#filters {
+    display: block;
+}
+
+.filter-group {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#filter-reset, .filter-item {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.2s ease all;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#filter-reset {
+    background-color: #f8f5fb;
+    color: #aaa;
+    padding-left: 0;
+}
+
+#filter-reset:hover {
+    color: #000;
+}
+
+.filter-item {
+    background-color: #ece8f0;
+}
+
+.filter-item:hover {
+    background-color: #e1dbe6;
+}
+
+.filter-item.active {
+    background-color: #6200cb;
+    color: #ededed;
+}
+
 @media (max-width: 767px) {
     .collable-button {
         display: none;

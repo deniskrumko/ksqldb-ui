@@ -16,6 +16,9 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
   {% endif %}
 
   <h2 class="title-h2">Streams on {{ current_server.display_name }}</h2>
+
+  {% include "includes/list_page_filters.html" %}
+
   <table class="table nomargin">
     <thead>
       <tr>
@@ -28,7 +31,7 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
     </thead>
     <tbody>
       {% for stream in streams %}
-      <tr>
+      <tr class="list-view-row" data-filter-name="{{ stream.name }}">
         <th scope="row">{{ loop.index }}</th>
         <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
         <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
@@ -59,4 +62,5 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
 {% block js %}
 {{ super() }}
 <script src="/static/js/modal_delete.js"></script>
+<script src="/static/js/list_page.js"></script>
 {% endblock %}

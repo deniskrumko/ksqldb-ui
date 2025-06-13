@@ -1,0 +1,12 @@
+{% if current_server.filters %}
+<div id="filters">
+  {% for filters_group in current_server.filters %}
+  <div class="filter-group">
+    {% for f in filters_group %}
+    <div class="filter-item">{{ f }}</div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  <div id="filter-reset">Reset</div>
+</div>
+{% endif %}

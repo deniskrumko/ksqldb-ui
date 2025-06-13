@@ -28,7 +28,7 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
         "streams/list.html",
         request=request,
         response=response,
-        streams=data[0]["streams"],
+        streams=sorted(data[0]["streams"], key=lambda x: x["name"]),
         **(extra_context or {}),
     )
 
