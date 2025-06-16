@@ -1,3 +1,5 @@
+IMAGE=ksqldb-ui:local
+
 # DOCKER COMPOSE
 # ==============
 
@@ -11,6 +13,15 @@ down:
 
 logs:
 	docker-compose logs ksqldb-ui -f
+
+# DOCKER
+# ======
+
+docker-build:
+	docker build . -t ${IMAGE} --build-arg KSQLDBUI_VERSION=from-docker
+
+docker-run:
+	docker run -p 8080:8080 -v $(PWD)/config:/config --env APP_CONFIG=/config/production.toml ${IMAGE}
 
 # LOCAL RUN
 # =========
@@ -60,9 +71,12 @@ deps:
 	pip install pipenv
 	pipenv install --dev
 
-check:
+fmt:
 	black .
 	isort .
+
+lint:
 	flake8 .
 	mypy .
-	@$(MAKE) tests
+
+check: fmt lint tests

@@ -3,6 +3,9 @@
     <a class="navbar-brand" href="/requests{% if current_server %}?{{current_server.query}}{% endif %}">
       <img src="/static/images/logo.png" alt="ksqldb-ui" width="36" height="36">
       <span id="logo">ksqldb-ui</span>
+      {% if request.app.app_version %}
+      <span id="app-version">{{ request.app.app_version }}</span>
+      {% endif %}
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">

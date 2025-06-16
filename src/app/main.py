@@ -27,25 +27,32 @@ from app.core.templates import (
     ERROR_TEMPLATE,
     render_template,
 )
-from app.core.utils import make_list
-
-app = FastAPI()
-
-try:
-    settings: Settings = get_settings()
-except Exception as e:
-    print(f"\n{e}\n{README}#configuration\n")  # noqa
-    raise SystemExit(1)
-
-app.settings = settings
-if settings.history.enabled:
-    app.history = deque(maxlen=settings.history.size)
-
-static_dir = Path(__file__).parent.parent / "static"
-app.mount("/static", CacheControlledStaticFiles(directory=static_dir), name="static")
+from app.core.utils import (
+    get_version,
+    make_list,
+)
 
 
-def register_routes() -> None:
+def init_fastapi_app() -> FastAPI:
+    app = FastAPI()
+    try:
+        settings: Settings = get_settings()
+    except Exception as e:
+        print(f"\n{e}\n{README}#configuration\n")  # noqa
+        raise SystemExit(1)
+
+    app.settings = settings
+    if settings.history.enabled:
+        app.history = deque(maxlen=settings.history.size)
+
+    static_dir = Path(__file__).parent.parent / "static"
+    app.mount("/static", CacheControlledStaticFiles(directory=static_dir), name="static")
+
+    app.app_version = get_version()
+    return app
+
+
+def register_routes(app: FastAPI) -> None:
     from app.index import router as index_page
     from app.queries import router as queries_page
     from app.requests import router as requests_page
@@ -66,7 +73,8 @@ def register_routes() -> None:
         app.include_router(route)
 
 
-register_routes()
+app = init_fastapi_app()
+register_routes(app)
 
 
 @app.middleware("http")

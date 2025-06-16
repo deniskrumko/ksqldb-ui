@@ -16,6 +16,7 @@ ksqlDB UI - Status - {{ current_server.display_name }}
 
       {% if info %}
         {{render_kv('URL', current_server.simple_url)|safe}}
+        {{render_kv('ksqldb-ui version', request.app.app_version)|safe}}
         {% for k, v in info['KsqlServerInfo'].items() %}
         {{render_kv(k, v)|safe}}
         {% endfor %}

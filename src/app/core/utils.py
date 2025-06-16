@@ -1,10 +1,20 @@
 import json
+from contextlib import suppress
 from typing import Any
 
 import httpx
 
 CONTEXT_RESPONSE_KEY = "x_response"
 CONTEXT_REQUEST_KEY = "x_request"
+VERSION_UNDEFINED = "undefined"
+
+
+def get_version() -> str | None:
+    """Get ksqlDB UI version."""
+    with suppress(Exception), open(".version", "r") as f:
+        if (version := f.read().strip()) != VERSION_UNDEFINED:
+            return version
+    return None
 
 
 def make_list(value: Any) -> list:
