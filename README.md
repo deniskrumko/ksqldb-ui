@@ -143,16 +143,17 @@ url = "http://localhost:8090"
 
 **Parameters description**
 
-| Parameter                       | Description                                                                                                                          | Default | Required |
-|---------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------|----------|
-| `http.timeout`                  | Timeout in seconds for ksqldb requests                                                                                               | 5       | no       |
-| `history.enabled`               | Enable request history. Every user will see common history                                                                           | true    | no       |
-| `history.size`                  | how many requests will be saved to history (works as queue)                                                                          | 50      | no       |
-| `server.<code>.url`             | URL to ksqldb server API                                                                                                             |         | yes      |
-| `server.<code>.name`            | custom name of environment (if empty - use server code)                                                                              |         | no       |
-| `server.<code>.topic_link`      | link to redirect to Kafka UI to see topic messages. Topic name is passed to `{}` placeholder in the URL                              |         | no       |
-| `server.<code>.warning_message` | This message will be displayed as warning on every page in UI                                                                        |         | no       |
-| `server.<code>.filters`         | Filter groups for stream/query list pages. Allows to quick search keyword in stream/query name. Must be a list of lists with strings |         | no       |
+| Parameter                     | Description                                                                                                                          | Default | Required |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------|----------|
+| `http.timeout`                | Timeout in seconds for ksqldb requests                                                                                               | 5       | no       |
+| `history.enabled`             | Enable request history. Every user will see common history                                                                           | true    | no       |
+| `history.size`                | how many requests will be saved to history (works as queue)                                                                          | 50      | no       |
+| `server.CODE.url`             | URL to ksqldb server API                                                                                                             |         | yes      |
+| `server.CODE.name`            | custom name of environment (if empty - use server code)                                                                              |         | no       |
+| `server.CODE.default`         | Use server as default then loading UI                                                                                                |         | no       |
+| `server.CODE.topic_link`      | link to redirect to Kafka UI to see topic messages. Topic name is passed to `{}` placeholder in the URL                              |         | no       |
+| `server.CODE.warning_message` | This message will be displayed as warning on every page in UI                                                                        |         | no       |
+| `server.CODE.filters`         | Filter groups for stream/query list pages. Allows to quick search keyword in stream/query name. Must be a list of lists with strings |         | no       |
 
 ## Using only environment variables
 
@@ -219,3 +220,4 @@ docker-compose up -d
 - UI using [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/)
 - SQL editor using [Ace](https://ace.c9.io/)
 - Material icons from [icons8 pack](https://icons8.ru/icons/material-rounded--style-material-rounded)
+- Markdown tables from [tablesgenerator.com](https://www.tablesgenerator.com/markdown_tables)
