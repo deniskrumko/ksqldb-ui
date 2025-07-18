@@ -34,6 +34,21 @@ All statements that exist in ksqlDB [are listed in their documentation](https://
 
 **Note:** For production purposes use fixed version from [available tags](https://hub.docker.com/r/deniskrumko/ksqldb-ui/tags) instead of `deniskrumko/ksqldb-ui:latest`
 
+## Using docker
+
+```bash
+# Download image
+docker pull deniskrumko/ksqldb-ui:latest
+
+# Run container
+# You need to have config/production.toml file in current directory
+docker run \
+    -p 8080:8080 \
+    -v $(PWD)/config:/config \
+    --env APP_CONFIG=/config/production.toml \
+    deniskrumko/ksqldb-ui:latest
+```
+
 ## Using docker-compose.yml
 
 1. Write `docker-compose.yml` file:
