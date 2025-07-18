@@ -166,3 +166,4 @@ cython_debug/
 
 config/production.toml
 .version
+src/static/vendor/*

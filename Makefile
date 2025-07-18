@@ -67,7 +67,7 @@ ui:
 	open http://localhost:8080
 
 # Install deps
-deps:
+deps: vendor
 	pip install pipenv
 	pipenv install --dev
 
@@ -80,3 +80,7 @@ lint:
 	mypy .
 
 check: fmt lint tests
+
+# Install vendor libraries
+vendor:
+	VENDOR=src/static/vendor sh scripts/download_vendor.sh

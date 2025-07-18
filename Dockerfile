@@ -1,14 +1,26 @@
-FROM python:3.12.4-slim-bullseye
+FROM python:3.12.11-slim-bullseye
 
 RUN mkdir build
 WORKDIR /build
 
 # Install dependencies
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install python packages
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install --ignore-pipfile --system
+RUN pipenv install --ignore-pipfile --system && \
+    pip uninstall -y pipenv && \
+    rm -rf ~/.cache/pip /root/.cache/pipenv /root/.local/share/virtualenvs
 
+# Install JS/CSS vendor dependencies
 COPY src/ .
+COPY scripts/download_vendor.sh .
+RUN set -e && \
+    rm -rf static/vendor && \
+    VENDOR=static/vendor sh download_vendor.sh
 
 ARG KSQLDBUI_VERSION="undefined"
 RUN echo ${KSQLDBUI_VERSION} >> .version

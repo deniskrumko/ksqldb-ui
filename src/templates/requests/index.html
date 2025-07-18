@@ -110,9 +110,7 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
 {% block js %}
 {{ super() }}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.35.3/ace.min.js"
-  integrity="sha512-FqIMgoMtiqZWCK+bRO5e4Dsj1uTSbl26DlpTlhoqyunc6o41hkU0fXpXMNLKsqPBIUf4OERya5kfbqscOT26VQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/static/vendor/ace/ace.min.js"></script>
 <script>
   var formIsSubmitting = false;
   var editor = ace.edit("editor");

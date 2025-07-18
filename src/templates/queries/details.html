@@ -72,15 +72,9 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
 
 {% block js %}
 {{ super() }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.35.3/ace.min.js"
-  integrity="sha512-FqIMgoMtiqZWCK+bRO5e4Dsj1uTSbl26DlpTlhoqyunc6o41hkU0fXpXMNLKsqPBIUf4OERya5kfbqscOT26VQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"
-  integrity="sha512-vc58qvvBdrDR4etbxMdlTt4GBQk1qjvyORR2nrsPsFPyrs+/u5c3+1Ct6upOgdZoIl7eq6k3a1UPDSNAQi/32A=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre-d3/0.6.4/dagre-d3.min.js"
-  integrity="sha512-fdYLm4hXxJ/tPMptvdDDwuJme6jTgvoZ0g6pflEkyG9MqPejLspnCjkwX3bD69GFT2N/refZGjPr6b9RdoCyxQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/static/vendor/ace/ace.min.js"></script>
+<script src="/static/vendor/d3/d3.min.js"></script>
+<script src="/static/vendor/d3/dagre-d3.min.js"></script>
 <script src="/static/js/stream.js"></script>
 <script>
   let globalGraph = null;
