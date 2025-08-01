@@ -4,7 +4,7 @@
   {% else %}
   <div class="sticky-top" style="top: 72px;">
   {% endif %}
-    <h2 class="title-h2">Response keys</h2>
+    <h2 class="title-h2">{% trans %}Response keys{% endtrans %}</h2>
     {% for k, v in response_map.items() %}
       {% if not check_is_empty(v) %}
       <div>
@@ -13,6 +13,6 @@
       {% endif %}
     {% endfor %}
     <br>
-    <a href="#top" class="btn btn-outline-secondary">Go to top</a>
+    <a href="#top" class="btn btn-outline-secondary">{% trans %}Go to top{% endtrans %}</a>
   </div>
 </div>

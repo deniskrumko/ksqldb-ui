@@ -1,14 +1,14 @@
 {% extends "requests/index.html" %}
 
 {% block title %}
-ksqlDB UI - History - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}History{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block right_section_header %}
-History
+{% trans %}History{% endtrans %}
 {% if history %}
 <img src="/static/icons/trash.png" onclick="clearHistory();" alt="Clear" class="request-btn" data-toggle="tooltip"
-  data-placement="top" title="Clear history">
+  data-placement="top" title="{% trans %}Clear history{% endtrans %}">
 {% endif %}
 {% endblock %}
 
@@ -21,9 +21,9 @@ History
     (env: {{ entry.server_code }})
     <div class="resp-key-buttons">
       <img src="/static/icons/paste.png" alt="Paste" onclick="pasteRespValue(this)" class="request-btn"
-        data-toggle="tooltip" data-placement="top" title="Paste">
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Paste{% endtrans %}">
       <img src="/static/icons/copy.png" alt="Copy" onclick="copyRespValue(this)" class="request-btn"
-        data-toggle="tooltip" data-placement="top" title="Copy">
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
     </div>
   </div>
   <div class="value">
@@ -32,14 +32,20 @@ History
 </div>
 {% endfor %}
 <form action="/history?{{q}}" method="post" id="clear-history-form">
-  <button type="submit" class="btn btn-danger">Clear history</button>
+  <button type="submit" class="btn btn-danger">{% trans %}Clear history{% endtrans %}</button>
 </form>
 <br>
 <br>
 {% else %}
-<h1 class="display-3">Make your first request to <b>become a history</b> 😎</h1>
-<p>Just add your cool request here and click <b class="b-hl">execute</b> button or press <span class="badge text-bg-purple">Shift + Enter</span></p>
-<p class="hint"><b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart will wipe your history</p>
+<h1 class="display-3">
+{% trans %}Make your first request to become a history{% endtrans %} 😎
+</h1>
+<p>
+{% trans %}Just add your cool request here and click <b class="b-hl">execute</b> button or press{% endtrans %}<span class="badge text-bg-purple">Shift + Enter</span>
+</p>
+<p class="hint">
+{% trans %}<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart will wipe your history{% endtrans %}
+</p>
 {% endif %}
 {% endblock %}
 

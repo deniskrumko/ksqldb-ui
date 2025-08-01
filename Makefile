@@ -67,7 +67,9 @@ ui:
 	open http://localhost:8080
 
 # Install deps
-deps: vendor
+deps: vendor pipenv
+
+pipenv:
 	pip install pipenv
 	pipenv install --dev
 
@@ -84,3 +86,9 @@ check: fmt lint tests
 # Install vendor libraries
 vendor:
 	VENDOR=src/static/vendor sh scripts/download_vendor.sh
+
+extract_translations:
+	./scripts/extract_translations.sh
+
+compile_translations:
+	./scripts/compile_translations.sh

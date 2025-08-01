@@ -66,6 +66,7 @@ class Settings(BaseModel):
     http: HTTPSettings
     history: HistorySettings
     servers: dict[str, Server]
+    language: str = "ru"  # Язык по умолчанию
 
     @property
     def default_server(self) -> Server:
@@ -87,6 +88,7 @@ class Settings(BaseModel):
         settings = cls(
             http=HTTPSettings(**config.get("http", {})),
             history=HistorySettings(**config.get("history", {})),
+            # language=config.get("language", "en"),  # Добавляем поддержку языка
             servers={
                 code.lower(): Server(code=code.lower(), **params)
                 for code, params in config.get("servers", {}).items()

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Queries - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -11,11 +11,13 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
   <!-- Alert -->
    <br>
   <div class="alert alert-success" role="alert">
-    Query <b>{{ deleted_query }}</b> successfully deleted!
+  {% trans %}Query <b>{{ deleted_query }}</b> successfully deleted!{% endtrans %}
   </div>
   {% endif %}
 
-  <h2 class="title-h2">Queries on {{ current_server.display_name }}</h2>
+  <h2 class="title-h2">
+  {% trans %}Queries on {{ current_server.display_name }}{% endtrans %}
+  </h2>
 
   {% include "includes/list_page_filters.html" %}
 
@@ -49,7 +51,7 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
         </td>
         <td>
           <div class="resp">
-            <div class="key">Streams</div>
+            <div class="key">{% trans %}Streams{% endtrans %}</div>
             <div class="value">
               {% for sink in query.sinks %}
               <div>{{ render_stream_link(request, sink)|safe }}</div>
@@ -57,7 +59,7 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
             </div>
           </div>
           <div class="resp">
-            <div class="key">Kafka topics</div>
+            <div class="key">{% trans %}Kafka topics{% endtrans %}</div>
             <div class="value">
               {% for sink in query.sinkKafkaTopics %}
               <div>{{ render_topic_link(request, sink)|safe }}</div>
@@ -67,7 +69,7 @@ ksqlDB UI - Queries - {{ current_server.display_name }}
         </td>
         <td>
           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ query.id }}">
-            Delete
+            {% trans %}Delete{% endtrans %}
           </button>
         </td>
       </tr>

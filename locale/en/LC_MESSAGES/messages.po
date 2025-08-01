@@ -1,0 +1,233 @@
+# English translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-08-01 17:56+0500\n"
+"PO-Revision-Date: 2025-08-01 15:23+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/app/queries/views.py:23
+msgid "Failed to show queries"
+msgstr ""
+
+#: src/templates/includes/hidden_data.html:3
+msgid "Show original data"
+msgstr ""
+
+#: src/templates/includes/hidden_response_details.html:4
+msgid "Show original request and full response"
+msgstr ""
+
+#: src/templates/includes/hidden_response_details.html:8
+msgid "Request"
+msgstr ""
+
+#: src/templates/includes/hidden_response_details.html:12
+#: src/templates/requests/index.html:39 src/templates/requests/index.html:55
+msgid "Response"
+msgstr ""
+
+#: src/templates/includes/list_page_filters.html:11
+msgid "Reset"
+msgstr ""
+
+#: src/templates/includes/modal_delete.html:10
+#, python-format
+msgid "Do you really want to delete %(objectType)s"
+msgstr ""
+
+#: src/templates/includes/modal_delete.html:15
+msgid "Yes, delete it 🔥"
+msgstr ""
+
+#: src/templates/includes/modal_delete.html:16
+msgid "No, thanks"
+msgstr ""
+
+#: src/templates/includes/response_keys.html:7
+msgid "Response keys"
+msgstr ""
+
+#: src/templates/includes/response_keys.html:16
+msgid "Go to top"
+msgstr ""
+
+#: src/templates/includes/welcome.html:2
+msgid "Welcome to ksqldb-ui"
+msgstr ""
+
+#: src/templates/includes/welcome.html:5
+msgid "The interface is pretty simple:"
+msgstr ""
+
+#: src/templates/includes/welcome.html:8
+msgid "Type your query in <b class=\"b-hl\">Request</b> section."
+msgstr ""
+
+#: src/templates/includes/welcome.html:9
+msgid ""
+"You can find query docs\n"
+"      <a href=\"https://docs.confluent.io/platform/current/ksqldb"
+"/developer-guide/ksqldb-reference/overview.html#ksqldb-api-index\" class"
+"=\"link-offset-1\" target=\"_blank\">here"
+msgstr ""
+
+#: src/templates/includes/welcome.html:13
+msgid ""
+"Click <b class=\"b-hl\">execute</b> button or press <span class=\"badge "
+"text-bg-purple\">Shift + Enter</span> to perform request"
+msgstr ""
+
+#: src/templates/includes/welcome.html:14
+msgid "More info on project homepage:"
+msgstr ""
+
+#: src/templates/queries/details.html:4
+msgid "Queries"
+msgstr ""
+
+#: src/templates/requests/history.html:4 src/templates/requests/history.html:8
+msgid "History"
+msgstr ""
+
+#: src/templates/requests/history.html:11
+#: src/templates/requests/history.html:35
+msgid "Clear history"
+msgstr ""
+
+#: src/templates/requests/history.html:24
+msgid "Paste"
+msgstr ""
+
+#: src/templates/requests/history.html:26
+msgid "Copy"
+msgstr ""
+
+#: src/templates/requests/history.html:41
+msgid "Make your first request to become a history"
+msgstr ""
+
+#: src/templates/requests/history.html:44
+msgid ""
+"Just add your cool request here and click <b class=\"b-hl\">execute</b> "
+"button or press"
+msgstr ""
+
+#: src/templates/requests/history.html:47
+msgid ""
+"<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
+" will wipe your history"
+msgstr ""
+
+#: src/templates/requests/index.html:4
+msgid "Requests"
+msgstr ""
+
+#: src/templates/requests/index.html:15
+#, python-format
+msgid "Request to %(name)s"
+msgstr ""
+
+#: src/templates/requests/index.html:29
+msgid "wait..."
+msgstr ""
+
+#: src/templates/requests/index.html:45
+msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
+msgstr ""
+
+#: src/templates/requests/index.html:46
+msgid "Failed to preprocess"
+msgstr ""
+
+#: src/templates/requests/index.html:49
+msgid ""
+"Response was preprocessed to be more human friendly 😎 Scroll to the end "
+"and click \"Show original response\" to see unprocessed response."
+msgstr ""
+
+#: src/templates/requests/index.html:50
+msgid "Preprocessed"
+msgstr ""
+
+#: src/templates/requests/index.html:57
+msgid "Introduction"
+msgstr ""
+
+#: src/templates/requests/index.html:66
+msgid "Error during preprocessing"
+msgstr ""
+
+#: src/templates/requests/index.html:83
+msgid "Next statement"
+msgstr ""
+
+#: src/templates/requests/index.html:95
+msgid "Empty response body"
+msgstr ""
+
+#: src/templates/requests/index.html:99
+msgid "Warning"
+msgstr ""
+
+#: src/templates/status/debug.html:11
+msgid "KsqlDB UI settings"
+msgstr ""
+
+#: src/templates/status/debug.html:15
+msgid "Available environment variables"
+msgstr ""
+
+#: src/templates/status/debug.html:21
+msgid "Request history"
+msgstr ""
+
+#: src/templates/status/index.html:4
+msgid "Status"
+msgstr ""
+
+#: src/templates/status/index.html:14
+#, python-format
+msgid "%(name)s server info"
+msgstr ""
+
+#: src/templates/status/index.html:35
+msgid "Your ksqlDB server is healthy"
+msgstr ""
+
+#: src/templates/status/index.html:36 src/templates/status/index.html:40
+msgid "State"
+msgstr ""
+
+#: src/templates/status/index.html:39
+msgid "Your ksqlDB server is not healthy"
+msgstr ""
+
+#: src/templates/status/index.html:44
+msgid "Components"
+msgstr ""
+
+#: src/templates/status/index.html:58
+msgid "Server properties"
+msgstr ""
+
+#: src/templates/status/index.html:72
+#, python-format
+msgid "Server <code>%(name)s</code> is not responding"
+msgstr ""
+
+#: src/templates/status/index.html:74
+msgid "Failed to get info or health check"
+msgstr ""

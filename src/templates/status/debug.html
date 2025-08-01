@@ -8,17 +8,17 @@ ksqlDB UI - DEBUG
 <div class="my-container">
   {% if request.app.settings %}
   <br>
-  <h2>KsqlDB UI settings</h2>
+  <h2>{% trans %}KsqlDB UI settings{% endtrans %}</h2>
   {{ render_dict_table(request.app.settings.as_flatten_dict)|safe }}
 
   <br>
-  <h2>Available environment variables</h2>
+  <h2>{% trans %}Available environment variables{% endtrans %}</h2>
   {{ render_list_table(request.app.settings.avaiable_env_vars, col_name="env var", options={"env var": "code"})|safe }}
   {% endif %}
 
   {% if request.app.history %}
   <br>
-  <h2>Request history</h2>
+  <h2>{% trans %}Request history{% endtrans %}</h2>
   {{ render_value(request.app.history)|safe }}
   {% endif %}
 

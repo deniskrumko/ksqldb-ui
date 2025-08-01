@@ -7,13 +7,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Do you really want to delete {{objectType}} <code class="deletable-object-title">Modal title</code> ?
+        {% trans %}Do you really want to delete {{objectType}}{% endtrans %} <code class="deletable-object-title">Modal title</code> ?
       </div>
       <div class="modal-footer">
         <form action="{{deleteEndpoint}}?{{q}}" method="POST">
           <input type="hidden" name="delete_object" id="deleteModalBody">
-          <button type="submit" class="btn btn-danger">Yes, delete it 🔥</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, thanks</button>
+          <button type="submit" class="btn btn-danger">{% trans %}Yes, delete it 🔥{% endtrans %}</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans %}No, thanks{% endtrans %}</button>
         </form>
       </div>
     </div>

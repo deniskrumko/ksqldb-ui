@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from httpx._models import Response as HttpxResponse
 from starlette.templating import _TemplateResponse as TemplateResponse
 
+from .i18n import get_translations
 from .settings import get_server_code
 from .utils import (
     CONTEXT_REQUEST_KEY,
@@ -35,6 +36,11 @@ def get_templates() -> Jinja2Templates:
     from .render import RENDER_HELPERS
 
     templates.env.globals.update(**RENDER_HELPERS)
+    templates.env.add_extension("jinja2.ext.i18n")
+
+    # Устанавливаем переводы
+    translations = get_translations()
+    templates.env.install_gettext_translations(translations)
 
     TEMPLATES = templates
     return templates

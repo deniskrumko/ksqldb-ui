@@ -1,5 +1,5 @@
 from typing import Optional
-
+from app.core.i18n import _
 from fastapi import (
     APIRouter,
     Request,
@@ -20,7 +20,7 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
     """View to list all available queries."""
     response = await KsqlRequest(request, "SHOW QUERIES").execute()
     if not response.is_success:
-        raise KsqlException("Failed to show queries", response)
+        raise KsqlException(_("Failed to show queries"), response)
 
     data = response.json()
     return render_template(
