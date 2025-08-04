@@ -87,3 +87,23 @@ def get_base_context(request: Request) -> dict:
         }
     except Exception:
         return {}
+
+
+def run_startup_checks(app: Any) -> None:
+    """Run startup checks and render index template."""
+    from starlette.requests import Request
+
+    request = Request(
+        scope={
+            "type": "http",
+            "method": "GET",
+            "path": "/",
+            "query_string": b"",
+            "headers": [],
+            "app": app,
+        },
+    )
+
+    response = render_template("requests/index.html", request=request)
+    if response.status_code != 200:
+        raise RuntimeError("Startup checks failed")

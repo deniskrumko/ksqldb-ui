@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Topology - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Topology{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block css %}
@@ -12,7 +12,7 @@ ksqlDB UI - Topology - {{ current_server.display_name }}
 {% block body %}
 <div class="my-container">
   <h2 class="title-h2">
-    Streams and queries topology for {{ current_server.display_name }}
+    {% trans name=current_server.display_name %}Streams and queries topology for {{ name }}{% endtrans %}
   </h2>
 
   <!-- Hidden data -->

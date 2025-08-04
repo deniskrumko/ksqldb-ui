@@ -16,70 +16,75 @@ ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
   {% endif %}
 
   <h2 class="title-h2">
-  {% trans %}Queries on {{ current_server.display_name }}{% endtrans %}
+  {% trans name=current_server.display_name %}Queries on {{ name }}{% endtrans %}
+  {% include "includes/help_messages/button.html" %}
   </h2>
 
+  <!-- Help -->
+  {% include "includes/help_messages/queries.html" %}
+
+  <!-- Filters -->
   {% include "includes/list_page_filters.html" %}
 
-  <table class="table nomargin">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">ID</th>
-        <th scope="col">Type</th>
-        <th scope="col">Sinks</th>
-        <th scope="col">Controls</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for query in queries %}
-      <tr class="list-view-row" data-filter-name="{{ query.id }}">
-        <th scope="row">{{ loop.index }}</th>
-        <td>
-          <a href="/queries/{{ query.id }}?{{q}}" class="link-offset-2 link-sm breaked">{{ query.id }}</a>
-        </td>
-        <td>
-          {% if query.state == 'RUNNING' %}
-          <span class="badge text-bg-success">
-          {% else %}
-          <span class="badge text-bg-danger">
-          {% endif %}
-            {{ query.state }}
-          </span>
-          <br>
-          <span class="badge text-bg-secondary">{{ query.queryType }}</span>
-        </td>
-        <td>
-          <div class="resp">
-            <div class="key">{% trans %}Streams{% endtrans %}</div>
-            <div class="value">
-              {% for sink in query.sinks %}
-              <div>{{ render_stream_link(request, sink)|safe }}</div>
-              {% endfor %}
+  <div class="table-container">
+    <table class="table nomargin">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">ID</th>
+          <th scope="col">{% trans %}Type{% endtrans %}</th>
+          <th scope="col">{% trans %}Sinks{% endtrans %}</th>
+          <th scope="col">{% trans %}Controls{% endtrans %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for query in queries %}
+        <tr class="list-view-row" data-filter-name="{{ query.id }}">
+          <th scope="row">{{ loop.index }}</th>
+          <td>
+            <a href="/queries/{{ query.id }}?{{q}}" class="link-offset-2 link-sm breaked">{{ query.id }}</a>
+          </td>
+          <td>
+            {% if query.state == 'RUNNING' %}
+            <span class="badge text-bg-success">
+            {% else %}
+            <span class="badge text-bg-danger">
+            {% endif %}
+              {{ query.state }}
+            </span>
+            <br>
+            <span class="badge text-bg-secondary">{{ query.queryType }}</span>
+          </td>
+          <td>
+            <div class="resp">
+              <div class="key">{% trans %}Streams{% endtrans %}</div>
+              <div class="value">
+                {% for sink in query.sinks %}
+                <div>{{ render_stream_link(request, sink)|safe }}</div>
+                {% endfor %}
+              </div>
             </div>
-          </div>
-          <div class="resp">
-            <div class="key">{% trans %}Kafka topics{% endtrans %}</div>
-            <div class="value">
-              {% for sink in query.sinkKafkaTopics %}
-              <div>{{ render_topic_link(request, sink)|safe }}</div>
-              {% endfor %}
+            <div class="resp">
+              <div class="key">{% trans %}Kafka topics{% endtrans %}</div>
+              <div class="value">
+                {% for sink in query.sinkKafkaTopics %}
+                <div>{{ render_topic_link(request, sink)|safe }}</div>
+                {% endfor %}
+              </div>
             </div>
-          </div>
-        </td>
-        <td>
-          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ query.id }}">
-            {% trans %}Delete{% endtrans %}
-          </button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+          </td>
+          <td>
+            <img src="/static/icons/delete.svg" class="img-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ query.id }}">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% include "includes/hidden_response_details.html" %}
 </div>
 
-{% with objectType="query", deleteEndpoint="/queries" %}
+{% with objectType=_("query"), deleteEndpoint="/queries" %}
   {% include "includes/modal_delete.html" %}
 {% endwith %}
 {% endblock %}

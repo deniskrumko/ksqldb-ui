@@ -2,6 +2,7 @@ import pytest
 from fastapi import Request
 
 from app.core.settings import (
+    GlobalSettings,
     HistorySettings,
     HTTPSettings,
     Server,
@@ -37,6 +38,7 @@ def settings():
         },
         http=HTTPSettings(),
         history=HistorySettings(),
+        global_settings=GlobalSettings(),
     )
 
 

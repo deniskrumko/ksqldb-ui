@@ -1,3 +1,9 @@
+# Global parameters
+
+[global]
+language = "en"
+show_hints = true
+
 [http]
 timeout = 60
 
@@ -5,18 +11,20 @@ timeout = 60
 enabled = true
 size = 50
 
+# Servers configurations
+
+[servers.localhost]
+url = 'http://0.0.0.0:8088'
+
+[servers.dev]
+name = "Development"
+url = 'http://your-development-ksqldb.com'
+topic_link = 'http://your-development-kafka-ui.com/topics/{}'
+filters = [['REQUEST', 'RESPONSE'], ['BACKEND', 'FRONTEND', 'ML', 'ANALYTICS']]
+
 [servers.production]
 name = "Production"
 url = 'http://your-production-ksqldb.com'
 topic_link = 'http://your-production-kafka-ui.com/topics/{}'
 warning_message = '⚠️ This is a production environment! Please do not modify existing streams/queries'
 default = true
-
-[servers.dev]
-name = "Development"
-url = 'http://your-development-ksqldb.com'
-topic_link = 'http://your-development-kafka-ui.com/topics/{}'
-filters = [['Alice', 'Bob'], ['Red', 'Green', 'Yellow']]
-
-[servers.localhost]
-url = 'http://0.0.0.0:8088'

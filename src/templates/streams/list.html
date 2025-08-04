@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Streams{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -11,50 +11,57 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
   <!-- Alert -->
    <br>
   <div class="alert alert-success" role="alert">
-    Stream <b>{{ deleted_stream }}</b> successfully deleted!
+  {% trans %}Stream <b>{{ deleted_stream }}</b> successfully deleted!{% endtrans %}
   </div>
   {% endif %}
 
-  <h2 class="title-h2">Streams on {{ current_server.display_name }}</h2>
+  <h2 class="title-h2">
+    {% trans name=current_server.display_name %}Streams on {{ name }}{% endtrans %}
+    {% include "includes/help_messages/button.html" %}
+  </h2>
 
+  <!-- Help -->
+  {% include "includes/help_messages/streams.html" %}
+
+  <!-- Filters -->
   {% include "includes/list_page_filters.html" %}
 
-  <table class="table nomargin">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Topic</th>
-        <th scope="col">Key/Value</th>
-        <th scope="col">Controls</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for stream in streams %}
-      <tr class="list-view-row" data-filter-name="{{ stream.name }}">
-        <th scope="row">{{ loop.index }}</th>
-        <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
-        <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
-        <td>
-          <span class="badge text-bg-secondary">{{ stream.keyFormat }} / {{ stream.valueFormat }}</span>
-          {% if stream.isWindowed %}
-          <br>
-          <span class="badge text-bg-danger">windowed</span>
-          {% endif %}
-        </td>
-        <td>
-          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
-            Delete
-          </button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table class="table nomargin">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{% trans %}Name{% endtrans %}</th>
+          <th scope="col">{% trans %}Topic{% endtrans %}</th>
+          <th scope="col">{% trans %}Key/Value{% endtrans %}</th>
+          <th scope="col">{% trans %}Controls{% endtrans %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stream in streams %}
+        <tr class="list-view-row" data-filter-name="{{ stream.name }}">
+          <th scope="row">{{ loop.index }}</th>
+          <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
+          <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
+          <td>
+            <span class="badge text-bg-secondary">{{ stream.keyFormat }} / {{ stream.valueFormat }}</span>
+            {% if stream.isWindowed %}
+            <br>
+            <span class="badge text-bg-danger">windowed</span>
+            {% endif %}
+          </td>
+          <td>
+            <img src="/static/icons/delete.svg" class="img-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% include "includes/hidden_response_details.html" %}
 </div>
 
-{% with objectType="stream", deleteEndpoint="/streams" %}
+{% with objectType=_("stream"), deleteEndpoint="/streams" %}
   {% include "includes/modal_delete.html" %}
 {% endwith %}
 {% endblock %}
@@ -63,4 +70,10 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
 {{ super() }}
 <script src="/static/js/modal_delete.js"></script>
 <script src="/static/js/list_page.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Init all tooltips
+  $('[data-toggle="tooltip"]').tooltip()
+});
+</script>
 {% endblock %}

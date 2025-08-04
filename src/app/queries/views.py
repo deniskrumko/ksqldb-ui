@@ -1,11 +1,12 @@
 from typing import Optional
-from app.core.i18n import _
+
 from fastapi import (
     APIRouter,
     Request,
 )
 from fastapi.responses import Response
 
+from app.core.i18n import _
 from app.core.ksqldb import (
     KsqlException,
     KsqlRequest,

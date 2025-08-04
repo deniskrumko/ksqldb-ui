@@ -27,14 +27,14 @@ docker-run:
 # =========
 
 # Run app on local machine (with local config)
-local:
+local: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	APP_CONFIG=config/local.toml \
 	PYTHONPATH=src \
 	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app using env vars only
-usingenv:
+usingenv: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
 	KSQLDB_UI__SERVERS__LOCALHOST__URL=http://local.ksqldb \
@@ -44,13 +44,13 @@ usingenv:
 	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app using env vars only
-noconfig:
+noconfig: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
 	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app on local machine (with prod config)
-prod:
+prod: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	APP_CONFIG=config/production.toml \
 	PYTHONPATH=src \
@@ -87,8 +87,8 @@ check: fmt lint tests
 vendor:
 	VENDOR=src/static/vendor sh scripts/download_vendor.sh
 
-extract_translations:
-	./scripts/extract_translations.sh
+collect_translations:
+	./scripts/collect_translations.sh
 
 compile_translations:
 	./scripts/compile_translations.sh

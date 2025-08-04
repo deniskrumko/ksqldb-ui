@@ -19,6 +19,7 @@ README = "https://github.com/deniskrumko/ksqldb-ui/blob/master/README.md"
 
 
 class LowercaseKeyMixin:
+    """Mixin to normalize keys to lowercase before validation."""
 
     @pydantic.model_validator(mode="before")
     def normalize_keys(cls, data: dict[str, Any]) -> dict[str, Any]:
@@ -26,10 +27,14 @@ class LowercaseKeyMixin:
 
 
 class HTTPSettings(LowercaseKeyMixin, BaseModel):
+    """HTTP settings for the app."""
+
     timeout: int = 5
 
 
 class Server(LowercaseKeyMixin, BaseModel):
+    """Server configuration model."""
+
     code: str
     url: str
     name: str | None = None
@@ -58,15 +63,26 @@ class Server(LowercaseKeyMixin, BaseModel):
 
 
 class HistorySettings(LowercaseKeyMixin, BaseModel):
+    """Settings for requests history."""
+
     enabled: bool = True
     size: int = 50
 
 
+class GlobalSettings(LowercaseKeyMixin, BaseModel):
+    """Global settings for the app."""
+
+    language: str = "en"  # Default language
+    show_hints: bool = True  # Show hints in UI
+
+
 class Settings(BaseModel):
+    """App settings."""
+
     http: HTTPSettings
     history: HistorySettings
     servers: dict[str, Server]
-    language: str = "ru"  # Язык по умолчанию
+    global_settings: GlobalSettings
 
     @property
     def default_server(self) -> Server:
@@ -88,7 +104,7 @@ class Settings(BaseModel):
         settings = cls(
             http=HTTPSettings(**config.get("http", {})),
             history=HistorySettings(**config.get("history", {})),
-            # language=config.get("language", "en"),  # Добавляем поддержку языка
+            global_settings=GlobalSettings(**config.get("global", {})),
             servers={
                 code.lower(): Server(code=code.lower(), **params)
                 for code, params in config.get("servers", {}).items()

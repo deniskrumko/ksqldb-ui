@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-01 17:56+0500\n"
+"POT-Creation-Date: 2025-08-04 13:46+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,8 +18,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: src/app/queries/views.py:23
+#: src/app/queries/views.py:24
 msgid "Failed to show queries"
+msgstr ""
+
+#: src/templates/error.html:7
+msgid "OMG 😱 Exception happened"
+msgstr ""
+
+#: src/templates/error.html:10
+#, python-format
+msgid "Your selected ksqlDB server is <b>%(name)s</b>"
+msgstr ""
+
+#: src/templates/error.html:38
+msgid "Go back to list page"
+msgstr ""
+
+#: src/templates/error.html:45
+#, python-format
+msgid ""
+"Probably server <code>%(name)s</code> is <b>still booting</b> up or works"
+" in <b>non-interactive (headless) mode</b> and doesn't respond to REST "
+"requests."
+msgstr ""
+
+#: src/templates/error.html:46
+msgid "Learn more about it"
+msgstr ""
+
+#: src/templates/error.html:63
+msgid "Show full traceback"
+msgstr ""
+
+#: src/templates/error.html:76 src/templates/status/index.html:51
+msgid "Debug page"
+msgstr ""
+
+#: src/templates/error_no_server.html:6
+msgid "Server not found"
+msgstr ""
+
+#: src/templates/error_no_server.html:9
+#, python-format
+msgid ""
+"Looks like requested server <b>\"%(code)s\"</b> not found in config file "
+"or env vars. Try going back to index page to select default server"
+msgstr ""
+
+#: src/templates/error_no_server.html:12
+msgid "Go back to index page"
 msgstr ""
 
 #: src/templates/includes/hidden_data.html:3
@@ -35,12 +83,17 @@ msgid "Request"
 msgstr ""
 
 #: src/templates/includes/hidden_response_details.html:12
-#: src/templates/requests/index.html:39 src/templates/requests/index.html:55
+#: src/templates/requests/index.html:41 src/templates/requests/index.html:57
 msgid "Response"
 msgstr ""
 
 #: src/templates/includes/list_page_filters.html:11
 msgid "Reset"
+msgstr ""
+
+#: src/templates/includes/modal_delete.html:6
+#, python-format
+msgid "Delete %(objectType)s"
 msgstr ""
 
 #: src/templates/includes/modal_delete.html:10
@@ -49,11 +102,42 @@ msgid "Do you really want to delete %(objectType)s"
 msgstr ""
 
 #: src/templates/includes/modal_delete.html:15
-msgid "Yes, delete it 🔥"
+msgid "Yes, delete it"
 msgstr ""
 
 #: src/templates/includes/modal_delete.html:16
 msgid "No, thanks"
+msgstr ""
+
+#: src/templates/includes/navbar.html:17 src/templates/requests/index.html:4
+msgid "Requests"
+msgstr ""
+
+#: src/templates/includes/navbar.html:21 src/templates/requests/history.html:4
+#: src/templates/requests/history.html:8
+msgid "History"
+msgstr ""
+
+#: src/templates/includes/navbar.html:25 src/templates/queries/list.html:60
+#: src/templates/streams/details.html:4 src/templates/streams/list.html:4
+msgid "Streams"
+msgstr ""
+
+#: src/templates/includes/navbar.html:28 src/templates/queries/details.html:4
+#: src/templates/queries/list.html:4
+msgid "Queries"
+msgstr ""
+
+#: src/templates/includes/navbar.html:31 src/templates/topology/index.html:4
+msgid "Topology"
+msgstr ""
+
+#: src/templates/includes/navbar.html:34 src/templates/topics/list.html:4
+msgid "Topics"
+msgstr ""
+
+#: src/templates/includes/navbar.html:37 src/templates/status/index.html:4
+msgid "Status"
 msgstr ""
 
 #: src/templates/includes/response_keys.html:7
@@ -73,33 +157,103 @@ msgid "The interface is pretty simple:"
 msgstr ""
 
 #: src/templates/includes/welcome.html:8
-msgid "Type your query in <b class=\"b-hl\">Request</b> section."
+msgid "Type your query in <b class=\"accent-text\">Request</b> section."
 msgstr ""
 
 #: src/templates/includes/welcome.html:9
-msgid ""
-"You can find query docs\n"
-"      <a href=\"https://docs.confluent.io/platform/current/ksqldb"
-"/developer-guide/ksqldb-reference/overview.html#ksqldb-api-index\" class"
-"=\"link-offset-1\" target=\"_blank\">here"
+msgid "You can find query docs"
+msgstr ""
+
+#: src/templates/includes/welcome.html:10
+msgid "by link"
 msgstr ""
 
 #: src/templates/includes/welcome.html:13
 msgid ""
-"Click <b class=\"b-hl\">execute</b> button or press <span class=\"badge "
-"text-bg-purple\">Shift + Enter</span> to perform request"
+"Click <b class=\"accent-text\">execute</b> button or press <span "
+"class=\"badge text-bg-purple\">Shift + Enter</span> to perform request"
 msgstr ""
 
-#: src/templates/includes/welcome.html:14
+#: src/templates/includes/welcome.html:15
 msgid "More info on project homepage:"
 msgstr ""
 
-#: src/templates/queries/details.html:4
-msgid "Queries"
+#: src/templates/includes/help_messages/button.html:2
+msgid "Show help"
 msgstr ""
 
-#: src/templates/requests/history.html:4 src/templates/requests/history.html:8
-msgid "History"
+#: src/templates/includes/help_messages/queries.html:2
+msgid ""
+"Query is a continuous SQL statement that processes real-time data from "
+"streams (basically, events from Kafka topics), transforming or filtering "
+"it into new streams or tables. Unlike traditional SQL, ksqlDB queries run"
+" continuously and update results as new events arrive.<br><br>Queries "
+"with prefix <code>CSAS_</code> means that they were created using "
+"<code>CREATE STREAM ... AS SELECT</code> SQL statements.<br>Queries with "
+"name <code>INSERTQUERY_</code> were created using <code>INSERT INTO ... "
+"SELECT</code> SQL statements."
+msgstr ""
+
+#: src/templates/includes/help_messages/streams.html:2
+msgid ""
+"Stream is a partitioned, immutable, append-only collection that "
+"represents a series of historical facts. In SQL terms, it looks like "
+"table where you can run <code>SELECT</code> queries. Streams don't "
+"stream/process data itself, it only represents sources and destinations "
+"for data, because each stream is associated with single Kafka topic. "
+"Running queries, on the other hand, process/move data from stream to "
+"stream"
+msgstr ""
+
+#: src/templates/queries/details.html:16
+#, python-format
+msgid "Query <span>%(query_name)s</span> on %(server_name)s"
+msgstr ""
+
+#: src/templates/queries/details.html:28
+msgid "Query topology"
+msgstr ""
+
+#: src/templates/queries/details.html:50 src/templates/streams/details.html:57
+msgid "SQL statement"
+msgstr ""
+
+#: src/templates/queries/details.html:63 src/templates/streams/details.html:70
+msgid "Fields"
+msgstr ""
+
+#: src/templates/queries/details.html:68
+msgid "Tasks"
+msgstr ""
+
+#: src/templates/queries/list.html:14
+#, python-format
+msgid "Query <b>%(deleted_query)s</b> successfully deleted!"
+msgstr ""
+
+#: src/templates/queries/list.html:19
+#, python-format
+msgid "Queries on %(name)s"
+msgstr ""
+
+#: src/templates/queries/list.html:35
+msgid "Type"
+msgstr ""
+
+#: src/templates/queries/list.html:36
+msgid "Sinks"
+msgstr ""
+
+#: src/templates/queries/list.html:37 src/templates/streams/list.html:37
+msgid "Controls"
+msgstr ""
+
+#: src/templates/queries/list.html:68
+msgid "Kafka topics"
+msgstr ""
+
+#: src/templates/queries/list.html:87
+msgid "query"
 msgstr ""
 
 #: src/templates/requests/history.html:11
@@ -111,7 +265,7 @@ msgstr ""
 msgid "Paste"
 msgstr ""
 
-#: src/templates/requests/history.html:26
+#: src/templates/requests/history.html:26 src/templates/streams/details.html:60
 msgid "Copy"
 msgstr ""
 
@@ -121,8 +275,8 @@ msgstr ""
 
 #: src/templates/requests/history.html:44
 msgid ""
-"Just add your cool request here and click <b class=\"b-hl\">execute</b> "
-"button or press"
+"Just add your cool request here and click <b class=\"accent-"
+"text\">execute</b> button or press"
 msgstr ""
 
 #: src/templates/requests/history.html:47
@@ -131,54 +285,54 @@ msgid ""
 " will wipe your history"
 msgstr ""
 
-#: src/templates/requests/index.html:4
-msgid "Requests"
-msgstr ""
-
 #: src/templates/requests/index.html:15
 #, python-format
 msgid "Request to %(name)s"
 msgstr ""
 
-#: src/templates/requests/index.html:29
+#: src/templates/requests/index.html:25
+msgid "execute"
+msgstr ""
+
+#: src/templates/requests/index.html:31
 msgid "wait..."
 msgstr ""
 
-#: src/templates/requests/index.html:45
+#: src/templates/requests/index.html:47
 msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
 msgstr ""
 
-#: src/templates/requests/index.html:46
+#: src/templates/requests/index.html:48
 msgid "Failed to preprocess"
 msgstr ""
 
-#: src/templates/requests/index.html:49
+#: src/templates/requests/index.html:51
 msgid ""
 "Response was preprocessed to be more human friendly 😎 Scroll to the end "
 "and click \"Show original response\" to see unprocessed response."
 msgstr ""
 
-#: src/templates/requests/index.html:50
+#: src/templates/requests/index.html:52
 msgid "Preprocessed"
 msgstr ""
 
-#: src/templates/requests/index.html:57
+#: src/templates/requests/index.html:59
 msgid "Introduction"
 msgstr ""
 
-#: src/templates/requests/index.html:66
+#: src/templates/requests/index.html:68
 msgid "Error during preprocessing"
 msgstr ""
 
-#: src/templates/requests/index.html:83
+#: src/templates/requests/index.html:85
 msgid "Next statement"
 msgstr ""
 
-#: src/templates/requests/index.html:95
+#: src/templates/requests/index.html:97
 msgid "Empty response body"
 msgstr ""
 
-#: src/templates/requests/index.html:99
+#: src/templates/requests/index.html:101
 msgid "Warning"
 msgstr ""
 
@@ -194,13 +348,13 @@ msgstr ""
 msgid "Request history"
 msgstr ""
 
-#: src/templates/status/index.html:4
-msgid "Status"
-msgstr ""
-
 #: src/templates/status/index.html:14
 #, python-format
 msgid "%(name)s server info"
+msgstr ""
+
+#: src/templates/status/index.html:29
+msgid "Server health"
 msgstr ""
 
 #: src/templates/status/index.html:35
@@ -231,3 +385,112 @@ msgstr ""
 #: src/templates/status/index.html:74
 msgid "Failed to get info or health check"
 msgstr ""
+
+#: src/templates/streams/details.html:16
+#, python-format
+msgid "Stream <span>%(stream_name)s</span> on %(server_name)s"
+msgstr ""
+
+#: src/templates/streams/details.html:29
+msgid "Stream topology"
+msgstr ""
+
+#: src/templates/streams/details.html:32
+msgid "Open full"
+msgstr ""
+
+#: src/templates/streams/details.html:52
+msgid "Kafka topic"
+msgstr ""
+
+#: src/templates/streams/details.html:63
+msgid "Wrap text"
+msgstr ""
+
+#: src/templates/streams/details.html:75
+msgid "Cluster statistics"
+msgstr ""
+
+#: src/templates/streams/list.html:14
+#, python-format
+msgid "Stream <b>%(deleted_stream)s</b> successfully deleted!"
+msgstr ""
+
+#: src/templates/streams/list.html:19
+#, python-format
+msgid "Streams on %(name)s"
+msgstr ""
+
+#: src/templates/streams/list.html:34 src/templates/topics/list.html:16
+msgid "Name"
+msgstr ""
+
+#: src/templates/streams/list.html:35
+msgid "Topic"
+msgstr ""
+
+#: src/templates/streams/list.html:36
+msgid "Key/Value"
+msgstr ""
+
+#: src/templates/streams/list.html:64
+msgid "stream"
+msgstr ""
+
+#: src/templates/topics/list.html:10
+#, python-format
+msgid "Topics for %(name)s"
+msgstr ""
+
+#: src/templates/topics/list.html:17
+msgid "Partitions"
+msgstr ""
+
+#: src/templates/topics/list.html:18
+msgid "Replicas"
+msgstr ""
+
+#: src/templates/topics/list.html:19
+msgid "Consumers"
+msgstr ""
+
+#: src/templates/topics/list.html:20
+msgid "Groups"
+msgstr ""
+
+#: src/templates/topology/index.html:15
+#, python-format
+msgid "Streams and queries topology for %(name)s"
+msgstr ""
+
+#~ msgid "Yes, delete it 🔥"
+#~ msgstr ""
+
+#~ msgid "Type your query in <b class=\"b-hl\">Request</b> section."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click <b class=\"b-hl\">execute</b> button or"
+#~ " press <span class=\"badge text-bg-"
+#~ "purple\">Shift + Enter</span> to perform "
+#~ "request"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Just add your cool request here "
+#~ "and click <b class=\"b-hl\">execute</b> button"
+#~ " or press"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You can find query docs\n"
+#~ "      <a "
+#~ "href=\"https://docs.confluent.io/platform/current/ksqldb/developer-"
+#~ "guide/ksqldb-reference/overview.html#ksqldb-api-"
+#~ "index\" class=\"link-offset-1\" "
+#~ "target=\"_blank\">here"
+#~ msgstr ""
+
+#~ msgid "Delete"
+#~ msgstr ""
+

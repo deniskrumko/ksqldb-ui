@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Скрипт для компиляции переводов из .po в .mo файлы
+# Script for compiling translations from .po to .mo files
 
-echo "Компилируем переводы..."
+echo "Compiling translations..."
 
-# Компилируем все переводы
+# Compile all translations
 pybabel compile -d locale
 
-echo "Переводы скомпилированы! Теперь они доступны в приложении."
+echo "Translations compiled! They are now available in the application."

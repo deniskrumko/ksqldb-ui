@@ -12,18 +12,24 @@ ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
 <div class="my-container">
   <div class="row">
     <div class="col">
-      <h2 class="title-h2">Query <span>{{ query.queryDescription.id }}</span> on {{ current_server.display_name }}</h2>
+      <h2 class="title-h2">
+        {% trans query_name=query.queryDescription.id, server_name=current_server.display_name %}Query <span>{{ query_name }}</span> on {{ server_name }}{% endtrans %}
+        {% include "includes/help_messages/button.html" %}
+      </h2>
+
+      <!-- Help -->
+      {% include "includes/help_messages/queries.html" %}
 
       <!-- Bubbles -->
       {{ render_bubbles(query.queryDescription, keys=["state", "queryType"], lower=True)|safe}}
 
       <!-- Topology -->
       <div class="section">
-        Query topology
+        {% trans %}Query topology{% endtrans %}
 
-        <div class="resp-key-buttons">
+        <div class="section-buttons">
           <a href="/topology/?{{current_server.query}}&highlight={{ query.queryDescription.id }}">
-            <img src="/static/icons/open-link.png" class="request-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="Open full">
+            <img src="/static/icons/openfull.svg" class="img-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="{% trans %}Open full{% endtrans %}">
           </a>
         </div>
       </div>
@@ -41,25 +47,22 @@ ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
 
       <!-- SQL statement -->
       <div class="section">
-        SQL statement
-        <div class="resp-key-buttons">
-          <img src="/static/icons/copy.png" alt="Copy" onclick="copyEditor('sql-statement');" class="request-btn"
-            data-toggle="tooltip" data-placement="top" title="Copy">
-
-          <img src="/static/icons/wrap.png" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')"
-            class="request-btn" data-toggle="tooltip" data-placement="top" title="Wrap text">
+        {% trans %}SQL statement{% endtrans %}
+        <div class="section-buttons">
+          <img src="/static/icons/copy.svg" alt="Copy" onclick="copyEditor('sql-statement');" data-toggle="tooltip" data-placement="top" title="Copy">
+          <img src="/static/icons/wrap.svg" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')" data-toggle="tooltip" data-placement="top" title="Wrap text">
         </div>
       </div>
       <div id="sql-statement" class="ace-editor-custom width100">{{ query.queryDescription.statementText }}</div>
       <textarea name="query" id="query-state" hidden></textarea>
 
       <!-- Fields -->
-      <div class="section">Fields</div>
+      <div class="section">{% trans %}Fields{% endtrans %}</div>
       {{ render_stream_fields(query.queryDescription.fields)|safe }}
 
       <!-- tasksMetadata -->
       {% if query.queryDescription.tasksMetadata %}
-      <div class="section">Tasks</div>
+      <div class="section">{% trans %}Tasks{% endtrans %}</div>
       {{ render_table(query_tasks, show_line_numbers=False, options={'topic': 'kafka_topic'}, request=request)| safe }}
       {% endif %}
 

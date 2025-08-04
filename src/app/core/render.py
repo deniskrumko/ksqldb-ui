@@ -346,8 +346,8 @@ def render_kv(
     k_buttons = ""
     if add_copy_button:
         k_buttons += """
-        <img src="/static/icons/copy.png" alt="Copy" onclick="copyRespValue(this)"
-        class="request-btn"
+        <img src="/static/icons/copy.svg" alt="Copy" onclick="copyRespValue(this)"
+        class="img-btn"
         data-toggle="tooltip" data-placement="top" title="Copy">
         """
 
@@ -356,7 +356,7 @@ def render_kv(
     <div class="resp" {id_tag}>
         <div class="key">
             {k}
-            <div class="resp-key-buttons">
+            <div class="section-buttons">
             {k_buttons}
             </div>
         </div>

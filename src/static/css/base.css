@@ -3,7 +3,7 @@
     src: url('/static/vendor/fonts/Zain-Bold.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
-    size-adjust: 128%;
+    size-adjust: 130%;
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     src: url('/static/vendor/fonts/Zain-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-    size-adjust: 128%;
+    size-adjust: 130%;
 }
 
 .title-h2,
@@ -21,7 +21,7 @@
 .b-hl,
 .section,
 .btn-execute {
-    font-family: Zain, system-ui, -apple-system, Arial, sans-serif !important;
+    font-family: Zain, Arial, system-ui, -apple-system, Arial, sans-serif !important;
 }
 
 body {
@@ -72,6 +72,12 @@ body {
     font-size: 12px;
 }
 
+#page-help-section {
+    color: #999;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
 .navbar-brand:hover {
     #app-version {
         color: #fff;
@@ -101,6 +107,7 @@ body {
     border-radius: 12px;
     border: 1px solid #ddd;
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -161,10 +168,11 @@ body {
 }
 
 .title-h2 {
-    font-size: 24px;
+    font-size: 20px;
     color: #9389a2;
     font-weight: 400;
     margin: 12px 0px 6px 0px;
+    position: relative;
 }
 
 .title-h2>span {
@@ -178,26 +186,42 @@ body {
     font-weight: 400;
     margin: 22px 0px 4px 0px;
     padding: 0;
+    position: relative;
 }
 
-.request-btn {
-    float: right;
+.section-buttons {
+    position: absolute;
+    right: 0px;
+    margin-top: -25px;
+}
+
+.img-btn {
     height: 24px;
-    transition: 0.2s all ease;
-    margin: 4px;
     opacity: 0.2;
+    position: relative;
+    transition: opacity 0.3s ease;
+    margin-left: 4px;
 }
 
-.request-btn:hover {
+.key-btn {
+    height: 18px;
+}
+
+.help-btn {
+    margin-left: 5px;
+    top: -2px;
+}
+
+.img-btn:hover {
     cursor: pointer;
     opacity: 1;
 }
 
-.request-btn:active {
+.img-btn:active {
     transform: scale(1.1);
 }
 
-.request-btn.active {
+.img-btn.active {
     opacity: 0.9;
     filter: brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(7497%) hue-rotate(259deg) brightness(90%) contrast(101%);
 }
@@ -205,17 +229,6 @@ body {
 .resp {
     display: block;
     margin-bottom: 16px;
-}
-
-.resp-key-buttons {
-    float: right;
-
-    img {
-        height: 18px;
-        margin: 4px;
-        position: relative;
-        top: -3px;
-    }
 }
 
 .resp .key {
@@ -309,7 +322,7 @@ pre {
 
 #git-link {
     color: #333;
-    font-size: 23px;
+    font-size: 18px;
     transition: 0.2s all ease;
 }
 
@@ -411,6 +424,7 @@ tbody>tr:last-child {
 .filter-group {
     display: inline-block;
     margin-right: 10px;
+    margin-top: 2px;
 }
 
 #filter-reset,

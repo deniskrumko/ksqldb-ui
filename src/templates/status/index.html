@@ -26,7 +26,7 @@ ksqlDB UI - {% trans %}Status{% endtrans %} - {{ current_server.display_name }}
     <!-- RIGHT SECTION -->
     <div class="col-md-6">
       <h2 class="title-h2">
-        Health
+        {% trans %}Server health{% endtrans %}
       </h2>
 
       {% if health %}
@@ -48,7 +48,7 @@ ksqlDB UI - {% trans %}Status{% endtrans %} - {{ current_server.display_name }}
           {% endfor %}
         </ul>
       {% endif %}
-      {{ render_link("/debug", "{% trans %}Debug page{% endtrans %}", target=False)|safe }}
+      {{ render_link("/debug", _("Debug page"), target=False)|safe }}
       </div>
     </div>
   </div>

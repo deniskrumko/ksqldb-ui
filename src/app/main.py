@@ -26,6 +26,7 @@ from app.core.settings import (
 from app.core.templates import (
     ERROR_TEMPLATE,
     render_template,
+    run_startup_checks,
 )
 from app.core.utils import (
     get_version,
@@ -118,3 +119,6 @@ async def http_exception_handler(request: Request, exc: Exception) -> Response:
         params["booting_up"] = True
 
     return render_template(ERROR_TEMPLATE, request=request, **params)
+
+
+run_startup_checks(app)

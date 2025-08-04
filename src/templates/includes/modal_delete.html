@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete {{objectType}}</h1>
+        <h1 class="modal-title fs-5" id="deleteModalLabel">{% trans %}Delete {{objectType}}{% endtrans %}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -12,7 +12,7 @@
       <div class="modal-footer">
         <form action="{{deleteEndpoint}}?{{q}}" method="POST">
           <input type="hidden" name="delete_object" id="deleteModalBody">
-          <button type="submit" class="btn btn-danger">{% trans %}Yes, delete it 🔥{% endtrans %}</button>
+          <button type="submit" class="btn btn-danger">{% trans %}Yes, delete it{% endtrans %}🔥</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans %}No, thanks{% endtrans %}</button>
         </form>
       </div>

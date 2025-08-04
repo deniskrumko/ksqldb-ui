@@ -1,21 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Topics - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Topics{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
 <div class="my-container">
-  <h2 class="title-h2">Topics for {{ current_server.display_name }}</h2>
-  <table class="table">
+  <h2 class="title-h2">
+    {% trans name=current_server.display_name %}Topics for {{ name }}{% endtrans %}
+  </h2>
+  <div class="table-container">
+    <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Partitions</th>
-        <th scope="col">Replicas</th>
-        <th scope="col">Consumers</th>
-        <th scope="col">Groups</th>
+        <th scope="col">{% trans %}Name{% endtrans %}</th>
+        <th scope="col">{% trans %}Partitions{% endtrans %}</th>
+        <th scope="col">{% trans %}Replicas{% endtrans %}</th>
+        <th scope="col">{% trans %}Consumers{% endtrans %}</th>
+        <th scope="col">{% trans %}Groups{% endtrans %}</th>
       </tr>
     </thead>
     <tbody>
@@ -39,6 +42,7 @@ ksqlDB UI - Topics - {{ current_server.display_name }}
       {% endfor %}
     </tbody>
   </table>
+  </div>
   {% include "includes/hidden_response_details.html" %}
 </div>
 {% endblock %}
