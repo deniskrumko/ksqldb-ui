@@ -16,6 +16,7 @@ Checkout image on Docker Hub: https://hub.docker.com/r/deniskrumko/ksqldb-ui
 - View list of existing queries/streams and detailed info
 - View stream/queries topology (how data flows from stream to stream)
 - Delete existing queries/streams
+- Has translated UI - English (by default), Russian
 
 # How it works
 
@@ -236,6 +237,5 @@ docker-compose up -d
 - Powered by Python 3.12, FastAPI and Jinja2
 - UI using [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/)
 - SQL editor using [Ace](https://ace.c9.io/)
-- Material icons from [icons8 pack](https://icons8.ru/icons/material-rounded--style-material-rounded)
-- Other icons from [Google fonts](https://fonts.google.com/icons?icon.size=24&icon.color=%23e3e3e3)
+- Icons from [Google fonts](https://fonts.google.com/icons?icon.size=24&icon.color=%23e3e3e3)
 - Markdown tables from [tablesgenerator.com](https://www.tablesgenerator.com/markdown_tables)
