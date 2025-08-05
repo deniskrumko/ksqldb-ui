@@ -59,36 +59,48 @@ prod: compile_translations
 # LOCAL DEVELOPMENT
 # =================
 
-tests:
-	PYTHONPATH=src pytest
-
-# Open UI
-ui:
-	open http://localhost:8080
-
-# Install deps
+# Install all dependencies
 deps: vendor pipenv
 
+# Install py dependencies
 pipenv:
 	pip install pipenv
 	pipenv install --dev
-
-fmt:
-	black .
-	isort .
-
-lint:
-	flake8 .
-	mypy .
-
-check: fmt lint tests
 
 # Install vendor libraries
 vendor:
 	VENDOR=src/static/vendor sh scripts/download_vendor.sh
 
+# Collect i18n translation stirngs
 collect_translations:
 	./scripts/collect_translations.sh
 
+# Compile i18n translations
 compile_translations:
 	./scripts/compile_translations.sh
+
+# Open ksqldb UI
+ui:
+	open http://localhost:8080
+
+# Run tests
+tests:
+	PYTHONPATH=src pytest --cov
+
+# Run tests with coverage
+coverage:
+	PYTHONPATH=src pytest --cov --cov-report=html:htmlcov --disable-warnings || true
+	open htmlcov/index.html
+
+# Formatting
+fmt:
+	black .
+	isort .
+
+# Linting
+lint:
+	flake8 .
+	mypy .
+
+# Run all checks
+check: fmt lint tests

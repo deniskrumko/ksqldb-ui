@@ -248,6 +248,8 @@ pre {
 
 .badge {
     font-weight: 400 !important;
+    position: relative;
+    top: -2px;
 }
 
 .badge.text-bg-secondary {

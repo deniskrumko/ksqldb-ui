@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-04 13:46+0500\n"
+"POT-Creation-Date: 2025-08-05 13:46+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,8 +18,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: src/app/queries/views.py:24
-msgid "Failed to show queries"
+#: src/app/core/ksqldb/client.py:172
+#, python-brace-format
+msgid "Failed to execute ksqlDB request: {}"
+msgstr ""
+
+#: src/app/queries/views.py:36
+msgid "Query name is not set"
+msgstr ""
+
+#: src/app/queries/views.py:52
+#, python-brace-format
+msgid "Failed to explain query {query_name}. Maybe wrong server?"
+msgstr ""
+
+#: src/app/streams/views.py:38
+msgid "Stream name is not set"
+msgstr ""
+
+#: src/app/streams/views.py:43
+#, python-brace-format
+msgid ""
+"Cannot delete {name} system stream from ksqldb-ui. This is a protection "
+"measure."
+msgstr ""
+
+#: src/app/streams/views.py:66
+#, python-brace-format
+msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
 msgstr ""
 
 #: src/templates/error.html:7
@@ -83,7 +109,7 @@ msgid "Request"
 msgstr ""
 
 #: src/templates/includes/hidden_response_details.html:12
-#: src/templates/requests/index.html:41 src/templates/requests/index.html:57
+#: src/templates/requests/index.html:43 src/templates/requests/index.html:59
 msgid "Response"
 msgstr ""
 
@@ -214,15 +240,19 @@ msgstr ""
 msgid "Query topology"
 msgstr ""
 
+#: src/templates/queries/details.html:32 src/templates/streams/details.html:32
+msgid "Open full"
+msgstr ""
+
 #: src/templates/queries/details.html:50 src/templates/streams/details.html:57
 msgid "SQL statement"
 msgstr ""
 
-#: src/templates/queries/details.html:63 src/templates/streams/details.html:70
+#: src/templates/queries/details.html:60 src/templates/streams/details.html:67
 msgid "Fields"
 msgstr ""
 
-#: src/templates/queries/details.html:68
+#: src/templates/queries/details.html:65
 msgid "Tasks"
 msgstr ""
 
@@ -257,29 +287,29 @@ msgid "query"
 msgstr ""
 
 #: src/templates/requests/history.html:11
-#: src/templates/requests/history.html:35
+#: src/templates/requests/history.html:36
 msgid "Clear history"
 msgstr ""
 
-#: src/templates/requests/history.html:24
-msgid "Paste"
-msgstr ""
-
-#: src/templates/requests/history.html:26 src/templates/streams/details.html:60
+#: src/templates/requests/history.html:25 src/templates/streams/details.html:59
 msgid "Copy"
 msgstr ""
 
-#: src/templates/requests/history.html:41
+#: src/templates/requests/history.html:27
+msgid "Paste"
+msgstr ""
+
+#: src/templates/requests/history.html:42
 msgid "Make your first request to become a history"
 msgstr ""
 
-#: src/templates/requests/history.html:44
+#: src/templates/requests/history.html:45
 msgid ""
 "Just add your cool request here and click <b class=\"accent-"
 "text\">execute</b> button or press"
 msgstr ""
 
-#: src/templates/requests/history.html:47
+#: src/templates/requests/history.html:48
 msgid ""
 "<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
 " will wipe your history"
@@ -290,49 +320,49 @@ msgstr ""
 msgid "Request to %(name)s"
 msgstr ""
 
-#: src/templates/requests/index.html:25
+#: src/templates/requests/index.html:27
 msgid "execute"
 msgstr ""
 
-#: src/templates/requests/index.html:31
+#: src/templates/requests/index.html:33
 msgid "wait..."
 msgstr ""
 
-#: src/templates/requests/index.html:47
+#: src/templates/requests/index.html:49
 msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
 msgstr ""
 
-#: src/templates/requests/index.html:48
+#: src/templates/requests/index.html:50
 msgid "Failed to preprocess"
 msgstr ""
 
-#: src/templates/requests/index.html:51
+#: src/templates/requests/index.html:53
 msgid ""
 "Response was preprocessed to be more human friendly 😎 Scroll to the end "
 "and click \"Show original response\" to see unprocessed response."
 msgstr ""
 
-#: src/templates/requests/index.html:52
+#: src/templates/requests/index.html:54
 msgid "Preprocessed"
 msgstr ""
 
-#: src/templates/requests/index.html:59
+#: src/templates/requests/index.html:61
 msgid "Introduction"
 msgstr ""
 
-#: src/templates/requests/index.html:68
+#: src/templates/requests/index.html:70
 msgid "Error during preprocessing"
 msgstr ""
 
-#: src/templates/requests/index.html:85
+#: src/templates/requests/index.html:87
 msgid "Next statement"
 msgstr ""
 
-#: src/templates/requests/index.html:97
+#: src/templates/requests/index.html:99
 msgid "Empty response body"
 msgstr ""
 
-#: src/templates/requests/index.html:101
+#: src/templates/requests/index.html:103
 msgid "Warning"
 msgstr ""
 
@@ -395,19 +425,15 @@ msgstr ""
 msgid "Stream topology"
 msgstr ""
 
-#: src/templates/streams/details.html:32
-msgid "Open full"
-msgstr ""
-
 #: src/templates/streams/details.html:52
 msgid "Kafka topic"
 msgstr ""
 
-#: src/templates/streams/details.html:63
+#: src/templates/streams/details.html:60
 msgid "Wrap text"
 msgstr ""
 
-#: src/templates/streams/details.html:75
+#: src/templates/streams/details.html:72
 msgid "Cluster statistics"
 msgstr ""
 
@@ -421,7 +447,7 @@ msgstr ""
 msgid "Streams on %(name)s"
 msgstr ""
 
-#: src/templates/streams/list.html:34 src/templates/topics/list.html:16
+#: src/templates/streams/list.html:34 src/templates/topics/list.html:17
 msgid "Name"
 msgstr ""
 
@@ -442,19 +468,19 @@ msgstr ""
 msgid "Topics for %(name)s"
 msgstr ""
 
-#: src/templates/topics/list.html:17
+#: src/templates/topics/list.html:18
 msgid "Partitions"
 msgstr ""
 
-#: src/templates/topics/list.html:18
+#: src/templates/topics/list.html:19
 msgid "Replicas"
 msgstr ""
 
-#: src/templates/topics/list.html:19
+#: src/templates/topics/list.html:20
 msgid "Consumers"
 msgstr ""
 
-#: src/templates/topics/list.html:20
+#: src/templates/topics/list.html:21
 msgid "Groups"
 msgstr ""
 
@@ -492,5 +518,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Delete"
+#~ msgstr ""
+
+#~ msgid "Failed to show queries"
+#~ msgstr ""
+
+#~ msgid "This is a protection measure."
+#~ msgstr ""
+
+#~ msgid "Failed to eplain query {query_name}. Maybe wrong server?"
 #~ msgstr ""
 

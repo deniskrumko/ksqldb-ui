@@ -93,4 +93,10 @@ ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
 {{ super() }}
 <script src="/static/js/modal_delete.js"></script>
 <script src="/static/js/list_page.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Init all tooltips
+  $('[data-toggle="tooltip"]').tooltip()
+});
+</script>
 {% endblock %}

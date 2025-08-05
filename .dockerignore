@@ -12,3 +12,4 @@ Dockerfile
 LICENCE
 Makefile
 src/static/vendor
+src/tests

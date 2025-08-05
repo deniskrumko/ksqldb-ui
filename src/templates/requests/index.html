@@ -14,8 +14,8 @@ ksqlDB UI - {% trans %}Requests{% endtrans %} - {{ current_server.display_name }
       <h2 class="title-h2">
         {% trans name=current_server.display_name %}Request to {{ name }}{% endtrans %}
         <div class="section-buttons">
-          <img src="/static/icons/wrap.svg" class="img-btn" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" data-toggle="tooltip" data-placement="top" title="Wrap text">
-          <img src="/static/icons/copy.svg" class="img-btn" alt="Copy" onclick="copyEditor('editor')" data-toggle="tooltip" data-placement="top" title="Copy request">
+          <img src="/static/icons/wrap.svg" class="img-btn" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Wrap text{% endtrans %}">
+          <img src="/static/icons/copy.svg" class="img-btn" alt="Copy" onclick="copyEditor('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
         </div>
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >

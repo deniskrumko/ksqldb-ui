@@ -49,8 +49,8 @@ ksqlDB UI - {% trans %}Queries{% endtrans %} - {{ current_server.display_name }}
       <div class="section">
         {% trans %}SQL statement{% endtrans %}
         <div class="section-buttons">
-          <img src="/static/icons/copy.svg" alt="Copy" onclick="copyEditor('sql-statement');" data-toggle="tooltip" data-placement="top" title="Copy">
-          <img src="/static/icons/wrap.svg" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')" data-toggle="tooltip" data-placement="top" title="Wrap text">
+          <img src="/static/icons/wrap.svg" class="img-btn" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')" data-toggle="tooltip" data-placement="top" title="{% trans %}Wrap text{% endtrans %}">
+          <img src="/static/icons/copy.svg" class="img-btn" alt="Copy" onclick="copyEditor('sql-statement');" data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
         </div>
       </div>
       <div id="sql-statement" class="ace-editor-custom width100">{{ query.queryDescription.statementText }}</div>

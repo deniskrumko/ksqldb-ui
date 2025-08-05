@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-04 13:46+0500\n"
+"POT-Creation-Date: 2025-08-05 13:46+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,9 +19,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: src/app/queries/views.py:24
-msgid "Failed to show queries"
-msgstr "Ошибка при отображении query"
+#: src/app/core/ksqldb/client.py:172
+#, python-brace-format
+msgid "Failed to execute ksqlDB request: {}"
+msgstr "Ошибка при выполнении ksqlDB запроса: {}"
+
+#: src/app/queries/views.py:36
+msgid "Query name is not set"
+msgstr "Имя операции не указано"
+
+#: src/app/queries/views.py:52
+msgid "Failed to explain query {query_name}. Maybe wrong server?"
+msgstr ""
+"Ошибка при получении описания операции {query_name}. Может её нет на этом сервере?"
+
+#: src/app/streams/views.py:38
+msgid "Stream name is not set"
+msgstr "Имя стрима не уазано"
+
+#: src/app/streams/views.py:43
+#, python-brace-format
+msgid ""
+"Cannot delete {name} system stream from ksqldb-ui. This is a protection "
+"measure."
+msgstr "Невозможно удалить системный стрим {name} через ksqldb-ui и не советуем этого делать напрямую 👌"
+
+#: src/app/streams/views.py:66
+#, python-brace-format
+msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
+msgstr ""
+"Ошибка при получении описания стрима {stream_name}. Может его нет на этом сервере?"
 
 #: src/templates/error.html:7
 msgid "OMG 😱 Exception happened"
@@ -90,7 +117,7 @@ msgid "Request"
 msgstr "Запрос"
 
 #: src/templates/includes/hidden_response_details.html:12
-#: src/templates/requests/index.html:41 src/templates/requests/index.html:57
+#: src/templates/requests/index.html:43 src/templates/requests/index.html:59
 msgid "Response"
 msgstr "Ответ"
 
@@ -165,7 +192,7 @@ msgstr "Интерфейс довольно простой:"
 
 #: src/templates/includes/welcome.html:8
 msgid "Type your query in <b class=\"accent-text\">Request</b> section."
-msgstr "Введите ваш запрос в разделе <b class=\"accent-text\">Запрос к ...</b>"
+msgstr "Введите ваш запрос поле ввода слева."
 
 #: src/templates/includes/welcome.html:9
 msgid "You can find query docs"
@@ -203,14 +230,14 @@ msgid ""
 "name <code>INSERTQUERY_</code> were created using <code>INSERT INTO ... "
 "SELECT</code> SQL statements."
 msgstr ""
-"Операция — это непрерывный SQL-запрос, который обрабатывает данные "
-"в реальном времени из стримов (то есть событий из Kafka-топиков), "
-"преобразуя или фильтруя их в новые стримы или таблицы. "
-"В отличие от традиционного SQL, запросы ksqlDB выполняются постоянно и обновляют результаты "
-"по мере поступления новых событий.<br><br>Операции с префиксом <code>CSAS_</code> "
-"созданы с помощью SQL-команды <code>CREATE STREAM ... AS SELECT</code>.<br>"
-"Операции с именем <code>INSERTQUERY_</code> созданы с помощью SQL-команды "
-"<code>INSERT INTO ... SELECT</code>."
+"Операция — это непрерывный SQL-запрос, который обрабатывает данные в "
+"реальном времени из стримов (то есть событий из Kafka-топиков), "
+"преобразуя или фильтруя их в новые стримы или таблицы. В отличие от "
+"традиционного SQL, запросы ksqlDB выполняются постоянно и обновляют "
+"результаты по мере поступления новых событий.<br><br>Операции с префиксом"
+" <code>CSAS_</code> созданы с помощью SQL-команды <code>CREATE STREAM ..."
+" AS SELECT</code>.<br>Операции с именем <code>INSERTQUERY_</code> созданы"
+" с помощью SQL-команды <code>INSERT INTO ... SELECT</code>."
 
 #: src/templates/includes/help_messages/streams.html:2
 msgid ""
@@ -239,15 +266,19 @@ msgstr "Операция <span>%(query_name)s</span> на %(server_name)s"
 msgid "Query topology"
 msgstr "Топология операции"
 
+#: src/templates/queries/details.html:32 src/templates/streams/details.html:32
+msgid "Open full"
+msgstr "Раскрыть"
+
 #: src/templates/queries/details.html:50 src/templates/streams/details.html:57
 msgid "SQL statement"
 msgstr "SQL запрос"
 
-#: src/templates/queries/details.html:63 src/templates/streams/details.html:70
+#: src/templates/queries/details.html:60 src/templates/streams/details.html:67
 msgid "Fields"
 msgstr "Поля"
 
-#: src/templates/queries/details.html:68
+#: src/templates/queries/details.html:65
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -282,23 +313,23 @@ msgid "query"
 msgstr "операция"
 
 #: src/templates/requests/history.html:11
-#: src/templates/requests/history.html:35
+#: src/templates/requests/history.html:36
 msgid "Clear history"
 msgstr "Удалить историю"
 
-#: src/templates/requests/history.html:24
-msgid "Paste"
-msgstr "Вставить"
-
-#: src/templates/requests/history.html:26 src/templates/streams/details.html:60
+#: src/templates/requests/history.html:25 src/templates/streams/details.html:59
 msgid "Copy"
 msgstr "Копировать"
 
-#: src/templates/requests/history.html:41
+#: src/templates/requests/history.html:27
+msgid "Paste"
+msgstr "Вставить"
+
+#: src/templates/requests/history.html:42
 msgid "Make your first request to become a history"
 msgstr "Сделайте свой первый запрос, чтобы войти в историю"
 
-#: src/templates/requests/history.html:44
+#: src/templates/requests/history.html:45
 msgid ""
 "Just add your cool request here and click <b class=\"accent-"
 "text\">execute</b> button or press"
@@ -306,7 +337,7 @@ msgstr ""
 "Введите свой запрос и нажмите <b class=\"accent-text\">выполнить</b> или "
 "нажми сочетание клавиш"
 
-#: src/templates/requests/history.html:47
+#: src/templates/requests/history.html:48
 msgid ""
 "<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
 " will wipe your history"
@@ -319,23 +350,23 @@ msgstr ""
 msgid "Request to %(name)s"
 msgstr "Запрос к %(name)s"
 
-#: src/templates/requests/index.html:25
+#: src/templates/requests/index.html:27
 msgid "execute"
 msgstr "выполнить"
 
-#: src/templates/requests/index.html:31
+#: src/templates/requests/index.html:33
 msgid "wait..."
 msgstr "подождите..."
 
-#: src/templates/requests/index.html:47
+#: src/templates/requests/index.html:49
 msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
 msgstr "Кажется в ksqldb-ui закрался баг. Напишите об этом на Github"
 
-#: src/templates/requests/index.html:48
+#: src/templates/requests/index.html:50
 msgid "Failed to preprocess"
 msgstr "Ошибка при обработке"
 
-#: src/templates/requests/index.html:51
+#: src/templates/requests/index.html:53
 msgid ""
 "Response was preprocessed to be more human friendly 😎 Scroll to the end "
 "and click \"Show original response\" to see unprocessed response."
@@ -344,27 +375,27 @@ msgstr ""
 "нажмите \"Показать оригинальный ответ\", если нужно посмотреть исходные "
 "данные."
 
-#: src/templates/requests/index.html:52
+#: src/templates/requests/index.html:54
 msgid "Preprocessed"
 msgstr "Предобработанный"
 
-#: src/templates/requests/index.html:59
+#: src/templates/requests/index.html:61
 msgid "Introduction"
 msgstr "Приветствие"
 
-#: src/templates/requests/index.html:68
+#: src/templates/requests/index.html:70
 msgid "Error during preprocessing"
 msgstr "Ошибка при обработке"
 
-#: src/templates/requests/index.html:85
+#: src/templates/requests/index.html:87
 msgid "Next statement"
 msgstr "Следующий блок"
 
-#: src/templates/requests/index.html:97
+#: src/templates/requests/index.html:99
 msgid "Empty response body"
 msgstr "Пустое тело ответа"
 
-#: src/templates/requests/index.html:101
+#: src/templates/requests/index.html:103
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -427,19 +458,15 @@ msgstr "Стрим <span>%(stream_name)s</span> на %(server_name)s"
 msgid "Stream topology"
 msgstr "Топология стрима"
 
-#: src/templates/streams/details.html:32
-msgid "Open full"
-msgstr "Раскрыть"
-
 #: src/templates/streams/details.html:52
 msgid "Kafka topic"
 msgstr "Kafka топик"
 
-#: src/templates/streams/details.html:63
+#: src/templates/streams/details.html:60
 msgid "Wrap text"
 msgstr "Перенос текста"
 
-#: src/templates/streams/details.html:75
+#: src/templates/streams/details.html:72
 msgid "Cluster statistics"
 msgstr "Статистика кластера"
 
@@ -453,7 +480,7 @@ msgstr "Стрим <b>%(deleted_stream)s</b> был успешно удален!
 msgid "Streams on %(name)s"
 msgstr "Стримы на %(name)s"
 
-#: src/templates/streams/list.html:34 src/templates/topics/list.html:16
+#: src/templates/streams/list.html:34 src/templates/topics/list.html:17
 msgid "Name"
 msgstr "Имя"
 
@@ -474,19 +501,19 @@ msgstr "стрим"
 msgid "Topics for %(name)s"
 msgstr "Топики для %(name)s"
 
-#: src/templates/topics/list.html:17
+#: src/templates/topics/list.html:18
 msgid "Partitions"
 msgstr "Партиции"
 
-#: src/templates/topics/list.html:18
+#: src/templates/topics/list.html:19
 msgid "Replicas"
 msgstr "Реплики"
 
-#: src/templates/topics/list.html:19
+#: src/templates/topics/list.html:20
 msgid "Consumers"
 msgstr "Консюмеры"
 
-#: src/templates/topics/list.html:20
+#: src/templates/topics/list.html:21
 msgid "Groups"
 msgstr "Группы"
 
@@ -494,3 +521,6 @@ msgstr "Группы"
 #, python-format
 msgid "Streams and queries topology for %(name)s"
 msgstr "Топология стримов и операций на %(name)s"
+
+#~ msgid "This is a protection measure."
+#~ msgstr ""

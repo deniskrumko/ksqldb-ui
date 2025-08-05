@@ -18,11 +18,22 @@ def sample_url():
 
 
 @pytest.fixture
-def fastapi_request():
+def app(settings):
+    class MockApp:
+        def __init__(self, settings):
+            self.settings = settings
+
+    return MockApp(settings)
+
+
+@pytest.fixture
+def fastapi_request(app):
     return Request(
         scope={
             "type": "http",
             "query_string": b"s=testing",
+            "app": app,
+            "test": True,
         },
     )
 

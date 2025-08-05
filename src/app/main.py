@@ -1,6 +1,4 @@
 import traceback
-from collections import deque
-from pathlib import Path
 from typing import (
     Any,
     Callable,
@@ -8,74 +6,26 @@ from typing import (
 
 import httpx
 from fastapi import (
-    FastAPI,
     Request,
     Response,
 )
 from starlette.responses import RedirectResponse
 
-from app.core.fastapi import CacheControlledStaticFiles
-from app.core.ksqldb.resources import KsqlException
+from app.core.fastapi import init_fastapi_app
+from app.core.ksqldb import KsqlException
 from app.core.settings import (
-    README,
     Server,
-    Settings,
     get_server_code,
-    get_settings,
 )
 from app.core.templates import (
     ERROR_TEMPLATE,
     render_template,
     run_startup_checks,
 )
-from app.core.utils import (
-    get_version,
-    make_list,
-)
+from app.core.utils import make_list
 
-
-def init_fastapi_app() -> FastAPI:
-    app = FastAPI()
-    try:
-        settings: Settings = get_settings()
-    except Exception as e:
-        print(f"\n{e}\n{README}#configuration\n")  # noqa
-        raise SystemExit(1)
-
-    app.settings = settings
-    if settings.history.enabled:
-        app.history = deque(maxlen=settings.history.size)
-
-    static_dir = Path(__file__).parent.parent / "static"
-    app.mount("/static", CacheControlledStaticFiles(directory=static_dir), name="static")
-
-    app.app_version = get_version()
-    return app
-
-
-def register_routes(app: FastAPI) -> None:
-    from app.index import router as index_page
-    from app.queries import router as queries_page
-    from app.requests import router as requests_page
-    from app.status import router as status_page
-    from app.streams import router as streams_page
-    from app.topics import router as topics_page
-    from app.topology import router as topology_page
-
-    for route in (
-        index_page,
-        queries_page,
-        requests_page,
-        streams_page,
-        status_page,
-        topology_page,
-        topics_page,
-    ):
-        app.include_router(route)
-
-
+# Initialize FastAPI application
 app = init_fastapi_app()
-register_routes(app)
 
 
 @app.middleware("http")
