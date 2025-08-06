@@ -1,0 +1,526 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-08-05 13:46+0500\n"
+"PO-Revision-Date: 2025-08-01 15:23+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/app/core/ksqldb/client.py:172
+#, python-brace-format
+msgid "Failed to execute ksqlDB request: {}"
+msgstr "Ошибка при выполнении ksqlDB запроса: {}"
+
+#: src/app/queries/views.py:36
+msgid "Query name is not set"
+msgstr "Имя операции не указано"
+
+#: src/app/queries/views.py:52
+msgid "Failed to explain query {query_name}. Maybe wrong server?"
+msgstr ""
+"Ошибка при получении описания операции {query_name}. Может её нет на этом сервере?"
+
+#: src/app/streams/views.py:38
+msgid "Stream name is not set"
+msgstr "Имя стрима не уазано"
+
+#: src/app/streams/views.py:43
+#, python-brace-format
+msgid ""
+"Cannot delete {name} system stream from ksqldb-ui. This is a protection "
+"measure."
+msgstr "Невозможно удалить системный стрим {name} через ksqldb-ui и не советуем этого делать напрямую 👌"
+
+#: src/app/streams/views.py:66
+#, python-brace-format
+msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
+msgstr ""
+"Ошибка при получении описания стрима {stream_name}. Может его нет на этом сервере?"
+
+#: src/templates/error.html:7
+msgid "OMG 😱 Exception happened"
+msgstr "Что-то пошло не так 😱"
+
+#: src/templates/error.html:10
+#, python-format
+msgid "Your selected ksqlDB server is <b>%(name)s</b>"
+msgstr "Выбранный ksqlDB сервер: <b>%(name)s</b>"
+
+#: src/templates/error.html:38
+msgid "Go back to list page"
+msgstr "Вернуться к списку"
+
+#: src/templates/error.html:45
+#, python-format
+msgid ""
+"Probably server <code>%(name)s</code> is <b>still booting</b> up or works"
+" in <b>non-interactive (headless) mode</b> and doesn't respond to REST "
+"requests."
+msgstr ""
+"Возможно, сервер <code>%(name)s</code> <b>еще загружается</b> или "
+"работает в <b>неинтерактивном режиме (headless)</b> и не отвечает на REST"
+" запросы."
+
+#: src/templates/error.html:46
+msgid "Learn more about it"
+msgstr "Узнать больше"
+
+#: src/templates/error.html:63
+msgid "Show full traceback"
+msgstr "Показать полную трассировку"
+
+#: src/templates/error.html:76 src/templates/status/index.html:51
+msgid "Debug page"
+msgstr "Страница отладки"
+
+#: src/templates/error_no_server.html:6
+msgid "Server not found"
+msgstr "Сервер не найден"
+
+#: src/templates/error_no_server.html:9
+#, python-format
+msgid ""
+"Looks like requested server <b>\"%(code)s\"</b> not found in config file "
+"or env vars. Try going back to index page to select default server"
+msgstr ""
+"Похоже, запрашиваемый сервер <b>\"%(code)s\"</b> не найден в "
+"конфигурационном файле или переменных окружения. Попробуйте вернуться на "
+"главную страницу для выбора сервера по умолчанию"
+
+#: src/templates/error_no_server.html:12
+msgid "Go back to index page"
+msgstr "Вернуться на главную страницу"
+
+#: src/templates/includes/hidden_data.html:3
+msgid "Show original data"
+msgstr "Показать исходные данные"
+
+#: src/templates/includes/hidden_response_details.html:4
+msgid "Show original request and full response"
+msgstr "Показать исходный запрос и полный ответ"
+
+#: src/templates/includes/hidden_response_details.html:8
+msgid "Request"
+msgstr "Запрос"
+
+#: src/templates/includes/hidden_response_details.html:12
+#: src/templates/requests/index.html:43 src/templates/requests/index.html:59
+msgid "Response"
+msgstr "Ответ"
+
+#: src/templates/includes/list_page_filters.html:11
+msgid "Reset"
+msgstr "Сбросить"
+
+#: src/templates/includes/modal_delete.html:6
+#, python-format
+msgid "Delete %(objectType)s"
+msgstr "Удаление сущности: %(objectType)s"
+
+#: src/templates/includes/modal_delete.html:10
+#, python-format
+msgid "Do you really want to delete %(objectType)s"
+msgstr "Вы действительно хотите удалить сущность: %(objectType)s"
+
+#: src/templates/includes/modal_delete.html:15
+msgid "Yes, delete it"
+msgstr "Да, удалить"
+
+#: src/templates/includes/modal_delete.html:16
+msgid "No, thanks"
+msgstr "Нет, спасибо"
+
+#: src/templates/includes/navbar.html:17 src/templates/requests/index.html:4
+msgid "Requests"
+msgstr "Запросы"
+
+#: src/templates/includes/navbar.html:21 src/templates/requests/history.html:4
+#: src/templates/requests/history.html:8
+msgid "History"
+msgstr "История"
+
+#: src/templates/includes/navbar.html:25 src/templates/queries/list.html:60
+#: src/templates/streams/details.html:4 src/templates/streams/list.html:4
+msgid "Streams"
+msgstr "Стримы"
+
+#: src/templates/includes/navbar.html:28 src/templates/queries/details.html:4
+#: src/templates/queries/list.html:4
+msgid "Queries"
+msgstr "Операции"
+
+#: src/templates/includes/navbar.html:31 src/templates/topology/index.html:4
+msgid "Topology"
+msgstr "Топология"
+
+#: src/templates/includes/navbar.html:34 src/templates/topics/list.html:4
+msgid "Topics"
+msgstr "Топики"
+
+#: src/templates/includes/navbar.html:37 src/templates/status/index.html:4
+msgid "Status"
+msgstr "Статус"
+
+#: src/templates/includes/response_keys.html:7
+msgid "Response keys"
+msgstr "Ключи ответа"
+
+#: src/templates/includes/response_keys.html:16
+msgid "Go to top"
+msgstr "Наверх"
+
+#: src/templates/includes/welcome.html:2
+msgid "Welcome to ksqldb-ui"
+msgstr "Добро пожаловать в ksqldb-ui"
+
+#: src/templates/includes/welcome.html:5
+msgid "The interface is pretty simple:"
+msgstr "Интерфейс довольно простой:"
+
+#: src/templates/includes/welcome.html:8
+msgid "Type your query in <b class=\"accent-text\">Request</b> section."
+msgstr "Введите ваш запрос поле ввода слева."
+
+#: src/templates/includes/welcome.html:9
+msgid "You can find query docs"
+msgstr "Вы можете посмотреть документацию"
+
+#: src/templates/includes/welcome.html:10
+msgid "by link"
+msgstr "по ссылке"
+
+#: src/templates/includes/welcome.html:13
+msgid ""
+"Click <b class=\"accent-text\">execute</b> button or press <span "
+"class=\"badge text-bg-purple\">Shift + Enter</span> to perform request"
+msgstr ""
+"Для отправки запроса нажмите кнопку <b class=\"accent-"
+"text\">выполнить</b> или сочетание клавиш <span class=\"badge text-bg-"
+"purple\">Shift + Enter</span>"
+
+#: src/templates/includes/welcome.html:15
+msgid "More info on project homepage:"
+msgstr "Больше информации есть на странице проекта:"
+
+#: src/templates/includes/help_messages/button.html:2
+msgid "Show help"
+msgstr "Что это такое?"
+
+#: src/templates/includes/help_messages/queries.html:2
+msgid ""
+"Query is a continuous SQL statement that processes real-time data from "
+"streams (basically, events from Kafka topics), transforming or filtering "
+"it into new streams or tables. Unlike traditional SQL, ksqlDB queries run"
+" continuously and update results as new events arrive.<br><br>Queries "
+"with prefix <code>CSAS_</code> means that they were created using "
+"<code>CREATE STREAM ... AS SELECT</code> SQL statements.<br>Queries with "
+"name <code>INSERTQUERY_</code> were created using <code>INSERT INTO ... "
+"SELECT</code> SQL statements."
+msgstr ""
+"Операция — это непрерывный SQL-запрос, который обрабатывает данные в "
+"реальном времени из стримов (то есть событий из Kafka-топиков), "
+"преобразуя или фильтруя их в новые стримы или таблицы. В отличие от "
+"традиционного SQL, запросы ksqlDB выполняются постоянно и обновляют "
+"результаты по мере поступления новых событий.<br><br>Операции с префиксом"
+" <code>CSAS_</code> созданы с помощью SQL-команды <code>CREATE STREAM ..."
+" AS SELECT</code>.<br>Операции с именем <code>INSERTQUERY_</code> созданы"
+" с помощью SQL-команды <code>INSERT INTO ... SELECT</code>."
+
+#: src/templates/includes/help_messages/streams.html:2
+msgid ""
+"Stream is a partitioned, immutable, append-only collection that "
+"represents a series of historical facts. In SQL terms, it looks like "
+"table where you can run <code>SELECT</code> queries. Streams don't "
+"stream/process data itself, it only represents sources and destinations "
+"for data, because each stream is associated with single Kafka topic. "
+"Running queries, on the other hand, process/move data from stream to "
+"stream"
+msgstr ""
+"<b>Стрим</b> — это коллекция, представляющая собой последовательность "
+"событий.<br>В терминах SQL это похоже на таблицу, где можно выполнять "
+"запросы <code>SELECT</code>. Стримы сами по себе не обрабатывают и не "
+"передают данные, они лишь представляют откуда берутся или куда пишутся "
+"события, так как каждый стрим связан только с одним "
+"Kafka-топиком.<br><b>Операции</b>, напротив, обрабатывают и перемещают "
+"данные между стримами."
+
+#: src/templates/queries/details.html:16
+#, python-format
+msgid "Query <span>%(query_name)s</span> on %(server_name)s"
+msgstr "Операция <span>%(query_name)s</span> на %(server_name)s"
+
+#: src/templates/queries/details.html:28
+msgid "Query topology"
+msgstr "Топология операции"
+
+#: src/templates/queries/details.html:32 src/templates/streams/details.html:32
+msgid "Open full"
+msgstr "Раскрыть"
+
+#: src/templates/queries/details.html:50 src/templates/streams/details.html:57
+msgid "SQL statement"
+msgstr "SQL запрос"
+
+#: src/templates/queries/details.html:60 src/templates/streams/details.html:67
+msgid "Fields"
+msgstr "Поля"
+
+#: src/templates/queries/details.html:65
+msgid "Tasks"
+msgstr "Задачи"
+
+#: src/templates/queries/list.html:14
+#, python-format
+msgid "Query <b>%(deleted_query)s</b> successfully deleted!"
+msgstr "Операция <b>%(deleted_query)s</b> была успешно удалена!"
+
+#: src/templates/queries/list.html:19
+#, python-format
+msgid "Queries on %(name)s"
+msgstr "Операции на %(name)s"
+
+#: src/templates/queries/list.html:35
+msgid "Type"
+msgstr "Тип"
+
+#: src/templates/queries/list.html:36
+msgid "Sinks"
+msgstr "Приемники"
+
+#: src/templates/queries/list.html:37 src/templates/streams/list.html:37
+msgid "Controls"
+msgstr "Управление"
+
+#: src/templates/queries/list.html:68
+msgid "Kafka topics"
+msgstr "Kafka топики"
+
+#: src/templates/queries/list.html:87
+msgid "query"
+msgstr "операция"
+
+#: src/templates/requests/history.html:11
+#: src/templates/requests/history.html:36
+msgid "Clear history"
+msgstr "Удалить историю"
+
+#: src/templates/requests/history.html:25 src/templates/streams/details.html:59
+msgid "Copy"
+msgstr "Копировать"
+
+#: src/templates/requests/history.html:27
+msgid "Paste"
+msgstr "Вставить"
+
+#: src/templates/requests/history.html:42
+msgid "Make your first request to become a history"
+msgstr "Сделайте свой первый запрос, чтобы войти в историю"
+
+#: src/templates/requests/history.html:45
+msgid ""
+"Just add your cool request here and click <b class=\"accent-"
+"text\">execute</b> button or press"
+msgstr ""
+"Введите свой запрос и нажмите <b class=\"accent-text\">выполнить</b> или "
+"нажми сочетание клавиш"
+
+#: src/templates/requests/history.html:48
+msgid ""
+"<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
+" will wipe your history"
+msgstr ""
+"<b>Примечание:</b> история запросов хранится в оперативной памяти и будет"
+" утеряна при перезапуска ksqldb-ui"
+
+#: src/templates/requests/index.html:15
+#, python-format
+msgid "Request to %(name)s"
+msgstr "Запрос к %(name)s"
+
+#: src/templates/requests/index.html:27
+msgid "execute"
+msgstr "выполнить"
+
+#: src/templates/requests/index.html:33
+msgid "wait..."
+msgstr "подождите..."
+
+#: src/templates/requests/index.html:49
+msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
+msgstr "Кажется в ksqldb-ui закрался баг. Напишите об этом на Github"
+
+#: src/templates/requests/index.html:50
+msgid "Failed to preprocess"
+msgstr "Ошибка при обработке"
+
+#: src/templates/requests/index.html:53
+msgid ""
+"Response was preprocessed to be more human friendly 😎 Scroll to the end "
+"and click \"Show original response\" to see unprocessed response."
+msgstr ""
+"Ответ был немного отформатирован для удобства 😎 Пролистайте вниз и "
+"нажмите \"Показать оригинальный ответ\", если нужно посмотреть исходные "
+"данные."
+
+#: src/templates/requests/index.html:54
+msgid "Preprocessed"
+msgstr "Предобработанный"
+
+#: src/templates/requests/index.html:61
+msgid "Introduction"
+msgstr "Приветствие"
+
+#: src/templates/requests/index.html:70
+msgid "Error during preprocessing"
+msgstr "Ошибка при обработке"
+
+#: src/templates/requests/index.html:87
+msgid "Next statement"
+msgstr "Следующий блок"
+
+#: src/templates/requests/index.html:99
+msgid "Empty response body"
+msgstr "Пустое тело ответа"
+
+#: src/templates/requests/index.html:103
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: src/templates/status/debug.html:11
+msgid "KsqlDB UI settings"
+msgstr "Настройки KsqlDB UI"
+
+#: src/templates/status/debug.html:15
+msgid "Available environment variables"
+msgstr "Доступные переменные окружения"
+
+#: src/templates/status/debug.html:21
+msgid "Request history"
+msgstr "История запросов"
+
+#: src/templates/status/index.html:14
+#, python-format
+msgid "%(name)s server info"
+msgstr "Информация о сервере %(name)s"
+
+#: src/templates/status/index.html:29
+msgid "Server health"
+msgstr "Здоровье сервера"
+
+#: src/templates/status/index.html:35
+msgid "Your ksqlDB server is healthy"
+msgstr "Ваш ksqlDB сервер в порядке"
+
+#: src/templates/status/index.html:36 src/templates/status/index.html:40
+msgid "State"
+msgstr "Статус"
+
+#: src/templates/status/index.html:39
+msgid "Your ksqlDB server is not healthy"
+msgstr "Ваш ksqlDB сервер не в порядке"
+
+#: src/templates/status/index.html:44
+msgid "Components"
+msgstr "Компоненты"
+
+#: src/templates/status/index.html:58
+msgid "Server properties"
+msgstr "Параметры сервера"
+
+#: src/templates/status/index.html:72
+#, python-format
+msgid "Server <code>%(name)s</code> is not responding"
+msgstr "Сервер <code>%(name)s</code> не отвечает"
+
+#: src/templates/status/index.html:74
+msgid "Failed to get info or health check"
+msgstr "Ошибка при получении статуса сервера"
+
+#: src/templates/streams/details.html:16
+#, python-format
+msgid "Stream <span>%(stream_name)s</span> on %(server_name)s"
+msgstr "Стрим <span>%(stream_name)s</span> на %(server_name)s"
+
+#: src/templates/streams/details.html:29
+msgid "Stream topology"
+msgstr "Топология стрима"
+
+#: src/templates/streams/details.html:52
+msgid "Kafka topic"
+msgstr "Kafka топик"
+
+#: src/templates/streams/details.html:60
+msgid "Wrap text"
+msgstr "Перенос текста"
+
+#: src/templates/streams/details.html:72
+msgid "Cluster statistics"
+msgstr "Статистика кластера"
+
+#: src/templates/streams/list.html:14
+#, python-format
+msgid "Stream <b>%(deleted_stream)s</b> successfully deleted!"
+msgstr "Стрим <b>%(deleted_stream)s</b> был успешно удален!"
+
+#: src/templates/streams/list.html:19
+#, python-format
+msgid "Streams on %(name)s"
+msgstr "Стримы на %(name)s"
+
+#: src/templates/streams/list.html:34 src/templates/topics/list.html:17
+msgid "Name"
+msgstr "Имя"
+
+#: src/templates/streams/list.html:35
+msgid "Topic"
+msgstr "Топик"
+
+#: src/templates/streams/list.html:36
+msgid "Key/Value"
+msgstr "Ключ/Значение"
+
+#: src/templates/streams/list.html:64
+msgid "stream"
+msgstr "стрим"
+
+#: src/templates/topics/list.html:10
+#, python-format
+msgid "Topics for %(name)s"
+msgstr "Топики для %(name)s"
+
+#: src/templates/topics/list.html:18
+msgid "Partitions"
+msgstr "Партиции"
+
+#: src/templates/topics/list.html:19
+msgid "Replicas"
+msgstr "Реплики"
+
+#: src/templates/topics/list.html:20
+msgid "Consumers"
+msgstr "Консюмеры"
+
+#: src/templates/topics/list.html:21
+msgid "Groups"
+msgstr "Группы"
+
+#: src/templates/topology/index.html:15
+#, python-format
+msgid "Streams and queries topology for %(name)s"
+msgstr "Топология стримов и операций на %(name)s"
+
+#~ msgid "This is a protection measure."
+#~ msgstr ""

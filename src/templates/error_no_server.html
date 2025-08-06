@@ -3,13 +3,13 @@
 {% block body %}
 <div class="container">
   <br>
-  <h1 class="display-4">Server not found: <b>{{code}}</b></h1>
+  <h1 class="display-4">{% trans %}Server not found{% endtrans %}: <b>{{code}}</b></h1>
   <br>
   <div class="alert alert-danger">
-    Looks like requested server <b>"{{code}}"</b> not found in config file or env vars. Try going back to index page to select default server
+  {% trans %}Looks like requested server <b>"{{code}}"</b> not found in config file or env vars. Try going back to index page to select default server{% endtrans %}
   </div>
   <div style="margin: 10px 0px;">
-    <a href="/" class="btn btn-primary">Go back to index page</a>
+    <a href="/" class="btn btn-primary">{% trans %}Go back to index page{% endtrans %}</a>
   </div>
   <br><br>
 </div>

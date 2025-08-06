@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from httpx._models import Response as HttpxResponse
 from starlette.templating import _TemplateResponse as TemplateResponse
 
+from .i18n import get_translations
 from .settings import get_server_code
 from .utils import (
     CONTEXT_REQUEST_KEY,
@@ -35,6 +36,11 @@ def get_templates() -> Jinja2Templates:
     from .render import RENDER_HELPERS
 
     templates.env.globals.update(**RENDER_HELPERS)
+    templates.env.add_extension("jinja2.ext.i18n")
+
+    # Set translations
+    translations = get_translations()
+    templates.env.install_gettext_translations(translations)
 
     TEMPLATES = templates
     return templates
@@ -81,3 +87,23 @@ def get_base_context(request: Request) -> dict:
         }
     except Exception:
         return {}
+
+
+def run_startup_checks(app: Any) -> None:
+    """Run startup checks and render index template."""
+    from starlette.requests import Request
+
+    request = Request(
+        scope={
+            "type": "http",
+            "method": "GET",
+            "path": "/",
+            "query_string": b"",
+            "headers": [],
+            "app": app,
+        },
+    )
+
+    response = render_template("requests/index.html", request=request)
+    if response.status_code != 200:
+        raise RuntimeError("Startup checks failed")

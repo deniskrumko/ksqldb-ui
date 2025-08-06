@@ -4,11 +4,7 @@ from fastapi import (
 )
 from fastapi.responses import Response
 
-from app.core.ksqldb import (
-    KsqlEndpoints,
-    KsqlException,
-    KsqlRequest,
-)
+from app.core.ksqldb import get_ksql_client
 from app.core.templates import render_template
 
 router = APIRouter()
@@ -17,18 +13,10 @@ router = APIRouter()
 @router.get("/status")
 async def get_server_status(request: Request) -> Response:
     """View to list all available queries."""
-    info = await KsqlRequest(request, endpoint=KsqlEndpoints.INFO, method="GET").execute()
-    if not info.is_success:
-        raise KsqlException("Failed to get info", info)
-
-    health = await KsqlRequest(request, endpoint=KsqlEndpoints.HEALTH, method="GET").execute()
-    if not health.is_success:
-        raise KsqlException("Failed to get health", health)
-
-    properties = await KsqlRequest(request, raw_query="SHOW PROPERTIES;").execute()
-    if not properties.is_success:
-        raise KsqlException("Failed to get properties", health)
-
+    ksql = get_ksql_client(request)
+    info = await ksql.get_info()
+    health = await ksql.get_health()
+    properties = await ksql.execute_statement("SHOW PROPERTIES;")
     return render_template(
         "status/index.html",
         request,

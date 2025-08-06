@@ -1,0 +1,3 @@
+{% if request.app.settings.global_settings.show_hints %}
+<img src="/static/icons/help.svg" class="img-btn help-btn" id="page-help-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="{% trans %}Show help{% endtrans %}" onclick="togglePageHelp();">
+{% endif %}

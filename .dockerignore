@@ -1,0 +1,15 @@
+.git
+.gitignore
+.version
+.github
+.idea
+.mypy_cache
+*.mo
+*.pot
+config/*
+docker-compose.yml
+Dockerfile
+LICENCE
+Makefile
+src/static/vendor
+src/tests

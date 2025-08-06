@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Requests - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Requests{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -12,21 +12,25 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     <!-- LEFT SECTION -->
     <div class="col-md-6" id="col-left-collapsable">
       <h2 class="title-h2">
-        Request to {{ current_server.display_name }}
-        <img src="/static/icons/copy.png" alt="Copy" onclick="copyEditor('editor')" class="request-btn" data-toggle="tooltip" data-placement="top" title="Copy request">
-        <img src="/static/icons/wrap.png" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" class="request-btn" data-toggle="tooltip" data-placement="top" title="Wrap text">
+        {% trans name=current_server.display_name %}Request to {{ name }}{% endtrans %}
+        <div class="section-buttons">
+          <img src="/static/icons/wrap.svg" class="img-btn" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Wrap text{% endtrans %}">
+          <img src="/static/icons/copy.svg" class="img-btn" alt="Copy" onclick="copyEditor('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+        </div>
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
         <!-- EDITOR -->
         <div id="editor">{% if query %}{{ query }}{% endif %}</div>
         <textarea name="query" id="query" hidden></textarea>
         <!-- Submit button -->
-        <button type="submit" class="btn-execute btn-execute-active" id="executeButton">execute</button>
+        <button type="submit" class="btn-execute btn-execute-active" id="executeButton">
+          {% trans %}execute{% endtrans %}
+        </button>
 
         <!-- Fake submit button -->
         <button id="executeButtonWait" class="btn-execute btn-execute-wait" type="button" disabled style="display: none;">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          wait...
+          {% trans %}wait...{% endtrans %}
         </button>
       </form>
     </div>
@@ -36,25 +40,25 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
       <h2 class="title-h2">
         {% block right_section_header %}
           {% if x_response %}
-          Response
+          {% trans %}Response{% endtrans %}
           <span class="http-badge badge text-bg-{{ render_level(x_response) }}">
             HTTP {{ x_response.code }}
           </span>
 
           {% if preprocess_error %}
-          <span class="http-badge badge text-bg-warning" data-toggle="tooltip" data-placement="bottom" title='Looks like there is a bug in ksqldb-ui code. Please report it on GitHub.'>
-            Failed to preprocess
+          <span class="http-badge badge text-bg-warning" data-toggle="tooltip" data-placement="bottom" title='{% trans %}Looks like there is a bug in ksqldb-ui code. Please report it on GitHub.{% endtrans %}'>
+            {% trans %}Failed to preprocess{% endtrans %}
           </span>
           {% elif preprocessed_data %}
-          <span class="http-badge badge text-bg-secondary" data-toggle="tooltip" data-placement="bottom" title='Response was preprocessed to be more human friendly 😎 Scroll to the end and click "Show original response" to see unprocessed response.'>
-            Preprocessed
+          <span class="http-badge badge text-bg-secondary" data-toggle="tooltip" data-placement="bottom" title='{% trans %}Response was preprocessed to be more human friendly 😎 Scroll to the end and click "Show original response" to see unprocessed response.{% endtrans %}'>
+            {% trans %}Preprocessed{% endtrans %}
           </span>
           {% endif %}
 
           {% elif warning_msg %}
-          Response
+          {% trans %}Response{% endtrans %}
           {% else %}
-          Introduction
+          {% trans %}Introduction{% endtrans %}
           {% endif %}
         {% endblock %}
       </h2>
@@ -62,7 +66,9 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
       {% block right_section %}
         {% if preprocess_error %}
           <div class="alert alert-warning">
-            <h4 class="alert-heading">Error during preprocessing</h4>
+            <h4 class="alert-heading">
+              {% trans %}Error during preprocessing{% endtrans %}
+            </h4>
             <div>{{ preprocess_error }}</div>
           </div>
         {% endif%}
@@ -77,7 +83,9 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
                 {{render_section(section)|safe}}
 
                 {% if not loop.last %}
-                <div class="divider">Next statement</div>
+                <div class="divider">
+                  {% trans %}Next statement{% endtrans %}
+                </div>
                 {% endif %}
               {% endfor %}
             </div>
@@ -88,11 +96,11 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
           <br>
           {% endfor %}
           {% else %}
-          <h3>Empty response body</h3>
+          <h3>{% trans %}Empty response body{% endtrans %}</h3>
           {% endif %}
         {% elif warning_msg %}
           <div class="alert alert-warning">
-            <h4 class="alert-heading">Warning</h4>
+            <h4 class="alert-heading">{% trans %}Warning{% endtrans %}</h4>
             <div>{{ warning_msg }}</div>
           </div>
         {% else %}
@@ -141,11 +149,12 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
   }
 
   function adjustEditorHeight() {
-    let padding = 200
+    let padding = 178;
     const editor = document.getElementById('editor');
     const topWarning = document.getElementById('top-warning-message');
     if (topWarning) {
-      padding = 200 + topWarning.offsetHeight;
+      padding += topWarning.offsetHeight;
+      console.log("Top warning found, add extra padding");
     }
 
     const windowHeight = window.innerHeight;
@@ -153,6 +162,7 @@ ksqlDB UI - Requests - {{ current_server.display_name }}
     const newHeight = windowHeight - padding;
 
     editor.style.height = newHeight + 'px';
+    console.log("New height:", newHeight);
   }
 
   // Recalculate on window resize

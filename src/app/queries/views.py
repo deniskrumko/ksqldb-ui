@@ -6,10 +6,8 @@ from fastapi import (
 )
 from fastapi.responses import Response
 
-from app.core.ksqldb import (
-    KsqlException,
-    KsqlRequest,
-)
+from app.core.i18n import _
+from app.core.ksqldb import get_ksql_client
 from app.core.templates import render_template
 
 router = APIRouter()
@@ -18,16 +16,13 @@ router = APIRouter()
 @router.get("/queries")
 async def list_view(request: Request, extra_context: Optional[dict] = None) -> Response:
     """View to list all available queries."""
-    response = await KsqlRequest(request, "SHOW QUERIES").execute()
-    if not response.is_success:
-        raise KsqlException("Failed to show queries", response)
-
-    data = response.json()
+    ksql = get_ksql_client(request)
+    response = await ksql.execute_statement("SHOW QUERIES")
     return render_template(
         "queries/list.html",
         request=request,
         response=response,
-        queries=sorted(data[0]["queries"], key=lambda x: x["id"]),
+        queries=sorted(response.json()[0]["queries"], key=lambda x: x["id"]),
         **(extra_context or {}),
     )
 
@@ -38,12 +33,9 @@ async def delete_query(request: Request) -> Response:
     form_data = await request.form()
     query_name = form_data["delete_object"]
     if not query_name:
-        raise ValueError("Query name is not set")
+        raise ValueError(_("Query name is not set"))
 
-    response = await KsqlRequest(request, f"TERMINATE {query_name}").execute()
-    if not response.is_success:
-        raise KsqlException("Failed to drop query", response)
-
+    await get_ksql_client(request).execute_statement(f"TERMINATE {query_name}")
     return await list_view(
         request,
         extra_context={
@@ -55,13 +47,13 @@ async def delete_query(request: Request) -> Response:
 @router.get("/queries/{query_name}")
 async def detail_view(request: Request, query_name: str) -> Response:
     """View to show query details."""
-    response = await KsqlRequest(request, f"EXPLAIN {query_name}").execute()
-    if not response.is_success:
-        raise KsqlException(
-            f"Failed to explain query {query_name}. Maybe wrong server?",
-            response,
-            list_page_url=str(request.url_for("list_view")),
-        )
+    response = await get_ksql_client(request).execute_statement(
+        f"EXPLAIN {query_name}",
+        exc_message=_("Failed to explain query {query_name}. Maybe wrong server?").format(
+            query_name=query_name,
+        ),
+        list_page_url=str(request.url_for("list_view")),
+    )
 
     data = response.json()
     query = data[0]

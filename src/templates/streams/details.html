@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Streams - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Streams{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block css %}
@@ -13,8 +13,12 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
   <div class="row">
     <div class="col">
       <h2 class="title-h2">
-        Stream <span>{{ stream.sourceDescription.name }}</span> on {{ current_server.display_name }}
+        {% trans stream_name=stream.sourceDescription.name, server_name=current_server.display_name %}Stream <span>{{ stream_name }}</span> on {{ server_name }}{% endtrans %}
+        {% include "includes/help_messages/button.html" %}
       </h2>
+
+      <!-- Help -->
+      {% include "includes/help_messages/streams.html" %}
 
       <!-- Bubbles -->
       {{ render_bubbles(stream.sourceDescription, keys=["keyFormat", "valueFormat", "partitions",
@@ -22,10 +26,10 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
 
       <!-- Topology -->
       <div class="section">
-        Stream topology
-        <div class="resp-key-buttons">
+        {% trans %}Stream topology{% endtrans %}
+        <div class="section-buttons">
           <a href="/topology/?{{current_server.query}}&highlight={{ stream.sourceDescription.name }}">
-            <img src="/static/icons/open-link.png" class="request-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="Open full">
+            <img src="/static/icons/openfull.svg" class="img-btn" alt="Open" data-toggle="tooltip" data-placement="top" title="{% trans %}Open full{% endtrans %}">
           </a>
         </div>
       </div>
@@ -45,30 +49,27 @@ ksqlDB UI - Streams - {{ current_server.display_name }}
       <div id="svg-parent"></div>
 
       <!-- Topic -->
-      <div class="section">Topic</div>
+      <div class="section">{% trans %}Kafka topic{% endtrans %}</div>
       <div>{{ render_topic_link(request, stream.sourceDescription.topic, classes="link-offset-2")|safe }}</div>
 
       <!-- SQL statement -->
       <div class="section">
-        SQL statement
-        <div class="resp-key-buttons">
-          <img src="/static/icons/copy.png" alt="Copy" onclick="copyEditor('sql-statement');" class="request-btn"
-            data-toggle="tooltip" data-placement="top" title="Copy">
-
-          <img src="/static/icons/wrap.png" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')"
-            class="request-btn" data-toggle="tooltip" data-placement="top" title="Wrap text">
+        {% trans %}SQL statement{% endtrans %}
+        <div class="section-buttons">
+          <img src="/static/icons/wrap.svg" alt="Wrap" id="wrap-text" onclick="toggleWrapText('sql-statement')" class="img-btn" data-toggle="tooltip" data-placement="top" title="{% trans %}Wrap text{% endtrans %}">
+          <img src="/static/icons/copy.svg" alt="Copy" onclick="copyEditor('sql-statement');" class="img-btn" data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
         </div>
       </div>
       <div id="sql-statement" class="ace-editor-custom width100">{{ stream.sourceDescription.statement }}</div>
       <textarea name="query" id="stream-state" hidden></textarea>
 
       <!-- Fields -->
-      <div class="section">Fields</div>
+      <div class="section">{% trans %}Fields{% endtrans %}</div>
       {{ render_stream_fields(stream.sourceDescription.fields)|safe }}
 
       <!-- Stats -->
       {% if stream.sourceDescription.clusterStatistics %}
-      <div class="section">Cluster statistics</div>
+      <div class="section">{% trans %}Cluster statistics{% endtrans %}</div>
       {{ render_table(stream.sourceDescription.clusterStatistics, show_line_numbers=False, options={"timestamp": "ts"})|
       safe }}
       {% endif %}

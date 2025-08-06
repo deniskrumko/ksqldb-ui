@@ -75,3 +75,10 @@ function copyRespValue(e) {
 
   console.log('Copied resp value of length', text.length);
 }
+
+function togglePageHelp() {
+  const helpSection = document.getElementById("page-help-section");
+  if (helpSection) {
+    helpSection.style.display = helpSection.style.display === "block" ? "none" : "block";
+  }
+}

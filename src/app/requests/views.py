@@ -4,7 +4,7 @@ from fastapi import (
 )
 from starlette.responses import Response
 
-from app.core.ksqldb import KsqlRequest
+from app.core.ksqldb import get_ksql_client
 from app.core.preprocess import preprocess_data
 from app.core.templates import render_template
 
@@ -29,8 +29,8 @@ async def perform_request(request: Request) -> Response:
     if query := form_data["query"]:
         add_request_to_history(request, query)
 
-        ksql_request = KsqlRequest(request, query)
-        ksql_response = await ksql_request.execute(query_fallback=True)
+        ksql = get_ksql_client(request)
+        ksql_response = await ksql.execute_statement_then_query(str(query))
         context["query"] = query
 
         try:

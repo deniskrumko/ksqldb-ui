@@ -1,13 +1,17 @@
-<h1 class="display-3">Welcome to ksqldb-ui</h1>
+<h1 class="display-3">
+{% trans %}Welcome to ksqldb-ui{% endtrans %}
+</h1>
 <p>
-  The interface is pretty simple:
+  {% trans %}The interface is pretty simple:{% endtrans %}
   <ul>
     <li>
-      Type your query in <b class="b-hl">Request</b> section.
-      You can find query docs
-      <a href="https://docs.confluent.io/platform/current/ksqldb/developer-guide/ksqldb-reference/overview.html#ksqldb-api-index" class="link-offset-1" target="_blank">here</a>
+      {% trans %}Type your query in <b class="accent-text">Request</b> section.{% endtrans %}
+      {% trans %}You can find query docs{% endtrans %}
+      <a href="https://docs.confluent.io/platform/current/ksqldb/developer-guide/ksqldb-reference/overview.html#ksqldb-api-index" class="link-offset-1" target="_blank">{% trans %}by link{% endtrans %}</a>
     </li>
-    <li>Click <b class="b-hl">execute</b> button or press <span class="badge text-bg-purple">Shift + Enter</span> to perform request</li>
-    <li>More info on project homepage: <a id="git-link" href="https://github.com/deniskrumko/ksqldb-ui" target="_blank"><img src="/static/icons/github.svg" alt="github">deniskrumko/ksqldb-ui</a></li>
+    <li>
+      {% trans %}Click <b class="accent-text">execute</b> button or press <span class="badge text-bg-purple">Shift + Enter</span> to perform request{% endtrans %}
+    </li>
+    <li>{% trans %}More info on project homepage:{% endtrans %} <a id="git-link" href="https://github.com/deniskrumko/ksqldb-ui" target="_blank"><img src="/static/icons/github.svg" alt="github">deniskrumko/ksqldb-ui</a></li>
   </ul>
 </p>

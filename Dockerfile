@@ -16,15 +16,17 @@ RUN pipenv install --ignore-pipfile --system && \
     rm -rf ~/.cache/pip /root/.cache/pipenv /root/.local/share/virtualenvs
 
 # Install JS/CSS vendor dependencies
-COPY src/ .
-COPY scripts/download_vendor.sh .
+COPY ./ .
 RUN set -e && \
-    rm -rf static/vendor && \
-    VENDOR=static/vendor sh download_vendor.sh
+    VENDOR=src/static/vendor sh scripts/download_vendor.sh
+
+# Compile translations
+RUN sh scripts/compile_translations.sh
 
 ARG KSQLDBUI_VERSION="undefined"
 RUN echo ${KSQLDBUI_VERSION} >> .version
 
+ENV PYTHONPATH=src
 EXPOSE 8080
 
 CMD ["python3", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - Status - {{ current_server.display_name }}
+ksqlDB UI - {% trans %}Status{% endtrans %} - {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@ ksqlDB UI - Status - {{ current_server.display_name }}
     <!-- LEFT SECTION -->
     <div class="col-md-6">
       <h2 class="title-h2">
-        {{ current_server.display_name }} server info
+      {% trans name=current_server.display_name %}{{ name }} server info{% endtrans %}
       </h2>
 
       {% if info %}
@@ -26,36 +26,36 @@ ksqlDB UI - Status - {{ current_server.display_name }}
     <!-- RIGHT SECTION -->
     <div class="col-md-6">
       <h2 class="title-h2">
-        Health
+        {% trans %}Server health{% endtrans %}
       </h2>
 
       {% if health %}
         {% if health.isHealthy %}
         <div class="alert alert-success">
-          <h2>Your ksqlDB server is healthy ✅</h2>
-          State: <span class="badge text-bg-success">{{ health.serverState }}</span>
+          <h2>{% trans %}Your ksqlDB server is healthy{% endtrans %} ✅</h2>
+          {% trans %}State{% endtrans %}: <span class="badge text-bg-success">{{ health.serverState }}</span>
         {% else %}
         <div class="alert alert-danger">
-          <h2>Your ksqlDB server is not healthy 🔥</h2>
-          State: <span class="badge text-bg-danger">{{ health.serverState }}</span>
+          <h2>{% trans %}Your ksqlDB server is not healthy{% endtrans %} 🔥</h2>
+          {% trans %}State{% endtrans %}: <span class="badge text-bg-danger">{{ health.serverState }}</span>
         {% endif %}
 
         <br><br>
-        Components:
+        {% trans %}Components{% endtrans %}:
         <ul>
           {% for k, v in health.details.items() %}
           <li>{{ k }} – {% if v %}✅{% else %}🔥{% endif %}</li>
           {% endfor %}
         </ul>
       {% endif %}
-      {{ render_link("/debug", "Debug page", target=False)|safe }}
+      {{ render_link("/debug", _("Debug page"), target=False)|safe }}
       </div>
     </div>
   </div>
 
   {% if properties %}
   <br>
-  <h2>Server properties</h2>
+  <h2>{% trans %}Server properties{% endtrans %}</h2>
   <div class="row">
     {{ render_table(properties, options={"value": "break", "scope": "ignore", "level": "badge"})|safe }}
   </div>
@@ -68,8 +68,10 @@ ksqlDB UI - Status - {{ current_server.display_name }}
 {% else %}
 <div class="container">
   <br>
-  <h1 class="display-4">Server <code>{{ current_server.display_name }}</code> is not responding</h1>
-  <p>Failed to get info or health check</p>
+  <h1 class="display-4">
+  {% trans name=current_server.display_name %}Server <code>{{ name }}</code> is not responding{% endtrans %}
+  </h1>
+  <p>{% trans %}Failed to get info or health check{% endtrans %}</p>
   <br>
   <div class="alert alert-danger">
     <h3>{{exc.__class__.__name__}}</h3>

@@ -3,9 +3,11 @@
 {% block body %}
 <div class="container">
   <br>
-  <h1 class="display-4">OMG 😱 Exception happened</h1>
+  <h1 class="display-4">
+    {% trans %}OMG 😱 Exception happened{% endtrans %}
+  </h1>
   <p>
-    Your selected ksqlDB server is <b>{{ current_server.display_name }}</b>:
+    {% trans name=current_server.display_name %}Your selected ksqlDB server is <b>{{ name }}</b>{% endtrans %}:
     {{ render_link(current_server.simple_url, classes='link-offset-2')|safe }}
   </p>
   <br>
@@ -32,14 +34,16 @@
     <pre class="wrap-pre">{{ detail }}</pre>
     {% if list_page_url %}
     <div style="margin: 10px 0px;">
-      <a href="{{list_page_url}}" class="btn btn-primary">Go back to list page</a>
+      <a href="{{list_page_url}}" class="btn btn-primary">
+        {% trans %}Go back to list page{% endtrans %}
+      </a>
     </div>
     {% endif %}
     {% endif %}
 
     {% if booting_up %}
-    Probably server <code>{{current_server.display_name}}</code> is <b>still booting</b> up or works in <b>non-interactive (headless) mode</b> and doesn't respond to REST requests.
-    <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">Learn more about it</a>
+    {% trans name=current_server.display_name %}Probably server <code>{{name}}</code> is <b>still booting</b> up or works in <b>non-interactive (headless) mode</b> and doesn't respond to REST requests.{% endtrans %}
+    <a href="https://docs.confluent.io/legacy/platform/5.1.4/ksql/docs/installation/server-config/index.html#non-interactive-headless-ksql-usage" target="_blank">{% trans %}Learn more about it{% endtrans %}</a>
     {% endif %}
 
     {% if error_response and error_response.data%}
@@ -56,7 +60,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-          Show full traceback
+          {% trans %}Show full traceback{% endtrans %}
         </button>
       </h2>
       <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -69,7 +73,7 @@
     </div>
   </div>
   {% endif %}
-  {{ render_link("/debug", "Debug page")|safe }}
+  {{ render_link("/debug", (_("Debug page"))) | safe }}
   <br><br>
 </div>
 {% endblock %}
