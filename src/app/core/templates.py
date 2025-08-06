@@ -38,7 +38,7 @@ def get_templates() -> Jinja2Templates:
     templates.env.globals.update(**RENDER_HELPERS)
     templates.env.add_extension("jinja2.ext.i18n")
 
-    # Устанавливаем переводы
+    # Set translations
     translations = get_translations()
     templates.env.install_gettext_translations(translations)
 
