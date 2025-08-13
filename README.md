@@ -1,4 +1,4 @@
-![ksqldb-ui](https://github.com/deniskrumko/ksqldb-ui/blob/master/src/static/images/full_logo_readme.png?raw=true)
+![ksqldb-ui](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/full_logo_readme.png?raw=true)
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/deniskrumko/ksqldb-ui/build-and-push.yml)](https://github.com/deniskrumko/visual-coordinates-tool/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/deniskrumko/ksqldb-ui)](https://github.com/deniskrumko/ksqldb-ui/releases)
@@ -8,7 +8,7 @@ Web UI for [ksqlDB](https://ksqldb.io/). Make requests and interact with queries
 
 Checkout image on Docker Hub: https://hub.docker.com/r/deniskrumko/ksqldb-ui
 
-![preview](https://github.com/deniskrumko/ksqldb-ui/blob/master/src/static/images/preview.png?raw=true)
+![preview](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/preview.png?raw=true)
 
 # Features
 
