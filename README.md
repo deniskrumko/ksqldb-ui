@@ -232,6 +232,52 @@ docker-compose up -d
 
 4. Open Redpanda UI in browser: http://localhost:8090 to create topics
 
+# API
+
+## POST `/api/process_file`
+
+Upload file with SQL statements and get response.
+
+Request with `request.sql` file:
+
+```bash
+curl -F "file=@./request.sql" http://localhost:8080/api/process_file?s=dev
+```
+
+File content:
+
+```sql
+list streams;
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "query": "list streams;",
+    "response": [
+      {
+        "@type": "streams",
+        "statementText": "list streams;",
+        "streams": [
+          {
+            "type": "STREAM",
+            "name": "MY_COOL_STREAM",
+            "topic": "my-cool-stream",
+            "keyFormat": "JSON_SR",
+            "valueFormat": "JSON_SR",
+            "isWindowed": false
+          }
+        ],
+        "warnings": []
+      }
+    ]
+  }
+}
+```
+
 # Credits
 
 - Powered by Python 3.12, FastAPI and Jinja2
