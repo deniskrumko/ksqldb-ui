@@ -6,6 +6,7 @@ from fastapi import (
     FastAPI,
     Response,
 )
+from starlette.responses import JSONResponse
 from starlette.staticfiles import StaticFiles
 from starlette.types import Scope
 
@@ -73,3 +74,17 @@ def register_routes(app: FastAPI) -> None:
         topics_page,
     ):
         app.include_router(route)
+
+
+def api_error(error: str, status_code: int = 400) -> JSONResponse:
+    return JSONResponse(
+        content={"success": False, "error": error},
+        status_code=status_code,
+    )
+
+
+def api_success(data: Any, status_code: int = 200) -> JSONResponse:
+    return JSONResponse(
+        content={"success": True, "data": data},
+        status_code=status_code,
+    )

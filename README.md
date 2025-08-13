@@ -1,4 +1,4 @@
-![ksqldb-ui](https://github.com/deniskrumko/ksqldb-ui/blob/master/src/static/images/full_logo_readme.png?raw=true)
+![ksqldb-ui](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/full_logo_readme.png?raw=true)
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/deniskrumko/ksqldb-ui/build-and-push.yml)](https://github.com/deniskrumko/visual-coordinates-tool/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/deniskrumko/ksqldb-ui)](https://github.com/deniskrumko/ksqldb-ui/releases)
@@ -8,7 +8,7 @@ Web UI for [ksqlDB](https://ksqldb.io/). Make requests and interact with queries
 
 Checkout image on Docker Hub: https://hub.docker.com/r/deniskrumko/ksqldb-ui
 
-![preview](https://github.com/deniskrumko/ksqldb-ui/blob/master/src/static/images/preview.png?raw=true)
+![preview](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/preview.png?raw=true)
 
 # Features
 
@@ -231,6 +231,52 @@ docker-compose up -d
 3. Open ksqldb-ui in browser: http://localhost:8080 to create streams/queries
 
 4. Open Redpanda UI in browser: http://localhost:8090 to create topics
+
+# API
+
+## POST `/api/process_file`
+
+Upload file with SQL statements and get response.
+
+Request with `request.sql` file:
+
+```bash
+curl -F "file=@./request.sql" http://localhost:8080/api/process_file?s=dev
+```
+
+File content:
+
+```sql
+list streams;
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "query": "list streams;",
+    "response": [
+      {
+        "@type": "streams",
+        "statementText": "list streams;",
+        "streams": [
+          {
+            "type": "STREAM",
+            "name": "MY_COOL_STREAM",
+            "topic": "my-cool-stream",
+            "keyFormat": "JSON_SR",
+            "valueFormat": "JSON_SR",
+            "isWindowed": false
+          }
+        ],
+        "warnings": []
+      }
+    ]
+  }
+}
+```
 
 # Credits
 

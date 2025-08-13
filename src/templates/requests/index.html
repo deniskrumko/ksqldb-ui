@@ -16,6 +16,8 @@ ksqlDB UI - {% trans %}Requests{% endtrans %} - {{ current_server.display_name }
         <div class="section-buttons">
           <img src="/static/icons/wrap.svg" class="img-btn" alt="Wrap" id="wrap-text" onclick="toggleWrapText('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Wrap text{% endtrans %}">
           <img src="/static/icons/copy.svg" class="img-btn" alt="Copy" onclick="copyEditor('editor')" data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+          <img src="/static/icons/upload.svg" class="img-btn" alt="Upload" id="upload-file" onclick="document.getElementById('fileUploadInput').click()" data-toggle="tooltip" data-placement="top" title="{% trans %}Upload file{% endtrans %}">
+          <input type="file" id="fileUploadInput" style="display: none;" accept=".sql,.txt" onchange="uploadAndPasteFile(this)">
         </div>
       </h2>
       <form action="/requests?{{q}}" method="post" id="editorForm" >
@@ -103,6 +105,11 @@ ksqlDB UI - {% trans %}Requests{% endtrans %} - {{ current_server.display_name }
             <h4 class="alert-heading">{% trans %}Warning{% endtrans %}</h4>
             <div>{{ warning_msg }}</div>
           </div>
+        {% elif error_msg %}
+          <div class="alert alert-danger">
+            <h4 class="alert-heading">{% trans %}Error{% endtrans %}</h4>
+            <div>{{ error_msg }}</div>
+          </div>
         {% else %}
           <!-- Show welcoming page -->
           {% include "includes/welcome.html" %}
@@ -133,6 +140,28 @@ ksqlDB UI - {% trans %}Requests{% endtrans %} - {{ current_server.display_name }
     // Show the wait button, hide the normal execute button
     document.getElementById('executeButton').style.display = 'none';
     document.getElementById('executeButtonWait').style.display = '';
+  }
+
+  function uploadAndPasteFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const content = e.target.result;
+      editor.setValue(content);
+      editor.clearSelection();
+      editor.focus();
+    };
+
+    reader.onerror = function() {
+      alert('Error reading file');
+    };
+
+    reader.readAsText(file);
+
+    // Reset the input so the same file can be selected again
+    input.value = '';
   }
 
   // added event handler
