@@ -76,15 +76,15 @@ def register_routes(app: FastAPI) -> None:
         app.include_router(route)
 
 
-def api_error(error: str, status_code: int = 400) -> JSONResponse:
+def api_error(error: str, success: bool = False, status_code: int = 400) -> JSONResponse:
     return JSONResponse(
-        content={"success": False, "error": error},
+        content={"success": success, "error": error},
         status_code=status_code,
     )
 
 
-def api_success(data: Any, status_code: int = 200) -> JSONResponse:
+def api_success(data: Any, success: bool = True, status_code: int = 200) -> JSONResponse:
     return JSONResponse(
-        content={"success": True, "data": data},
+        content={"success": success, "data": data},
         status_code=status_code,
     )

@@ -74,6 +74,30 @@ async def delete_history(request: Request) -> Response:
     return await show_history(request)
 
 
+@router.post("/api/request")
+async def api_execute_request(request: Request) -> Response:
+    """API endpoint to execute ksqlDB statement."""
+    try:
+        json_data = await request.json()
+        query = json_data.get("query")
+        if not query:
+            return api_error("Query/statement is required", status_code=400)
+
+        # Execute statement
+        ksql = get_ksql_client(request)
+        ksql_response = await ksql.execute_statement_then_query(str(query))
+
+        return api_success(
+            success=ksql_response.is_success,
+            data={
+                "query": query,
+                "response": ksql_response.json(),
+            },
+        )
+    except Exception as e:
+        return api_error(f"Failed to execute statement: {repr(e)}", status_code=500)
+
+
 @router.post("/api/process_file")
 async def api_process_file(request: Request) -> Response:
     """API endpoint to process uploaded file as ksqlDB query."""
@@ -95,7 +119,8 @@ async def api_process_file(request: Request) -> Response:
         ksql = get_ksql_client(request)
         ksql_response = await ksql.execute_statement_then_query(query)
         return api_success(
-            {
+            success=ksql_response.is_success,
+            data={
                 "query": query,
                 "response": ksql_response.json(),
             },

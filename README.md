@@ -234,9 +234,44 @@ docker-compose up -d
 
 # API
 
+**NOTE**: All API requests require selection of specific server by `?s=<server_code>` query parameter.
+
+## POST `/api/request`
+
+Proxy request to ksqlDB server.
+
+Response status code is always **HTTP 200** (unless ksqldb-ui errors), because **HTTP 200** means that we received response from ksqlDB server. For ksqldb errors check information inside response - in `success` field or in `response` field.
+
+```bash
+curl http://localhost:8080/api/request?s=dev \
+    -d "{
+        \"query\": \"list streamzzz\"
+    }"
+```
+
+Response (error, because query is incorrect):
+
+```json
+{
+  "success": false,
+  "data": {
+    "query": "list streamzzz",
+    "response": {
+      "@type": "statement_error",
+      "error_code": 40001,
+      "message": "line 1:6: Syntax Error\nSyntax error at or near 'streamzzz' at line 1:6",
+      "statementText": "list streamzzz;",
+      "entities": []
+    }
+  }
+}
+```
+
 ## POST `/api/process_file`
 
 Upload file with SQL statements and get response.
+
+Response status code is always **HTTP 200** (unless ksqldb-ui errors), because **HTTP 200** means that we received response from ksqlDB server. For ksqldb errors check information inside response - in `success` field or in `response` field.
 
 Request with `request.sql` file:
 
