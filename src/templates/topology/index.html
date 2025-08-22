@@ -12,8 +12,19 @@ ksqlDB UI - {% trans %}Topology{% endtrans %} - {{ current_server.display_name }
 {% block body %}
 <div class="my-container">
   <h2 class="title-h2">
-    {% trans name=current_server.display_name %}Streams and queries topology for {{ name }}{% endtrans %}
+    {% trans name=current_server.display_name %}Topology for {{ name }}{% endtrans %}
   </h2>
+
+  <div>
+    <div class="filter-group">
+      <div class="filter-item active" data-name="streams" onclick="renderStreamsQuery(this);">
+        {% trans %}Streams/query{% endtrans %}
+      </div>
+      <div class="filter-item" data-name="topics" onclick="renderTopics(this);">
+        {% trans %}Topics{% endtrans %}
+      </div>
+    </div>
+  </div>
 
   <!-- Hidden data -->
   {% for stream in streams %}
@@ -43,11 +54,47 @@ ksqlDB UI - {% trans %}Topology{% endtrans %} - {{ current_server.display_name }
 <script>
   let globalGraph = null;
 
+  function updateTab(tabName) {
+    document.querySelectorAll('.filter-item').forEach(function (el) {
+      el.classList.remove('active');
+    });
+    document.querySelector(`.filter-item[data-name="${tabName}"]`).classList.add('active');
+  }
+
+  function updateTopologyQueryParam(value) {
+    const url = new URL(window.location);
+    url.searchParams.set('view', value);
+    window.history.replaceState({}, '', url);
+  }
+
+  function renderStreamsQuery(tabElement) {
+    updateTab("streams");
+    updateTopologyQueryParam("streams");
+
+    globalGraph = buildTopology("{{q}}");
+    renderGraph(globalGraph);
+  }
+
+  function renderTopics(tabElement) {
+    updateTab("topics");
+    updateTopologyQueryParam("topics");
+
+    globalGraph = buildTopicsTopology("{{q}}");
+    renderGraph(globalGraph);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     // Load global topology
     initSvgCanvas();
-    globalGraph = buildTopology("{{q}}");
-    renderGraph(globalGraph);
+
+    // Check URL parameter to determine which view to render
+    const urlParams = new URLSearchParams(window.location.search);
+    const view = urlParams.get('view');
+    if (view == 'topics') {
+      renderTopics();
+    } else {
+      renderStreamsQuery();
+    }
 
     // Init all tooltips
     $('[data-toggle="tooltip"]').tooltip()
