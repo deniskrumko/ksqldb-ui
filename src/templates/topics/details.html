@@ -27,12 +27,16 @@ ksqlDB · {% trans %}Topics{% endtrans %} · {{ current_server.display_name }}
       {% endif %}
 
       <!-- Topology -->
+      {% if streams %}
       <div class="section">{% trans %}Topology{% endtrans %}</div>
       <div>
         <a href="/topology?{{q}}&view=topics&highlight={{topic_name}}" class="link-offset-2">{% trans %}Open{% endtrans %}</a>
       </div>
+      {% endif %}
+
 
       <!-- Streams -->
+      {% if streams %}
       <div class="section">{% trans %}Streams{% endtrans %}</div>
       <div class="table-container">
       <table class="table nomargin">
@@ -59,8 +63,10 @@ ksqlDB · {% trans %}Topics{% endtrans %} · {{ current_server.display_name }}
           {% endfor %}
         </tbody>
       </table>
-    </div>
+      </div>
+      {% endif %}
       <!-- Original data -->
+      <br>
       {% include "includes/hidden_response_details.html" %}
     </div>
   </div>

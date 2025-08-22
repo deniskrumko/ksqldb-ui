@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-05 13:46+0500\n"
+"POT-Creation-Date: 2025-08-22 18:01+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -48,20 +48,24 @@ msgstr ""
 msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
 msgstr ""
 
-#: src/templates/error.html:7
+#: src/templates/error.html:4
+msgid "Exception!"
+msgstr ""
+
+#: src/templates/error.html:11
 msgid "OMG 😱 Exception happened"
 msgstr ""
 
-#: src/templates/error.html:10
+#: src/templates/error.html:14
 #, python-format
 msgid "Your selected ksqlDB server is <b>%(name)s</b>"
 msgstr ""
 
-#: src/templates/error.html:38
+#: src/templates/error.html:42
 msgid "Go back to list page"
 msgstr ""
 
-#: src/templates/error.html:45
+#: src/templates/error.html:49
 #, python-format
 msgid ""
 "Probably server <code>%(name)s</code> is <b>still booting</b> up or works"
@@ -69,30 +73,30 @@ msgid ""
 "requests."
 msgstr ""
 
-#: src/templates/error.html:46
+#: src/templates/error.html:50
 msgid "Learn more about it"
 msgstr ""
 
-#: src/templates/error.html:63
+#: src/templates/error.html:67
 msgid "Show full traceback"
 msgstr ""
 
-#: src/templates/error.html:76 src/templates/status/index.html:51
+#: src/templates/error.html:80 src/templates/streams/status/index.html:51
 msgid "Debug page"
 msgstr ""
 
-#: src/templates/error_no_server.html:6
+#: src/templates/error_no_server.html:4 src/templates/error_no_server.html:10
 msgid "Server not found"
 msgstr ""
 
-#: src/templates/error_no_server.html:9
+#: src/templates/error_no_server.html:13
 #, python-format
 msgid ""
 "Looks like requested server <b>\"%(code)s\"</b> not found in config file "
 "or env vars. Try going back to index page to select default server"
 msgstr ""
 
-#: src/templates/error_no_server.html:12
+#: src/templates/error_no_server.html:16
 msgid "Go back to index page"
 msgstr ""
 
@@ -109,7 +113,7 @@ msgid "Request"
 msgstr ""
 
 #: src/templates/includes/hidden_response_details.html:12
-#: src/templates/requests/index.html:43 src/templates/requests/index.html:59
+#: src/templates/requests/index.html:45 src/templates/requests/index.html:61
 msgid "Response"
 msgstr ""
 
@@ -146,6 +150,7 @@ msgstr ""
 
 #: src/templates/includes/navbar.html:25 src/templates/queries/list.html:60
 #: src/templates/streams/details.html:4 src/templates/streams/list.html:4
+#: src/templates/topics/details.html:36
 msgid "Streams"
 msgstr ""
 
@@ -154,15 +159,18 @@ msgstr ""
 msgid "Queries"
 msgstr ""
 
-#: src/templates/includes/navbar.html:31 src/templates/topology/index.html:4
+#: src/templates/includes/navbar.html:31 src/templates/topics/details.html:30
+#: src/templates/topology/index.html:4
 msgid "Topology"
 msgstr ""
 
-#: src/templates/includes/navbar.html:34 src/templates/topics/list.html:4
+#: src/templates/includes/navbar.html:34 src/templates/topics/details.html:4
+#: src/templates/topics/list.html:4 src/templates/topology/index.html:24
 msgid "Topics"
 msgstr ""
 
-#: src/templates/includes/navbar.html:37 src/templates/status/index.html:4
+#: src/templates/includes/navbar.html:37
+#: src/templates/streams/status/index.html:4
 msgid "Status"
 msgstr ""
 
@@ -231,6 +239,16 @@ msgid ""
 "stream"
 msgstr ""
 
+#: src/templates/includes/help_messages/topic.html:2
+msgid ""
+"\n"
+"A topic in Apache Kafka is a category or feed name to which messages are "
+"published. Topics are partitioned and replicated across multiple brokers "
+"for scalability and fault tolerance. Producers write data to topics, and "
+"consumers read data from topics. Each topic consists of one or more "
+"partitions, and messages within a partition are ordered by offset.\n"
+msgstr ""
+
 #: src/templates/queries/details.html:16
 #, python-format
 msgid "Query <span>%(query_name)s</span> on %(server_name)s"
@@ -246,6 +264,16 @@ msgstr ""
 
 #: src/templates/queries/details.html:50 src/templates/streams/details.html:57
 msgid "SQL statement"
+msgstr ""
+
+#: src/templates/queries/details.html:52 src/templates/requests/index.html:17
+#: src/templates/streams/details.html:59
+msgid "Wrap text"
+msgstr ""
+
+#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
+#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
+msgid "Copy"
 msgstr ""
 
 #: src/templates/queries/details.html:60 src/templates/streams/details.html:67
@@ -291,10 +319,6 @@ msgstr ""
 msgid "Clear history"
 msgstr ""
 
-#: src/templates/requests/history.html:25 src/templates/streams/details.html:59
-msgid "Copy"
-msgstr ""
-
 #: src/templates/requests/history.html:27
 msgid "Paste"
 msgstr ""
@@ -320,100 +344,58 @@ msgstr ""
 msgid "Request to %(name)s"
 msgstr ""
 
-#: src/templates/requests/index.html:27
+#: src/templates/requests/index.html:19
+msgid "Upload file"
+msgstr ""
+
+#: src/templates/requests/index.html:29
 msgid "execute"
 msgstr ""
 
-#: src/templates/requests/index.html:33
+#: src/templates/requests/index.html:35
 msgid "wait..."
 msgstr ""
 
-#: src/templates/requests/index.html:49
+#: src/templates/requests/index.html:51
 msgid "Looks like there is a bug in ksqldb-ui code. Please report it on GitHub."
 msgstr ""
 
-#: src/templates/requests/index.html:50
+#: src/templates/requests/index.html:52
 msgid "Failed to preprocess"
 msgstr ""
 
-#: src/templates/requests/index.html:53
+#: src/templates/requests/index.html:55
 msgid ""
 "Response was preprocessed to be more human friendly 😎 Scroll to the end "
 "and click \"Show original response\" to see unprocessed response."
 msgstr ""
 
-#: src/templates/requests/index.html:54
+#: src/templates/requests/index.html:56
 msgid "Preprocessed"
 msgstr ""
 
-#: src/templates/requests/index.html:61
+#: src/templates/requests/index.html:63
 msgid "Introduction"
 msgstr ""
 
-#: src/templates/requests/index.html:70
+#: src/templates/requests/index.html:72
 msgid "Error during preprocessing"
 msgstr ""
 
-#: src/templates/requests/index.html:87
+#: src/templates/requests/index.html:89
 msgid "Next statement"
 msgstr ""
 
-#: src/templates/requests/index.html:99
+#: src/templates/requests/index.html:101
 msgid "Empty response body"
 msgstr ""
 
-#: src/templates/requests/index.html:103
+#: src/templates/requests/index.html:105
 msgid "Warning"
 msgstr ""
 
-#: src/templates/status/debug.html:11
-msgid "KsqlDB UI settings"
-msgstr ""
-
-#: src/templates/status/debug.html:15
-msgid "Available environment variables"
-msgstr ""
-
-#: src/templates/status/debug.html:21
-msgid "Request history"
-msgstr ""
-
-#: src/templates/status/index.html:14
-#, python-format
-msgid "%(name)s server info"
-msgstr ""
-
-#: src/templates/status/index.html:29
-msgid "Server health"
-msgstr ""
-
-#: src/templates/status/index.html:35
-msgid "Your ksqlDB server is healthy"
-msgstr ""
-
-#: src/templates/status/index.html:36 src/templates/status/index.html:40
-msgid "State"
-msgstr ""
-
-#: src/templates/status/index.html:39
-msgid "Your ksqlDB server is not healthy"
-msgstr ""
-
-#: src/templates/status/index.html:44
-msgid "Components"
-msgstr ""
-
-#: src/templates/status/index.html:58
-msgid "Server properties"
-msgstr ""
-
-#: src/templates/status/index.html:72
-#, python-format
-msgid "Server <code>%(name)s</code> is not responding"
-msgstr ""
-
-#: src/templates/status/index.html:74
-msgid "Failed to get info or health check"
+#: src/templates/requests/index.html:110
+msgid "Error"
 msgstr ""
 
 #: src/templates/streams/details.html:16
@@ -427,10 +409,6 @@ msgstr ""
 
 #: src/templates/streams/details.html:52
 msgid "Kafka topic"
-msgstr ""
-
-#: src/templates/streams/details.html:60
-msgid "Wrap text"
 msgstr ""
 
 #: src/templates/streams/details.html:72
@@ -447,7 +425,8 @@ msgstr ""
 msgid "Streams on %(name)s"
 msgstr ""
 
-#: src/templates/streams/list.html:34 src/templates/topics/list.html:17
+#: src/templates/streams/list.html:34 src/templates/topics/details.html:42
+#: src/templates/topics/list.html:17
 msgid "Name"
 msgstr ""
 
@@ -455,7 +434,7 @@ msgstr ""
 msgid "Topic"
 msgstr ""
 
-#: src/templates/streams/list.html:36
+#: src/templates/streams/list.html:36 src/templates/topics/details.html:43
 msgid "Key/Value"
 msgstr ""
 
@@ -463,30 +442,98 @@ msgstr ""
 msgid "stream"
 msgstr ""
 
+#: src/templates/streams/status/debug.html:11
+msgid "KsqlDB UI settings"
+msgstr ""
+
+#: src/templates/streams/status/debug.html:15
+msgid "Available environment variables"
+msgstr ""
+
+#: src/templates/streams/status/debug.html:21
+msgid "Request history"
+msgstr ""
+
+#: src/templates/streams/status/index.html:14
+#, python-format
+msgid "%(name)s server info"
+msgstr ""
+
+#: src/templates/streams/status/index.html:29
+msgid "Server health"
+msgstr ""
+
+#: src/templates/streams/status/index.html:35
+msgid "Your ksqlDB server is healthy"
+msgstr ""
+
+#: src/templates/streams/status/index.html:36
+#: src/templates/streams/status/index.html:40
+msgid "State"
+msgstr ""
+
+#: src/templates/streams/status/index.html:39
+msgid "Your ksqlDB server is not healthy"
+msgstr ""
+
+#: src/templates/streams/status/index.html:44
+msgid "Components"
+msgstr ""
+
+#: src/templates/streams/status/index.html:58
+msgid "Server properties"
+msgstr ""
+
+#: src/templates/streams/status/index.html:72
+#, python-format
+msgid "Server <code>%(name)s</code> is not responding"
+msgstr ""
+
+#: src/templates/streams/status/index.html:74
+msgid "Failed to get info or health check"
+msgstr ""
+
+#: src/templates/topics/details.html:16
+#, python-format
+msgid "Topic <span>%(topic_name)s</span> on %(server_name)s"
+msgstr ""
+
+#: src/templates/topics/details.html:25 src/templates/topics/list.html:19
+msgid "UI Link"
+msgstr ""
+
+#: src/templates/topics/details.html:32 src/templates/topics/list.html:36
+msgid "Open"
+msgstr ""
+
 #: src/templates/topics/list.html:10
 #, python-format
 msgid "Topics for %(name)s"
 msgstr ""
 
-#: src/templates/topics/list.html:18
+#: src/templates/topics/list.html:21
 msgid "Partitions"
 msgstr ""
 
-#: src/templates/topics/list.html:19
+#: src/templates/topics/list.html:22
 msgid "Replicas"
 msgstr ""
 
-#: src/templates/topics/list.html:20
+#: src/templates/topics/list.html:23
 msgid "Consumers"
 msgstr ""
 
-#: src/templates/topics/list.html:21
+#: src/templates/topics/list.html:24
 msgid "Groups"
 msgstr ""
 
 #: src/templates/topology/index.html:15
 #, python-format
-msgid "Streams and queries topology for %(name)s"
+msgid "Topology for %(name)s"
+msgstr ""
+
+#: src/templates/topology/index.html:21
+msgid "Streams/query"
 msgstr ""
 
 #~ msgid "Yes, delete it 🔥"
@@ -527,5 +574,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Failed to eplain query {query_name}. Maybe wrong server?"
+#~ msgstr ""
+
+#~ msgid "Streams and queries topology for %(name)s"
 #~ msgstr ""
 
