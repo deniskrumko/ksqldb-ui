@@ -89,14 +89,14 @@ function buildTopicsTopology(query) {
   let topicStreams = {};
   let queries = [];
   let queryState = {};
-  let edges = [];
+  let allReferencedStreams = new Set();
 
   // Find highlighted
   let params = new URLSearchParams(window.location.search);
   let highlighted = params.get("highlight");
   console.log("Highlighted:", highlighted);
 
-  // Collect data from topology nodes
+  // First pass: collect all streams and their topics
   topologyNodes.forEach((node) => {
     let name = node.dataset.name;
     if (node.classList.contains("stream")) {
@@ -104,22 +104,76 @@ function buildTopicsTopology(query) {
       let topicName = node.dataset.topic;
       streamTopics[name] = topicName;
       topics.add(topicName);
+      allReferencedStreams.add(name);
 
       // Group streams by topic
       if (!topicStreams[topicName]) {
         topicStreams[topicName] = [];
       }
       topicStreams[topicName].push(name);
+      console.log(`Found stream: ${name} -> topic: ${topicName}`);
     } else if (node.classList.contains("query")) {
+      // Collect all referenced streams from queries
+      if (node.dataset.source) {
+        allReferencedStreams.add(node.dataset.source);
+      }
+      if (node.dataset.sink) {
+        allReferencedStreams.add(node.dataset.sink);
+      }
+    }
+  });
+
+  console.log("All streams:", Object.keys(streamTopics));
+  console.log("All referenced streams:", Array.from(allReferencedStreams));
+  console.log("All topics:", Array.from(topics));
+
+  // Check for missing stream definitions and handle them
+  allReferencedStreams.forEach(streamName => {
+    if (!streamTopics[streamName]) {
+      console.warn(`Stream '${streamName}' is referenced in queries but has no topic definition`);
+      // For missing streams (usually sinks), assume the topic name is the same as the stream name
+      // This is a common convention in ksqlDB
+      let assumedTopic = streamName.toLowerCase();
+      streamTopics[streamName] = assumedTopic;
+      topics.add(assumedTopic);
+
+      if (!topicStreams[assumedTopic]) {
+        topicStreams[assumedTopic] = [];
+      }
+      topicStreams[assumedTopic].push(streamName);
+      console.log(`Assumed topic for stream '${streamName}': ${assumedTopic}`);
+    }
+  });
+
+  // Second pass: collect queries and create edges between topics
+  let edges = new Set(); // Use Set to avoid duplicate edges
+  topologyNodes.forEach((node) => {
+    let name = node.dataset.name;
+    if (node.classList.contains("query")) {
       queries.push(name);
       queryState[name] = node.dataset.state;
 
       // Create edges between topics through streams
-      let sourceTopic = streamTopics[node.dataset.source];
-      let sinkTopic = streamTopics[node.dataset.sink];
+      let sourceStream = node.dataset.source;
+      let sinkStream = node.dataset.sink;
+      let sourceTopic = streamTopics[sourceStream];
+      let sinkTopic = streamTopics[sinkStream];
+
+      // Debug logging to help identify missing relations
+      if (!sourceTopic) {
+        console.warn(`Missing source topic for stream: ${sourceStream}, query: ${name}`);
+      }
+      if (!sinkTopic) {
+        console.warn(`Missing sink topic for stream: ${sinkStream}, query: ${name}`);
+      }
 
       if (sourceTopic && sinkTopic && sourceTopic !== sinkTopic) {
-        edges.push([sourceTopic, sinkTopic, name]); // Include query name for edge label
+        // Create a unique edge identifier to avoid duplicates
+        let edgeKey = `${sourceTopic}->${sinkTopic}`;
+        edges.add(edgeKey);
+        console.log(`Added edge: ${sourceTopic} -> ${sinkTopic} (via query ${name})`);
+      } else if (sourceTopic && sinkTopic && sourceTopic === sinkTopic) {
+        console.log(`Skipped self-loop: ${sourceTopic} (via query ${name})`);
       }
     }
   });
@@ -143,11 +197,10 @@ function buildTopicsTopology(query) {
   });
 
   // Add edges between topics
-  if (edges.length > 0) {
-    edges.forEach(function (edge) {
-      g.setEdge(edge[0], edge[1]);
-    });
-  }
+  edges.forEach(function (edgeKey) {
+    let [sourceTopic, sinkTopic] = edgeKey.split('->');
+    g.setEdge(sourceTopic, sinkTopic);
+  });
 
   g.nodes().forEach(function (v) {
     var node = g.node(v);
