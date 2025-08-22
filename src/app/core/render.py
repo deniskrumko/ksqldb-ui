@@ -386,14 +386,20 @@ def render_json(v: Any) -> str:
 def render_topic_link(
     request: Request,
     name: str,
+    custom_text: str | None = None,
+    url_as_text: bool = False,
     **kwargs: Any,
 ) -> str:
     """Render topic link (configured in settings)."""
     server = get_server(request)
-    if server.topic_link:
-        return str(render_link(server.topic_link.format(name), name, **kwargs))
+    text = custom_text or name
 
-    return name
+    if server.topic_link:
+        url = server.topic_link.format(name)
+        text = url if url_as_text else text
+        return str(render_link(url, text, **kwargs))
+
+    return text
 
 
 @register

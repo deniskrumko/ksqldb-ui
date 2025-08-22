@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-ksqlDB UI - {% trans %}Topics{% endtrans %} - {{ current_server.display_name }}
+ksqlDB · {% trans %}Topics{% endtrans %} · {{ current_server.display_name }}
 {% endblock %}
 
 {% block body %}
@@ -15,6 +15,9 @@ ksqlDB UI - {% trans %}Topics{% endtrans %} - {{ current_server.display_name }}
       <tr>
         <th scope="col">#</th>
         <th scope="col">{% trans %}Name{% endtrans %}</th>
+        {% if current_server.topic_link %}
+        <th scope="col">{% trans %}UI Link{% endtrans %}</th>
+        {% endif %}
         <th scope="col">{% trans %}Partitions{% endtrans %}</th>
         <th scope="col">{% trans %}Replicas{% endtrans %}</th>
         <th scope="col">{% trans %}Consumers{% endtrans %}</th>
@@ -25,7 +28,14 @@ ksqlDB UI - {% trans %}Topics{% endtrans %} - {{ current_server.display_name }}
       {% for t in topics %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td>{{ render_topic_link(request, t.name) | safe }}</td>
+        <td>
+          <a href="/topics/{{ t.name }}?{{q}}" class="link-offset-2 link-sm breaked">{{ t.name }}</a>
+        </td>
+        {% if current_server.topic_link %}
+        <td>
+          {{ render_topic_link(request, t.name, _("Open")) | safe }}
+        </td>
+        {% endif %}
         <td>{{ t.replicaInfo | length }}</td>
         <td>{{ t.replicaInfo[0] }}</td>
         {% if t.consumerCount %}

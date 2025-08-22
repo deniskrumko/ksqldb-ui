@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+ksqlDB · {% trans %}Topics{% endtrans %} · {{ current_server.display_name }}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/stream.css">
+{% endblock %}
+
+{% block body %}
+<div class="my-container">
+  <div class="row">
+    <div class="col">
+      <h2 class="title-h2">
+        {% trans server_name=current_server.display_name %}Topic <span>{{ topic_name }}</span> on {{ server_name }}{% endtrans %}
+        {% include "includes/help_messages/button.html" %}
+      </h2>
+
+      <!-- Help -->
+      {% include "includes/help_messages/topic.html" %}
+
+      <!-- UI -->
+      {% if current_server.topic_link %}
+      <div class="section">{% trans %}UI Link{% endtrans %}</div>
+      <div>{{ render_topic_link(request, topic_name, url_as_text=True, classes="link-offset-2")|safe }}</div>
+      {% endif %}
+
+      <!-- Topology -->
+      <div class="section">{% trans %}Topology{% endtrans %}</div>
+      <div>
+        <a href="/topology?{{q}}&view=topics&highlight={{topic_name}}" class="link-offset-2">{% trans %}Open{% endtrans %}</a>
+      </div>
+
+      <!-- Streams -->
+      <div class="section">{% trans %}Streams{% endtrans %}</div>
+      <div class="table-container">
+      <table class="table nomargin">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">{% trans %}Name{% endtrans %}</th>
+            <th scope="col">{% trans %}Key/Value{% endtrans %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stream in streams %}
+          <tr class="list-view-row" data-filter-name="{{ stream.name }}">
+            <th scope="row">{{ loop.index }}</th>
+            <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
+            <td>
+              <span class="badge text-bg-secondary">{{ stream.keyFormat }} / {{ stream.valueFormat }}</span>
+              {% if stream.isWindowed %}
+              <br>
+              <span class="badge text-bg-danger">windowed</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+      <!-- Original data -->
+      {% include "includes/hidden_response_details.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Init all tooltips
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+</script>
+{% endblock %}
