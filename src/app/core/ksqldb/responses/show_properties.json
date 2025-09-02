@@ -1,0 +1,1 @@
+[{"@type":"properties","statementText":"SHOW PROPERTIES;","properties":[{"name":"ksql.extension.dir","scope":"KSQL","value":"/opt/ksql/ext/","editable":false,"level":"SERVER"}],"overwrittenProperties":[],"defaultProperties":["metric.reporters"],"warnings":[]}]

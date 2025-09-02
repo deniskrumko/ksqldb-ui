@@ -69,6 +69,6 @@ class KsqlQuery:
             if line and not line.startswith(COMMENT_PREFIX)
         )
 
-        if not query.endswith(";"):
+        if query and not query.endswith(";"):
             query += ";"
         return query
