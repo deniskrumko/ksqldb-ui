@@ -205,7 +205,7 @@ class MockKsqlClient(KsqlClient):
         list_page_url: str | None = None,
     ) -> httpx.Response:
         """Get response from endpoint"""
-        file_name = self.RESPONSES_MAP[endpoint].get(query.as_string)
+        file_name = self.RESPONSES_MAP.get(endpoint, {}).get(query.as_string)
         if not file_name:
             raise ValueError(f'No mocked response for {endpoint} query: "{query}"')
 
