@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.get("/status")
-async def get_server_status(request: Request) -> Response:
+async def server_status_view(request: Request) -> Response:
     """View to list all available queries."""
     ksql = get_ksql_client(request)
     info = await ksql.get_info()
@@ -28,6 +28,6 @@ async def get_server_status(request: Request) -> Response:
 
 
 @router.get("/debug")
-async def debug_page(request: Request) -> Response:
+async def debug_view(request: Request) -> Response:
     """Debug page."""
     return render_template("status/debug.html", request)

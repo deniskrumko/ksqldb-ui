@@ -181,7 +181,13 @@ class MockKsqlClient(KsqlClient):
     """Mock class for KSQL requests to simulate responses."""
 
     RESPONSES_MAP = {
-        "LIST STREAMS EXTENDED;": "list_streams_extended.json",
+        KsqlEndpoints.QUERY: {},
+        KsqlEndpoints.INFO: {"": "info.json"},
+        KsqlEndpoints.HEALTH: {"": "health.json"},
+        KsqlEndpoints.KSQL: {
+            "LIST STREAMS EXTENDED;": "list_streams_extended.json",
+            "SHOW PROPERTIES;": "show_properties.json",
+        },
     }
 
     def __init__(self) -> None:
@@ -199,9 +205,9 @@ class MockKsqlClient(KsqlClient):
         list_page_url: str | None = None,
     ) -> httpx.Response:
         """Get response from endpoint"""
-        file_name = self.RESPONSES_MAP.get(query.as_string)
+        file_name = self.RESPONSES_MAP[endpoint].get(query.as_string)
         if not file_name:
-            raise ValueError(f"No mocked response for query: {query}")
+            raise ValueError(f'No mocked response for {endpoint} query: "{query}"')
 
         with open(self.response_dir / file_name, "r") as f:
             mock_response_data = json.load(f)

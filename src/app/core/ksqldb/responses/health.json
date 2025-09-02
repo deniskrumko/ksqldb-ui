@@ -1,0 +1,1 @@
+{"isHealthy":true,"details":{"metastore":{"isHealthy":true},"kafka":{"isHealthy":true},"commandRunner":{"isHealthy":true}},"serverState":"READY"}
