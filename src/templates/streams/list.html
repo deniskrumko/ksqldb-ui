@@ -26,6 +26,8 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
   <!-- Filters -->
   {% include "includes/list_page_filters.html" %}
 
+  <!-- Streams -->
+  {% if streams %}
   <div class="table-container">
     <table class="table nomargin">
       <thead>
@@ -58,6 +60,16 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
       </tbody>
     </table>
   </div>
+  {% else %}
+  <figure class="fun-quote">
+    <blockquote class="blockquote" >
+      <p>“ {% trans %}All you need is <b>Stream</b>{% endtrans %} ”</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      {% trans %}John Lennon (never said){% endtrans %}
+    </figcaption>
+  </figure>
+  {% endif %}
   {% include "includes/hidden_response_details.html" %}
 </div>
 

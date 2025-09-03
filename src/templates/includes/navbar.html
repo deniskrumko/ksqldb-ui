@@ -11,32 +11,56 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <a class="nav-link {% if '/requests' in request.path %}active{% endif %}" href="/requests?{{q}}">
-          {% trans %}Requests{% endtrans %}
-        </a>
-        {% if request.app.settings.history.enabled %}
-        <a class="nav-link {% if '/history' in request.path %}active{% endif %}" href="/history?{{q}}">
-          {% trans %}History{% endtrans %}
-        </a>
-        {% endif %}
-        <a class="nav-link {% if '/streams' in request.path %}active{% endif %}" href="/streams?{{q}}">
-          {% trans %}Streams{% endtrans %}
-        </a>
-        <a class="nav-link {% if '/queries' in request.path %}active{% endif %}" href="/queries?{{q}}">
-          {% trans %}Queries{% endtrans %}
-        </a>
-        <a class="nav-link {% if '/topology' in request.path %}active{% endif %}" href="/topology?{{q}}">
-          {% trans %}Topology{% endtrans %}
-        </a>
-        <a class="nav-link {% if '/topics' in request.path %}active{% endif %}" href="/topics?{{q}}">
+    <div class="collapse navbar-collapse" id="navbarText" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- Requests -->
+        <li class="nav-item dropdown" data-bs-theme="light">
+          <a class="nav-link dropdown-toggle {% if '/requests' in request.path or '/history' in request.path %}active{% endif %}" href="/requests?{{q}}">
+            {% trans %}Requests{% endtrans %}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/requests?{{q}}">{% trans %}Requests{% endtrans %}</a>
+            {% if request.app.settings.history.enabled %}
+            <a class="dropdown-item" href="/history?{{q}}">{% trans %}History{% endtrans %}</a>
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- Streams and queries -->
+        <li class="nav-item dropdown" data-bs-theme="light">
+          <a class="nav-link dropdown-toggle {% if '/streams' in request.path or '/queries' in request.path %}active{% endif %}" href="/streams?{{q}}">
+            {% trans %}Streams{% endtrans %}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/streams?{{q}}">{% trans %}Streams{% endtrans %}</a>
+            {% if request.app.settings.history.enabled %}
+            <a class="dropdown-item" href="/queries?{{q}}">{% trans %}Queries{% endtrans %}</a>
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- Topology -->
+        <li class="nav-item">
+          <a class="nav-link {% if '/topology' in request.path %}active{% endif %}" href="/topology?{{q}}">
+            {% trans %}Topology{% endtrans %}
+          </a>
+        </li>
+
+        <!-- Topics -->
+        <li class="nav-item">
+          <a class="nav-link {% if '/topics' in request.path %}active{% endif %}" href="/topics?{{q}}">
           {% trans %}Topics{% endtrans %}
-        </a>
-        <a class="nav-link {% if '/status' in request.path %}active{% endif %}" href="/status?{{q}}">
-          {% trans %}Status{% endtrans %}
-        </a>
-      </div>
+          </a>
+        </li>
+
+        <!-- Status -->
+        <li class="nav-item">
+          <a class="nav-link {% if '/status' in request.path %}active{% endif %}" href="/status?{{q}}">
+            {% trans %}Status{% endtrans %}
+          </a>
+        </li>
+      </ul>
       {% if current_server %}
       <form class="d-flex">
         <select class="form-select server-select" aria-label="Default select example" id="serverSelector"

@@ -38,12 +38,28 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
 <br>
 <br>
 {% else %}
-<h1 class="display-3">
-{% trans %}Make your first request to become a history{% endtrans %} 😎
-</h1>
-<p>
-{% trans %}Just add your cool request here and click <b class="accent-text">execute</b> button or press{% endtrans %} <span class="badge text-bg-purple">Shift + Enter</span>
-</p>
+<figure class="fun-quote">
+  <blockquote class="blockquote" >
+    <p>“ {% trans %}Make your first request... and become a history!{% endtrans %} ”</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    {% trans %}Franz Kafka (never said){% endtrans %}
+  </figcaption>
+</figure>
+
+<figure class="fun-quote">
+  <blockquote class="blockquote" >
+    <p>“
+    {% trans %}Just add your cool request here and click <b class="accent-text">execute</b> button or press{% endtrans %} <span class="badge text-bg-purple">Shift + Enter</span>
+    ”
+    </p>
+
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    {% trans %}Denis Krumko (actually said){% endtrans %}
+  </figcaption>
+</figure>
+
 <p class="hint">
 {% trans %}<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart will wipe your history{% endtrans %}
 </p>

@@ -20,7 +20,8 @@
 #logo,
 .b-hl,
 .section,
-.btn-execute {
+.btn-execute,
+.fun-quote .blockquote p {
     font-family: Zain, Arial, system-ui, -apple-system, Arial, sans-serif !important;
 }
 
@@ -469,4 +470,25 @@ tbody>tr:last-child {
     .collable-button {
         display: none;
     }
+}
+
+.nav-item.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.fun-quote {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px 20px 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.fun-quote .blockquote p {
+    color: #6200cb;
+    font-size: 22px;
 }
