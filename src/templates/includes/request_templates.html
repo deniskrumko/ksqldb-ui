@@ -1,0 +1,119 @@
+<!-- Custom templates -->
+{% with custom_templates=request.app.settings.templates.custom %}
+  {% if custom_templates %}
+    {% for t in custom_templates.values() %}
+    {% if not t.envs or current_server.code in t.envs %}
+    <div class="resp resp-paste" data-template="{{ t.type }}">
+      <div class="key" style="position: relative;">
+        {{ t.description | safe }}
+        <div class="section-buttons">
+          <img src="/static/icons/copy.svg" alt="Copy" onclick="copyRespValue(this)" class="img-btn key-btn"
+            data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+          <img src="/static/icons/paste.svg" alt="Paste" onclick="pasteRespValue(this)" class="img-btn key-btn"
+            data-toggle="tooltip" data-placement="top" title="{% trans %}Paste{% endtrans %}">
+        </div>
+      </div>
+      <div class="value">
+        <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">{{ t.query }}</pre>
+        {% if t.type %}
+        <span class="badge text-bg-secondary">{{ t.type }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Built-in templates -->
+{% if request.app.settings.templates.show_builtin_templates %}
+
+<!-- 1. Create stream -->
+<div class="resp resp-paste" data-template="stream">
+  <div class="key" style="position: relative;">
+    {% trans %}Create new stream from existing topic{% endtrans %}
+    <div class="section-buttons">
+      <img src="/static/icons/copy.svg" alt="Copy" onclick="copyRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+      <img src="/static/icons/paste.svg" alt="Paste" onclick="pasteRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Paste{% endtrans %}">
+    </div>
+  </div>
+  <div class="value">
+     <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">
+CREATE STREAM <code class="text-hl">&lt;STREAM_NAME&gt;</code> (
+    ID BIGINT,
+    URL VARCHAR,
+)
+WITH (
+    KAFKA_TOPIC='<code class="text-hl">&lt;TOPIC_NAME&gt;</code>',
+    VALUE_FORMAT='JSON'
+);</pre>
+    <span class="badge text-bg-secondary">stream</span>
+  </div>
+</div>
+
+<!-- 2. Create stream as select -->
+<div class="resp resp-paste" data-template="stream">
+  <div class="key" style="position: relative;">
+    {% trans %}Create new stream as SELECT from other stream{% endtrans %}
+    <div class="section-buttons">
+      <img src="/static/icons/copy.svg" alt="Copy" onclick="copyRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+      <img src="/static/icons/paste.svg" alt="Paste" onclick="pasteRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Paste{% endtrans %}">
+    </div>
+  </div>
+  <div class="value">
+     <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">
+CREATE STREAM <code class="text-hl">&lt;STREAM_NAME&gt;</code>
+WITH (
+    KAFKA_TOPIC='<code class="text-hl">&lt;TOPIC_NAME&gt;</code>',
+    PARTITIONS=3,
+    REPLICAS=3,
+    VALUE_FORMAT='JSON'
+)
+AS SELECT *
+FROM <code class="text-hl">&lt;SOURCE_STREAM_NAME&gt;</code>
+WHERE ID > 100;</pre>
+  <span class="badge text-bg-secondary">stream</span>
+  </div>
+</div>
+
+<!-- 3. Create insert query -->
+<div class="resp resp-paste" data-template="query">
+  <div class="key" style="position: relative;">
+    {% trans %}Create new INSERT query for two existing streams{% endtrans %}
+    <br>
+    ⚠️ {% trans %}<b>Advice:</b> It's better to use CREATE STREAM AS SELECT instead{% endtrans %}
+    <div class="section-buttons">
+      <img src="/static/icons/copy.svg" alt="Copy" onclick="copyRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Copy{% endtrans %}">
+      <img src="/static/icons/paste.svg" alt="Paste" onclick="pasteRespValue(this)" class="img-btn key-btn"
+        data-toggle="tooltip" data-placement="top" title="{% trans %}Paste{% endtrans %}">
+    </div>
+  </div>
+  <div class="value">
+     <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">
+INSERT INTO <code class="text-hl">&lt;DEST_STREAM_NAME&gt;</code>
+SELECT *
+FROM <code class="text-hl">&lt;SOURCE_STREAM_NAME&gt;</code>
+WHERE ID > 100;</pre>
+    <span class="badge text-bg-secondary">query</span>
+  </div>
+</div>
+{% endif %}
+
+<a href="#" class="btn btn-outline-purple mb-1" id="show-all-btn" style="display: none;" onclick="showAllTemplates(this);">
+  {% trans %}Show all templates{% endtrans %}
+</a>
+
+<a href="https://github.com/deniskrumko/ksqldb-ui/blob/main/config/example.toml" class="btn btn-outline-purple mb-1" target="_blank">
+  {% trans %}How to add custom templates?{% endtrans %}
+</a>
+
+<a href="https://docs.confluent.io/platform/current/ksqldb/developer-guide/ksqldb-reference/overview.html#ksqldb-api-index" class="btn btn-outline-purple mb-1" target="_blank">
+  {% trans %}How to write ksqlDB requests?{% endtrans %}
+</a>
+
+<br><br>

@@ -157,21 +157,7 @@ Simplest configuration possible:
 url = "http://localhost:8090"
 ```
 
-**Parameters description**
-
-| Parameter                     | Description                                                                                                                          | Default | Required |
-|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------|----------|
-| `global.language`             | UI language. Supported languages: English (en), Russian (ru)                                                                         | "en"    | ❌        |
-| `global.show_hint`            | Show hints on different pages                                                                                                        | true    | ❌        |
-| `http.timeout`                | Timeout in seconds for ksqldb requests                                                                                               | 5       | ❌        |
-| `history.enabled`             | Enable request history. Every user will see common history                                                                           | true    | ❌        |
-| `history.size`                | how many requests will be saved to history (works as queue)                                                                          | 50      | ❌        |
-| `server.CODE.url`             | URL to ksqldb server API                                                                                                             |         | ✅        |
-| `server.CODE.name`            | custom name of environment (if empty - use server code)                                                                              |         | ❌        |
-| `server.CODE.default`         | Use server as default then loading UI                                                                                                |         | ❌        |
-| `server.CODE.topic_link`      | link to redirect to Kafka UI to see topic messages. Topic name is passed to `{}` placeholder in the URL                              |         | ❌        |
-| `server.CODE.warning_message` | This message will be displayed as warning on every page in UI                                                                        |         | ❌        |
-| `server.CODE.filters`         | Filter groups for stream/query list pages. Allows to quick search keyword in stream/query name. Must be a list of lists with strings |         | ❌        |
+Full config documentation - in future...
 
 ## Using only environment variables
 

@@ -1,8 +1,10 @@
 # Global parameters
 
 [global]
-language = "en"
-show_hints = true
+branding = "ksqldb-ui"  # Branding text in the top-left corner
+display_version = true  # Display app version in the top-left corner
+language = "en"  # UI language: en, ru
+show_hints = true  # Show hints in (?) buttons
 
 [http]
 timeout = 60
@@ -22,9 +24,35 @@ url = 'http://your-development-ksqldb.com'
 topic_link = 'http://your-development-kafka-ui.com/topics/{}'
 filters = [['REQUEST', 'RESPONSE'], ['BACKEND', 'FRONTEND', 'ML', 'ANALYTICS']]
 
-[servers.production]
+[servers.prod]
 name = "Production"
 url = 'http://your-production-ksqldb.com'
 topic_link = 'http://your-production-kafka-ui.com/topics/{}'
 warning_message = '⚠️ This is a production environment! Please do not modify existing streams/queries'
 default = true
+
+# Request templates
+
+[templates]
+show_builtin_templates = true
+
+## Custom templates
+
+[templates.custom.create_test_stream]
+envs = ["dev", "prod"]  # Optional, if not specified - available in all envs
+type = "stream"  # Optional, for streams use "stream", for queries use "query"
+description = "Test stream"  # Supports HTML
+query = """
+CREATE STREAM test_stream
+AS SELECT * FROM some_source;
+"""
+
+[templates.custom.create_test_query]
+type = "query"
+description = "Test query"
+query = """
+INSERT INTO <DEST_STREAM_NAME>
+SELECT *
+FROM <SOURCE_STREAM_NAME>
+WHERE ID > 100;
+"""

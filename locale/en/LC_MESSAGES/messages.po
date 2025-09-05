@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-22 18:01+0500\n"
+"POT-Creation-Date: 2025-09-05 15:28+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Show full traceback"
 msgstr ""
 
-#: src/templates/error.html:80 src/templates/streams/status/index.html:51
+#: src/templates/error.html:80 src/templates/status/index.html:51
 msgid "Debug page"
 msgstr ""
 
@@ -139,39 +139,83 @@ msgstr ""
 msgid "No, thanks"
 msgstr ""
 
-#: src/templates/includes/navbar.html:17 src/templates/requests/index.html:4
-msgid "Requests"
-msgstr ""
-
-#: src/templates/includes/navbar.html:21 src/templates/requests/history.html:4
-#: src/templates/requests/history.html:8
-msgid "History"
-msgstr ""
-
-#: src/templates/includes/navbar.html:25 src/templates/queries/list.html:60
-#: src/templates/streams/details.html:4 src/templates/streams/list.html:4
-#: src/templates/topics/details.html:36
+#: src/templates/includes/navbar.html:26 src/templates/includes/navbar.html:30
+#: src/templates/queries/list.html:70 src/templates/streams/details.html:4
+#: src/templates/streams/list.html:4 src/templates/topics/details.html:40
 msgid "Streams"
 msgstr ""
 
-#: src/templates/includes/navbar.html:28 src/templates/queries/details.html:4
+#: src/templates/includes/navbar.html:33 src/templates/queries/details.html:4
 #: src/templates/queries/list.html:4
 msgid "Queries"
 msgstr ""
 
-#: src/templates/includes/navbar.html:31 src/templates/topics/details.html:30
-#: src/templates/topology/index.html:4
-msgid "Topology"
-msgstr ""
-
-#: src/templates/includes/navbar.html:34 src/templates/topics/details.html:4
+#: src/templates/includes/navbar.html:36 src/templates/topics/details.html:4
 #: src/templates/topics/list.html:4 src/templates/topology/index.html:24
 msgid "Topics"
 msgstr ""
 
-#: src/templates/includes/navbar.html:37
-#: src/templates/streams/status/index.html:4
+#: src/templates/includes/navbar.html:44 src/templates/includes/navbar.html:47
+#: src/templates/requests/index.html:4
+msgid "Requests"
+msgstr ""
+
+#: src/templates/includes/navbar.html:49 src/templates/requests/history.html:4
+msgid "History"
+msgstr ""
+
+#: src/templates/includes/navbar.html:57 src/templates/topics/details.html:31
+#: src/templates/topology/index.html:4
+msgid "Topology"
+msgstr ""
+
+#: src/templates/includes/navbar.html:64 src/templates/status/index.html:4
 msgid "Status"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:11
+#: src/templates/includes/request_templates.html:37
+#: src/templates/includes/request_templates.html:62
+#: src/templates/includes/request_templates.html:91
+#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
+#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
+msgid "Copy"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:13
+#: src/templates/includes/request_templates.html:39
+#: src/templates/includes/request_templates.html:64
+#: src/templates/includes/request_templates.html:93
+#: src/templates/requests/history.html:27
+msgid "Paste"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:34
+msgid "Create new stream from existing topic"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:59
+msgid "Create new stream as SELECT from other stream"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:86
+msgid "Create new INSERT query for two existing streams"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:88
+msgid "<b>Advice:</b> It's better to use CREATE STREAM AS SELECT instead"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:108
+msgid "Show all templates"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:112
+msgid "How to add custom templates?"
+msgstr ""
+
+#: src/templates/includes/request_templates.html:116
+msgid "How to write ksqlDB requests?"
 msgstr ""
 
 #: src/templates/includes/response_keys.html:7
@@ -180,36 +224,6 @@ msgstr ""
 
 #: src/templates/includes/response_keys.html:16
 msgid "Go to top"
-msgstr ""
-
-#: src/templates/includes/welcome.html:2
-msgid "Welcome to ksqldb-ui"
-msgstr ""
-
-#: src/templates/includes/welcome.html:5
-msgid "The interface is pretty simple:"
-msgstr ""
-
-#: src/templates/includes/welcome.html:8
-msgid "Type your query in <b class=\"accent-text\">Request</b> section."
-msgstr ""
-
-#: src/templates/includes/welcome.html:9
-msgid "You can find query docs"
-msgstr ""
-
-#: src/templates/includes/welcome.html:10
-msgid "by link"
-msgstr ""
-
-#: src/templates/includes/welcome.html:13
-msgid ""
-"Click <b class=\"accent-text\">execute</b> button or press <span "
-"class=\"badge text-bg-purple\">Shift + Enter</span> to perform request"
-msgstr ""
-
-#: src/templates/includes/welcome.html:15
-msgid "More info on project homepage:"
 msgstr ""
 
 #: src/templates/includes/help_messages/button.html:2
@@ -271,11 +285,6 @@ msgstr ""
 msgid "Wrap text"
 msgstr ""
 
-#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
-#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
-msgid "Copy"
-msgstr ""
-
 #: src/templates/queries/details.html:60 src/templates/streams/details.html:67
 msgid "Fields"
 msgstr ""
@@ -294,24 +303,42 @@ msgstr ""
 msgid "Queries on %(name)s"
 msgstr ""
 
-#: src/templates/queries/list.html:35
+#: src/templates/queries/list.html:27
+msgid "Create query"
+msgstr ""
+
+#: src/templates/queries/list.html:45
 msgid "Type"
 msgstr ""
 
-#: src/templates/queries/list.html:36
+#: src/templates/queries/list.html:46
 msgid "Sinks"
 msgstr ""
 
-#: src/templates/queries/list.html:37 src/templates/streams/list.html:37
+#: src/templates/queries/list.html:47 src/templates/streams/list.html:47
 msgid "Controls"
 msgstr ""
 
-#: src/templates/queries/list.html:68
+#: src/templates/queries/list.html:78
 msgid "Kafka topics"
 msgstr ""
 
-#: src/templates/queries/list.html:87
+#: src/templates/queries/list.html:97
+msgid ""
+"<b>Queries</b> is not something ready made. It comes from your own "
+"actions."
+msgstr ""
+
+#: src/templates/queries/list.html:100
+msgid "Dalai Lama (never said)"
+msgstr ""
+
+#: src/templates/queries/list.html:107
 msgid "query"
+msgstr ""
+
+#: src/templates/requests/history.html:8
+msgid "Requests history"
 msgstr ""
 
 #: src/templates/requests/history.html:11
@@ -319,24 +346,36 @@ msgstr ""
 msgid "Clear history"
 msgstr ""
 
-#: src/templates/requests/history.html:27
-msgid "Paste"
+#: src/templates/requests/history.html:43
+msgid "Make your first request... and become a history!"
 msgstr ""
 
-#: src/templates/requests/history.html:42
-msgid "Make your first request to become a history"
+#: src/templates/requests/history.html:46
+msgid "Franz Kafka (never said)"
 msgstr ""
 
-#: src/templates/requests/history.html:45
+#: src/templates/requests/history.html:53
 msgid ""
 "Just add your cool request here and click <b class=\"accent-"
 "text\">execute</b> button or press"
 msgstr ""
 
-#: src/templates/requests/history.html:48
+#: src/templates/requests/history.html:59
+msgid "Denis Krumko (actually said)"
+msgstr ""
+
+#: src/templates/requests/history.html:64
 msgid ""
 "<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
 " will wipe your history"
+msgstr ""
+
+#: src/templates/requests/index.html:9
+msgid "Expand request area"
+msgstr ""
+
+#: src/templates/requests/index.html:10
+msgid "Expand response area"
 msgstr ""
 
 #: src/templates/requests/index.html:15
@@ -375,7 +414,7 @@ msgid "Preprocessed"
 msgstr ""
 
 #: src/templates/requests/index.html:63
-msgid "Introduction"
+msgid "Request templates"
 msgstr ""
 
 #: src/templates/requests/index.html:72
@@ -396,6 +435,56 @@ msgstr ""
 
 #: src/templates/requests/index.html:110
 msgid "Error"
+msgstr ""
+
+#: src/templates/status/debug.html:11
+msgid "KsqlDB UI settings"
+msgstr ""
+
+#: src/templates/status/debug.html:15
+msgid "Available environment variables"
+msgstr ""
+
+#: src/templates/status/debug.html:21
+msgid "Request history"
+msgstr ""
+
+#: src/templates/status/index.html:14
+#, python-format
+msgid "%(name)s server info"
+msgstr ""
+
+#: src/templates/status/index.html:29
+msgid "Server health"
+msgstr ""
+
+#: src/templates/status/index.html:35
+msgid "Your ksqlDB server is healthy"
+msgstr ""
+
+#: src/templates/status/index.html:36 src/templates/status/index.html:40
+msgid "State"
+msgstr ""
+
+#: src/templates/status/index.html:39
+msgid "Your ksqlDB server is not healthy"
+msgstr ""
+
+#: src/templates/status/index.html:44
+msgid "Components"
+msgstr ""
+
+#: src/templates/status/index.html:58
+msgid "Server properties"
+msgstr ""
+
+#: src/templates/status/index.html:72
+#, python-format
+msgid "Server <code>%(name)s</code> is not responding"
+msgstr ""
+
+#: src/templates/status/index.html:74
+msgid "Failed to get info or health check"
 msgstr ""
 
 #: src/templates/streams/details.html:16
@@ -425,72 +514,33 @@ msgstr ""
 msgid "Streams on %(name)s"
 msgstr ""
 
-#: src/templates/streams/list.html:34 src/templates/topics/details.html:42
+#: src/templates/streams/list.html:27
+msgid "Create stream"
+msgstr ""
+
+#: src/templates/streams/list.html:44 src/templates/topics/details.html:46
 #: src/templates/topics/list.html:17
 msgid "Name"
 msgstr ""
 
-#: src/templates/streams/list.html:35
+#: src/templates/streams/list.html:45
 msgid "Topic"
 msgstr ""
 
-#: src/templates/streams/list.html:36 src/templates/topics/details.html:43
+#: src/templates/streams/list.html:46 src/templates/topics/details.html:47
 msgid "Key/Value"
 msgstr ""
 
-#: src/templates/streams/list.html:64
+#: src/templates/streams/list.html:74
+msgid "All you need is <b>Stream</b>"
+msgstr ""
+
+#: src/templates/streams/list.html:77
+msgid "John Lennon (never said)"
+msgstr ""
+
+#: src/templates/streams/list.html:84
 msgid "stream"
-msgstr ""
-
-#: src/templates/streams/status/debug.html:11
-msgid "KsqlDB UI settings"
-msgstr ""
-
-#: src/templates/streams/status/debug.html:15
-msgid "Available environment variables"
-msgstr ""
-
-#: src/templates/streams/status/debug.html:21
-msgid "Request history"
-msgstr ""
-
-#: src/templates/streams/status/index.html:14
-#, python-format
-msgid "%(name)s server info"
-msgstr ""
-
-#: src/templates/streams/status/index.html:29
-msgid "Server health"
-msgstr ""
-
-#: src/templates/streams/status/index.html:35
-msgid "Your ksqlDB server is healthy"
-msgstr ""
-
-#: src/templates/streams/status/index.html:36
-#: src/templates/streams/status/index.html:40
-msgid "State"
-msgstr ""
-
-#: src/templates/streams/status/index.html:39
-msgid "Your ksqlDB server is not healthy"
-msgstr ""
-
-#: src/templates/streams/status/index.html:44
-msgid "Components"
-msgstr ""
-
-#: src/templates/streams/status/index.html:58
-msgid "Server properties"
-msgstr ""
-
-#: src/templates/streams/status/index.html:72
-#, python-format
-msgid "Server <code>%(name)s</code> is not responding"
-msgstr ""
-
-#: src/templates/streams/status/index.html:74
-msgid "Failed to get info or health check"
 msgstr ""
 
 #: src/templates/topics/details.html:16
@@ -502,7 +552,7 @@ msgstr ""
 msgid "UI Link"
 msgstr ""
 
-#: src/templates/topics/details.html:32 src/templates/topics/list.html:36
+#: src/templates/topics/details.html:33 src/templates/topics/list.html:36
 msgid "Open"
 msgstr ""
 
@@ -577,5 +627,45 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Streams and queries topology for %(name)s"
+#~ msgstr ""
+
+#~ msgid "Welcome to ksqldb-ui"
+#~ msgstr ""
+
+#~ msgid "The interface is pretty simple:"
+#~ msgstr ""
+
+#~ msgid "Type your query in <b class=\"accent-text\">Request</b> section."
+#~ msgstr ""
+
+#~ msgid "You can find query docs"
+#~ msgstr ""
+
+#~ msgid "by link"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click <b class=\"accent-text\">execute</b> "
+#~ "button or press <span class=\"badge "
+#~ "text-bg-purple\">Shift + Enter</span> to"
+#~ " perform request"
+#~ msgstr ""
+
+#~ msgid "More info on project homepage:"
+#~ msgstr ""
+
+#~ msgid "Make your first request to become a history"
+#~ msgstr ""
+
+#~ msgid "Introduction"
+#~ msgstr ""
+
+#~ msgid "Create new stream from existing topic."
+#~ msgstr ""
+
+#~ msgid "Create new stream as SELECT from other stream."
+#~ msgstr ""
+
+#~ msgid "Create new INSERT query for two existing streams."
 #~ msgstr ""
 

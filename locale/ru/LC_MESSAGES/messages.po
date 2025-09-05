@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-22 18:01+0500\n"
+"POT-Creation-Date: 2025-09-05 15:28+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -91,7 +91,7 @@ msgstr "Узнать больше"
 msgid "Show full traceback"
 msgstr "Показать полную трассировку"
 
-#: src/templates/error.html:80 src/templates/streams/status/index.html:51
+#: src/templates/error.html:80 src/templates/status/index.html:51
 msgid "Debug page"
 msgstr "Страница отладки"
 
@@ -152,40 +152,84 @@ msgstr "Да, удалить"
 msgid "No, thanks"
 msgstr "Нет, спасибо"
 
-#: src/templates/includes/navbar.html:17 src/templates/requests/index.html:4
-msgid "Requests"
-msgstr "Запросы"
-
-#: src/templates/includes/navbar.html:21 src/templates/requests/history.html:4
-#: src/templates/requests/history.html:8
-msgid "History"
-msgstr "История"
-
-#: src/templates/includes/navbar.html:25 src/templates/queries/list.html:60
-#: src/templates/streams/details.html:4 src/templates/streams/list.html:4
-#: src/templates/topics/details.html:36
+#: src/templates/includes/navbar.html:26 src/templates/includes/navbar.html:30
+#: src/templates/queries/list.html:70 src/templates/streams/details.html:4
+#: src/templates/streams/list.html:4 src/templates/topics/details.html:40
 msgid "Streams"
 msgstr "Стримы"
 
-#: src/templates/includes/navbar.html:28 src/templates/queries/details.html:4
+#: src/templates/includes/navbar.html:33 src/templates/queries/details.html:4
 #: src/templates/queries/list.html:4
 msgid "Queries"
 msgstr "Операции"
 
-#: src/templates/includes/navbar.html:31 src/templates/topics/details.html:30
-#: src/templates/topology/index.html:4
-msgid "Topology"
-msgstr "Топология"
-
-#: src/templates/includes/navbar.html:34 src/templates/topics/details.html:4
+#: src/templates/includes/navbar.html:36 src/templates/topics/details.html:4
 #: src/templates/topics/list.html:4 src/templates/topology/index.html:24
 msgid "Topics"
 msgstr "Топики"
 
-#: src/templates/includes/navbar.html:37
-#: src/templates/streams/status/index.html:4
+#: src/templates/includes/navbar.html:44 src/templates/includes/navbar.html:47
+#: src/templates/requests/index.html:4
+msgid "Requests"
+msgstr "Запросы"
+
+#: src/templates/includes/navbar.html:49 src/templates/requests/history.html:4
+msgid "History"
+msgstr "История"
+
+#: src/templates/includes/navbar.html:57 src/templates/topics/details.html:31
+#: src/templates/topology/index.html:4
+msgid "Topology"
+msgstr "Топология"
+
+#: src/templates/includes/navbar.html:64 src/templates/status/index.html:4
 msgid "Status"
 msgstr "Статус"
+
+#: src/templates/includes/request_templates.html:11
+#: src/templates/includes/request_templates.html:37
+#: src/templates/includes/request_templates.html:62
+#: src/templates/includes/request_templates.html:91
+#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
+#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
+msgid "Copy"
+msgstr "Копировать"
+
+#: src/templates/includes/request_templates.html:13
+#: src/templates/includes/request_templates.html:39
+#: src/templates/includes/request_templates.html:64
+#: src/templates/includes/request_templates.html:93
+#: src/templates/requests/history.html:27
+msgid "Paste"
+msgstr "Вставить"
+
+#: src/templates/includes/request_templates.html:34
+msgid "Create new stream from existing topic"
+msgstr "Создать новый стрим для существующего топика"
+
+#: src/templates/includes/request_templates.html:59
+msgid "Create new stream as SELECT from other stream"
+msgstr "Создать новый стрим как SELECT из другого стрима"
+
+#: src/templates/includes/request_templates.html:86
+msgid "Create new INSERT query for two existing streams"
+msgstr "Создать новую INSERT операцию для двух стримов"
+
+#: src/templates/includes/request_templates.html:88
+msgid "<b>Advice:</b> It's better to use CREATE STREAM AS SELECT instead"
+msgstr "<b>Совет:</b> Лучше использовать CREATE STREAM AS SELECT"
+
+#: src/templates/includes/request_templates.html:108
+msgid "Show all templates"
+msgstr "Показать все шаблоны"
+
+#: src/templates/includes/request_templates.html:112
+msgid "How to add custom templates?"
+msgstr "Как добавить свои шаблоны?"
+
+#: src/templates/includes/request_templates.html:116
+msgid "How to write ksqlDB requests?"
+msgstr "Как писать ksqlDB запросы?"
 
 #: src/templates/includes/response_keys.html:7
 msgid "Response keys"
@@ -194,39 +238,6 @@ msgstr "Ключи ответа"
 #: src/templates/includes/response_keys.html:16
 msgid "Go to top"
 msgstr "Наверх"
-
-#: src/templates/includes/welcome.html:2
-msgid "Welcome to ksqldb-ui"
-msgstr "Добро пожаловать в ksqldb-ui"
-
-#: src/templates/includes/welcome.html:5
-msgid "The interface is pretty simple:"
-msgstr "Интерфейс довольно простой:"
-
-#: src/templates/includes/welcome.html:8
-msgid "Type your query in <b class=\"accent-text\">Request</b> section."
-msgstr "Введите ваш запрос поле ввода слева."
-
-#: src/templates/includes/welcome.html:9
-msgid "You can find query docs"
-msgstr "Вы можете посмотреть документацию"
-
-#: src/templates/includes/welcome.html:10
-msgid "by link"
-msgstr "по ссылке"
-
-#: src/templates/includes/welcome.html:13
-msgid ""
-"Click <b class=\"accent-text\">execute</b> button or press <span "
-"class=\"badge text-bg-purple\">Shift + Enter</span> to perform request"
-msgstr ""
-"Для отправки запроса нажмите кнопку <b class=\"accent-"
-"text\">выполнить</b> или сочетание клавиш <span class=\"badge text-bg-"
-"purple\">Shift + Enter</span>"
-
-#: src/templates/includes/welcome.html:15
-msgid "More info on project homepage:"
-msgstr "Больше информации есть на странице проекта:"
 
 #: src/templates/includes/help_messages/button.html:2
 msgid "Show help"
@@ -302,11 +313,6 @@ msgstr "SQL запрос"
 msgid "Wrap text"
 msgstr "Перенос текста"
 
-#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
-#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
-msgid "Copy"
-msgstr "Копировать"
-
 #: src/templates/queries/details.html:60 src/templates/streams/details.html:67
 msgid "Fields"
 msgstr "Поля"
@@ -325,40 +331,60 @@ msgstr "Операция <b>%(deleted_query)s</b> была успешно уда
 msgid "Queries on %(name)s"
 msgstr "Операции на %(name)s"
 
-#: src/templates/queries/list.html:35
+#: src/templates/queries/list.html:27
+msgid "Create query"
+msgstr "Создать операцию"
+
+#: src/templates/queries/list.html:45
 msgid "Type"
 msgstr "Тип"
 
-#: src/templates/queries/list.html:36
+#: src/templates/queries/list.html:46
 msgid "Sinks"
 msgstr "Приемники"
 
-#: src/templates/queries/list.html:37 src/templates/streams/list.html:37
+#: src/templates/queries/list.html:47 src/templates/streams/list.html:47
 msgid "Controls"
 msgstr "Управление"
 
-#: src/templates/queries/list.html:68
+#: src/templates/queries/list.html:78
 msgid "Kafka topics"
 msgstr "Kafka топики"
 
-#: src/templates/queries/list.html:87
+#: src/templates/queries/list.html:97
+msgid ""
+"<b>Queries</b> is not something ready made. It comes from your own "
+"actions."
+msgstr ""
+"<b>Операции</b> – это не что-то готовое. Они возникают из ваших "
+"собственных действий"
+
+#: src/templates/queries/list.html:100
+msgid "Dalai Lama (never said)"
+msgstr "Далай-лама (никогда не говорил)"
+
+#: src/templates/queries/list.html:107
 msgid "query"
 msgstr "операция"
+
+#: src/templates/requests/history.html:8
+msgid "Requests history"
+msgstr "История запросов"
 
 #: src/templates/requests/history.html:11
 #: src/templates/requests/history.html:36
 msgid "Clear history"
 msgstr "Удалить историю"
 
-#: src/templates/requests/history.html:27
-msgid "Paste"
-msgstr "Вставить"
+#: src/templates/requests/history.html:43
+msgid "Make your first request... and become a history!"
+msgstr "Сделайте свой первый запрос... и войдите в историю!"
 
-#: src/templates/requests/history.html:42
-msgid "Make your first request to become a history"
-msgstr "Сделайте свой первый запрос, чтобы войти в историю"
+#: src/templates/requests/history.html:46
+msgid "Franz Kafka (never said)"
+msgstr "Франц Кафка (никогда не говорил)"
 
-#: src/templates/requests/history.html:45
+#: src/templates/requests/history.html:53
 msgid ""
 "Just add your cool request here and click <b class=\"accent-"
 "text\">execute</b> button or press"
@@ -366,13 +392,25 @@ msgstr ""
 "Введите свой запрос и нажмите <b class=\"accent-text\">выполнить</b> или "
 "нажми сочетание клавиш"
 
-#: src/templates/requests/history.html:48
+#: src/templates/requests/history.html:59
+msgid "Denis Krumko (actually said)"
+msgstr "Денис Крумко (действительно сказал)"
+
+#: src/templates/requests/history.html:64
 msgid ""
 "<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
 " will wipe your history"
 msgstr ""
 "<b>Примечание:</b> история запросов хранится в оперативной памяти и будет"
 " утеряна при перезапуска ksqldb-ui"
+
+#: src/templates/requests/index.html:9
+msgid "Expand request area"
+msgstr "Раскрыть запрос"
+
+#: src/templates/requests/index.html:10
+msgid "Expand response area"
+msgstr "Раскрыть ответ"
 
 #: src/templates/requests/index.html:15
 #, python-format
@@ -381,7 +419,7 @@ msgstr "Запрос к %(name)s"
 
 #: src/templates/requests/index.html:19
 msgid "Upload file"
-msgstr ""
+msgstr "Загрузить файл"
 
 #: src/templates/requests/index.html:29
 msgid "execute"
@@ -413,8 +451,8 @@ msgid "Preprocessed"
 msgstr "Предобработанный"
 
 #: src/templates/requests/index.html:63
-msgid "Introduction"
-msgstr "Приветствие"
+msgid "Request templates"
+msgstr "Шаблоны запросов"
 
 #: src/templates/requests/index.html:72
 msgid "Error during preprocessing"
@@ -434,7 +472,57 @@ msgstr "Предупреждение"
 
 #: src/templates/requests/index.html:110
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
+
+#: src/templates/status/debug.html:11
+msgid "KsqlDB UI settings"
+msgstr "Настройки KsqlDB UI"
+
+#: src/templates/status/debug.html:15
+msgid "Available environment variables"
+msgstr "Доступные переменные окружения"
+
+#: src/templates/status/debug.html:21
+msgid "Request history"
+msgstr "История запросов"
+
+#: src/templates/status/index.html:14
+#, python-format
+msgid "%(name)s server info"
+msgstr "Информация о сервере %(name)s"
+
+#: src/templates/status/index.html:29
+msgid "Server health"
+msgstr "Здоровье сервера"
+
+#: src/templates/status/index.html:35
+msgid "Your ksqlDB server is healthy"
+msgstr "Ваш ksqlDB сервер в порядке"
+
+#: src/templates/status/index.html:36 src/templates/status/index.html:40
+msgid "State"
+msgstr "Статус"
+
+#: src/templates/status/index.html:39
+msgid "Your ksqlDB server is not healthy"
+msgstr "Ваш ksqlDB сервер не в порядке"
+
+#: src/templates/status/index.html:44
+msgid "Components"
+msgstr "Компоненты"
+
+#: src/templates/status/index.html:58
+msgid "Server properties"
+msgstr "Параметры сервера"
+
+#: src/templates/status/index.html:72
+#, python-format
+msgid "Server <code>%(name)s</code> is not responding"
+msgstr "Сервер <code>%(name)s</code> не отвечает"
+
+#: src/templates/status/index.html:74
+msgid "Failed to get info or health check"
+msgstr "Ошибка при получении статуса сервера"
 
 #: src/templates/streams/details.html:16
 #, python-format
@@ -463,73 +551,34 @@ msgstr "Стрим <b>%(deleted_stream)s</b> был успешно удален!
 msgid "Streams on %(name)s"
 msgstr "Стримы на %(name)s"
 
-#: src/templates/streams/list.html:34 src/templates/topics/details.html:42
+#: src/templates/streams/list.html:27
+msgid "Create stream"
+msgstr "Создать стрим"
+
+#: src/templates/streams/list.html:44 src/templates/topics/details.html:46
 #: src/templates/topics/list.html:17
 msgid "Name"
 msgstr "Имя"
 
-#: src/templates/streams/list.html:35
+#: src/templates/streams/list.html:45
 msgid "Topic"
 msgstr "Топик"
 
-#: src/templates/streams/list.html:36 src/templates/topics/details.html:43
+#: src/templates/streams/list.html:46 src/templates/topics/details.html:47
 msgid "Key/Value"
 msgstr "Ключ/Значение"
 
-#: src/templates/streams/list.html:64
+#: src/templates/streams/list.html:74
+msgid "All you need is <b>Stream</b>"
+msgstr "Все что вам нужно - это <b>Стрим</b>"
+
+#: src/templates/streams/list.html:77
+msgid "John Lennon (never said)"
+msgstr "Джон Леннон (никогда не говорил)"
+
+#: src/templates/streams/list.html:84
 msgid "stream"
 msgstr "стрим"
-
-#: src/templates/streams/status/debug.html:11
-msgid "KsqlDB UI settings"
-msgstr "Настройки KsqlDB UI"
-
-#: src/templates/streams/status/debug.html:15
-msgid "Available environment variables"
-msgstr "Доступные переменные окружения"
-
-#: src/templates/streams/status/debug.html:21
-msgid "Request history"
-msgstr "История запросов"
-
-#: src/templates/streams/status/index.html:14
-#, python-format
-msgid "%(name)s server info"
-msgstr "Информация о сервере %(name)s"
-
-#: src/templates/streams/status/index.html:29
-msgid "Server health"
-msgstr "Здоровье сервера"
-
-#: src/templates/streams/status/index.html:35
-msgid "Your ksqlDB server is healthy"
-msgstr "Ваш ksqlDB сервер в порядке"
-
-#: src/templates/streams/status/index.html:36
-#: src/templates/streams/status/index.html:40
-msgid "State"
-msgstr "Статус"
-
-#: src/templates/streams/status/index.html:39
-msgid "Your ksqlDB server is not healthy"
-msgstr "Ваш ksqlDB сервер не в порядке"
-
-#: src/templates/streams/status/index.html:44
-msgid "Components"
-msgstr "Компоненты"
-
-#: src/templates/streams/status/index.html:58
-msgid "Server properties"
-msgstr "Параметры сервера"
-
-#: src/templates/streams/status/index.html:72
-#, python-format
-msgid "Server <code>%(name)s</code> is not responding"
-msgstr "Сервер <code>%(name)s</code> не отвечает"
-
-#: src/templates/streams/status/index.html:74
-msgid "Failed to get info or health check"
-msgstr "Ошибка при получении статуса сервера"
 
 #: src/templates/topics/details.html:16
 #, python-format
@@ -540,7 +589,7 @@ msgstr "Топик <span>%(topic_name)s</span> на %(server_name)s"
 msgid "UI Link"
 msgstr "Ссылка на UI"
 
-#: src/templates/topics/details.html:32 src/templates/topics/list.html:36
+#: src/templates/topics/details.html:33 src/templates/topics/list.html:36
 msgid "Open"
 msgstr "Открыть"
 

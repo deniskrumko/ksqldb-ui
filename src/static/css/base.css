@@ -1,3 +1,12 @@
+:root {
+    --purple: #6200cb;
+    --dark-purple: #4c009e;
+}
+
+.btn, .alert {
+    border-radius: 12px !important;
+}
+
 @font-face {
     font-family: 'Zain';
     src: url('/static/vendor/fonts/Zain-Bold.ttf') format('truetype');
@@ -20,7 +29,8 @@
 #logo,
 .b-hl,
 .section,
-.btn-execute {
+.btn-execute,
+.fun-quote .blockquote p {
     font-family: Zain, Arial, system-ui, -apple-system, Arial, sans-serif !important;
 }
 
@@ -29,7 +39,7 @@ body {
 }
 
 #navbar {
-    background-color: #6200cb;
+    background-color: var(--purple);
 }
 
 .width100 {
@@ -37,11 +47,15 @@ body {
 }
 
 .text-bg-purple {
-    background-color: #6200cb;
+    background-color: var(--purple);
+}
+
+.text-bg-secondary {
+    background-color: #b9afc4 !important;
 }
 
 .accent-text {
-    color: #6200cb !important;
+    color: var(--purple); !important;
 }
 
 .bubble {
@@ -59,7 +73,7 @@ body {
 }
 
 .bubble-body {
-    color: #6200cb;
+    color: var(--purple);
     font-size: 25px;
     text-align: center;
     line-height: 20px;
@@ -87,6 +101,24 @@ body {
 .my-container {
     padding-left: 30px;
     padding-right: 30px;
+    position: relative;
+}
+
+.title-group {
+    position: relative;
+}
+
+.title-group .buttons-group {
+    position: absolute;
+    top: -10px;
+    right: 0;
+
+    img {
+        height: 20px;
+        top: -2px;
+        position: relative;
+        filter: invert(1);
+    }
 }
 
 .nav-container {
@@ -141,9 +173,9 @@ body {
 }
 
 .btn-execute.btn-execute-active {
-    border: 3px solid #6200cb;
+    border: 3px solid var(--purple);
     background-color: #f8f5fb !important;
-    color: #6200cb;
+    color: var(--purple);
 }
 
 .btn-execute.btn-execute-wait {
@@ -153,14 +185,14 @@ body {
 }
 
 .btn-execute.btn-execute-active:hover {
-    background-color: #6200cb !important;
+    background-color: var(--purple) !important;
     color: #f8f5fb !important;
 }
 
 .ace-chrome .ace_storage,
 .ace-chrome .ace_keyword,
 .ace-chrome .ace_meta.ace_tag {
-    color: #6200cb !important;
+    color: var(--purple); !important;
 }
 
 .ace-chrome .ace_string {
@@ -171,12 +203,12 @@ body {
     font-size: 20px;
     color: #9389a2;
     font-weight: 400;
-    margin: 12px 0px 6px 0px;
+    margin: 16px 0px 10px 0px;
     position: relative;
 }
 
 .title-h2>span {
-    color: #6200cb;
+    color: var(--purple);
 }
 
 .section {
@@ -231,15 +263,32 @@ body {
     margin-bottom: 16px;
 }
 
+.wrap-pre-paste:hover {
+    cursor: pointer;
+    border: 1px solid var(--purple);
+    background-color: #fbf7ff;
+    transition: all 0.2s ease;
+}
+
 .resp .key {
     font-size: 14px;
     color: #777;
+}
+
+.resp .value {
+    position: relative;
 }
 
 .resp .value,
 pre {
     font-family: Menlo, monospace !important;
     font-size: 16px !important;
+}
+
+.resp .value .badge {
+    position: absolute;
+    right: 8px;
+    top: 8px;
 }
 
 .resp .value .wrap-pre {
@@ -265,9 +314,14 @@ pre {
 }
 
 .b-hl {
-    color: #6200cb;
+    color: var(--purple);
     font-weight: 400;
     font-size: 23px;
+}
+
+.text-hl {
+    color: var(--purple);
+    font-weight: bold;
 }
 
 .link-sm {
@@ -289,7 +343,7 @@ pre {
 .btn-original-response {
     background-color: #f5eaff;
     border-radius: 12px;
-    color: #6200cb;
+    color: var(--purple);
     text-decoration: none;
     padding: 4px 10px;
     transition: 0.2s all ease;
@@ -297,7 +351,7 @@ pre {
 }
 
 .btn-original-response:hover {
-    background-color: #6200cb;
+    background-color: var(--purple);
     color: #f5eaff;
 }
 
@@ -315,6 +369,7 @@ pre {
 .server-select {
     background-color: #4c009e !important;
     border: none !important;
+    cursor: pointer;
 }
 
 #git-link img {
@@ -329,7 +384,7 @@ pre {
 }
 
 #git-link:hover {
-    color: #6200cb;
+    color: var(--purple);
 }
 
 .divider {
@@ -351,7 +406,7 @@ pre {
 
 #top-warning-message {
     color: #fefefe;
-    background-color: #4c009e;
+    background-color: var(--dark-purple);
     text-align: center;
     padding: 5px 0px;
     position: sticky;
@@ -370,11 +425,11 @@ pre {
 .collable-button {
     z-index: 100;
     position: fixed;
-    left: calc(50% - 5px);
+    left: calc(50% - 6px);
     background: #ededed;
     color: #aaa;
     display: inline-block;
-    font-size: 11px;
+    font-size: 18px;
     padding: 20px 2px;
     border-radius: 8px;
     transition: background-color 0.2s ease;
@@ -382,7 +437,7 @@ pre {
 
 .collable-button:hover {
     cursor: pointer;
-    background-color: #6200cb;
+    background-color: var(--purple);
     color: #ededed;
 }
 
@@ -434,7 +489,7 @@ tbody>tr:last-child {
     display: inline-block;
     border-radius: 12px;
     padding: 5px 10px;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     cursor: pointer;
     transition: 0.2s ease all;
     user-select: none;
@@ -461,7 +516,7 @@ tbody>tr:last-child {
 }
 
 .filter-item.active {
-    background-color: #6200cb;
+    background-color: var(--purple);
     color: #ededed;
 }
 
@@ -469,4 +524,58 @@ tbody>tr:last-child {
     .collable-button {
         display: none;
     }
+
+    .title-group .buttons-group {
+        position: relative;
+        top: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.nav-item.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.fun-quote {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px 20px 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.fun-quote .blockquote p {
+    color: var(--purple);
+    font-size: 22px;
+}
+
+.btn-purple {
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: var(--purple) !important;
+  --bs-btn-hover-color: var(--bs-white) !important;
+  --bs-btn-hover-bg: var(--dark-purple) !important;
+}
+
+.btn-outline-purple {
+  --bs-btn-color: var(--purple) !important;
+  --bs-btn-border-color: var(--purple) !important;
+  --bs-btn-hover-color: var(--bs-white) !important;
+  --bs-btn-hover-bg: var(--purple) !important;
+}
+
+#github-link img {
+    opacity: 0.3;
+    margin-top: 2px;
+    margin-left: 10px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+#github-link img:hover {
+    opacity: 1;
+    filter: invert(1);
 }

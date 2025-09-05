@@ -15,10 +15,20 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
   </div>
   {% endif %}
 
-  <h2 class="title-h2">
+  <div class="title-group">
+    <h2 class="title-h2">
     {% trans name=current_server.display_name %}Streams on {{ name }}{% endtrans %}
     {% include "includes/help_messages/button.html" %}
-  </h2>
+    </h2>
+
+    <!-- Add buttons -->
+    <div class="buttons-group">
+      <a href="/requests?{{q}}&template=stream" class="btn btn-success">
+        <img src="/static/icons/plus.svg" alt="Create">
+        {% trans %}Create stream{% endtrans %}
+      </a>
+    </div>
+  </div>
 
   <!-- Help -->
   {% include "includes/help_messages/streams.html" %}
@@ -26,6 +36,8 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
   <!-- Filters -->
   {% include "includes/list_page_filters.html" %}
 
+  <!-- Streams -->
+  {% if streams %}
   <div class="table-container">
     <table class="table nomargin">
       <thead>
@@ -58,6 +70,16 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
       </tbody>
     </table>
   </div>
+  {% else %}
+  <figure class="fun-quote">
+    <blockquote class="blockquote" >
+      <p>“ {% trans %}All you need is <b>Stream</b>{% endtrans %} ”</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      {% trans %}John Lennon (never said){% endtrans %}
+    </figcaption>
+  </figure>
+  {% endif %}
   {% include "includes/hidden_response_details.html" %}
 </div>
 

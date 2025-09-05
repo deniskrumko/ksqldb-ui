@@ -7,6 +7,7 @@ from app.core.settings import (
     HTTPSettings,
     Server,
     Settings,
+    TemplatesSettings,
     init_settings as init_global_settings,
 )
 
@@ -50,6 +51,7 @@ def settings():
         http=HTTPSettings(),
         history=HistorySettings(),
         global_settings=GlobalSettings(),
+        templates=TemplatesSettings(),
     )
 
 

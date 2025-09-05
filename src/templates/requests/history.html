@@ -5,7 +5,7 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
 {% endblock %}
 
 {% block right_section_header %}
-{% trans %}History{% endtrans %}
+{% trans %}Requests history{% endtrans %}
 {% if history %}
 <div class="section-buttons">
   <img src="/static/icons/delete.svg" class="img-btn" onclick="clearHistory();" alt="Clear" class="request-btn" data-toggle="tooltip" data-placement="top" title="{% trans %}Clear history{% endtrans %}">
@@ -28,7 +28,7 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
     </div>
   </div>
   <div class="value">
-     <pre class="wrap-pre">{{ entry.query }}</pre>
+     <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">{{ entry.query }}</pre>
   </div>
 </div>
 {% endfor %}
@@ -38,12 +38,26 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
 <br>
 <br>
 {% else %}
-<h1 class="display-3">
-{% trans %}Make your first request to become a history{% endtrans %} 😎
-</h1>
-<p>
-{% trans %}Just add your cool request here and click <b class="accent-text">execute</b> button or press{% endtrans %} <span class="badge text-bg-purple">Shift + Enter</span>
-</p>
+<figure class="fun-quote">
+  <blockquote class="blockquote" >
+    <p>“ {% trans %}Make your first request... and become a history!{% endtrans %} ”</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    {% trans %}Franz Kafka (never said){% endtrans %}
+  </figcaption>
+</figure>
+
+<figure class="fun-quote">
+  <blockquote class="blockquote" >
+    <p>“ {% trans %}Just add your cool request here and click <b class="accent-text">execute</b> button or press{% endtrans %} <span class="badge text-bg-purple">Shift + Enter</span> ”
+    </p>
+
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    {% trans %}Denis Krumko (actually said){% endtrans %}
+  </figcaption>
+</figure>
+
 <p class="hint">
 {% trans %}<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart will wipe your history{% endtrans %}
 </p>
