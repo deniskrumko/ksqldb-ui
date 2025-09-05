@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg" data-bs-theme="dark" id="navbar">
   <div class="nav-container">
-    <a class="navbar-brand" href="/requests{% if current_server %}?{{current_server.query}}{% endif %}">
+    <a class="navbar-brand" href="/streams{% if current_server %}?{{current_server.query}}{% endif %}">
       <img src="/static/images/logo.png" alt="ksqldb-ui" width="36" height="36">
       <span id="logo">ksqldb-ui</span>
       {% if request.app.app_version %}
@@ -13,6 +13,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText" >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- Streams and queries -->
+        <li class="nav-item dropdown" data-bs-theme="light">
+          <a class="nav-link dropdown-toggle {% if '/streams' in request.path or '/queries' in request.path %}active{% endif %}" href="/streams?{{q}}">
+            {% trans %}Streams{% endtrans %}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/streams?{{q}}">
+              {% trans %}Streams{% endtrans %}
+            </a>
+            <a class="dropdown-item" href="/queries?{{q}}">
+              {% trans %}Queries{% endtrans %}
+            </a>
+            <a class="dropdown-item" href="/topics?{{q}}">
+              {% trans %}Topics{% endtrans %}
+            </a>
+          </div>
+        </li>
 
         <!-- Requests -->
         <li class="nav-item dropdown" data-bs-theme="light">
@@ -27,30 +45,10 @@
           </div>
         </li>
 
-        <!-- Streams and queries -->
-        <li class="nav-item dropdown" data-bs-theme="light">
-          <a class="nav-link dropdown-toggle {% if '/streams' in request.path or '/queries' in request.path %}active{% endif %}" href="/streams?{{q}}">
-            {% trans %}Streams{% endtrans %}
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="/streams?{{q}}">{% trans %}Streams{% endtrans %}</a>
-            {% if request.app.settings.history.enabled %}
-            <a class="dropdown-item" href="/queries?{{q}}">{% trans %}Queries{% endtrans %}</a>
-            {% endif %}
-          </div>
-        </li>
-
         <!-- Topology -->
         <li class="nav-item">
           <a class="nav-link {% if '/topology' in request.path %}active{% endif %}" href="/topology?{{q}}">
             {% trans %}Topology{% endtrans %}
-          </a>
-        </li>
-
-        <!-- Topics -->
-        <li class="nav-item">
-          <a class="nav-link {% if '/topics' in request.path %}active{% endif %}" href="/topics?{{q}}">
-          {% trans %}Topics{% endtrans %}
           </a>
         </li>
 

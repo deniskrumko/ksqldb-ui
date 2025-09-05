@@ -5,7 +5,7 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
 {% endblock %}
 
 {% block right_section_header %}
-{% trans %}History{% endtrans %}
+{% trans %}Requests history{% endtrans %}
 {% if history %}
 <div class="section-buttons">
   <img src="/static/icons/delete.svg" class="img-btn" onclick="clearHistory();" alt="Clear" class="request-btn" data-toggle="tooltip" data-placement="top" title="{% trans %}Clear history{% endtrans %}">
@@ -28,7 +28,7 @@ ksqlDB · {% trans %}History{% endtrans %} · {{ current_server.display_name }}
     </div>
   </div>
   <div class="value">
-     <pre class="wrap-pre">{{ entry.query }}</pre>
+     <pre class="wrap-pre wrap-pre-paste" onclick="pasteRespValue(this, true)">{{ entry.query }}</pre>
   </div>
 </div>
 {% endfor %}

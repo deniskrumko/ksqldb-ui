@@ -69,6 +69,22 @@ class HistorySettings(LowercaseKeyMixin, BaseModel):
     size: int = 50
 
 
+class CustomTemplate(LowercaseKeyMixin, BaseModel):
+    """Custom template model."""
+
+    envs: list[str] | None = None
+    type: str | None = None
+    description: str
+    query: str
+
+
+class TemplatesSettings(LowercaseKeyMixin, BaseModel):
+    """Settings for templates."""
+
+    show_builtin_templates: bool = True
+    custom: dict[str, CustomTemplate] = {}
+
+
 class GlobalSettings(LowercaseKeyMixin, BaseModel):
     """Global settings for the app."""
 
@@ -81,6 +97,7 @@ class Settings(BaseModel):
 
     http: HTTPSettings
     history: HistorySettings
+    templates: TemplatesSettings
     servers: dict[str, Server]
     global_settings: GlobalSettings
 
@@ -104,6 +121,7 @@ class Settings(BaseModel):
         settings = cls(
             http=HTTPSettings(**config.get("http", {})),
             history=HistorySettings(**config.get("history", {})),
+            templates=TemplatesSettings(**config.get("templates", {})),
             global_settings=GlobalSettings(**config.get("global", {})),
             servers={
                 code.lower(): Server(code=code.lower(), **params)

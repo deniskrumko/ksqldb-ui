@@ -6,8 +6,8 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
 
 {% block body %}
 <div class="my-container">
-  <div id="collapse-right-button" class="collable-button"  data-toggle="tooltip" data-placement="left" title="Expand request area">›</div>
-  <div id="collapse-left-button" class="collable-button" data-toggle="tooltip" data-placement="right" title="Expand response area">‹</div>
+  <div id="collapse-right-button" class="collable-button"  data-toggle="tooltip" data-placement="left" title="{% trans %}Expand request area{% endtrans %}">›</div>
+  <div id="collapse-left-button" class="collable-button" data-toggle="tooltip" data-placement="right" title="{% trans %}Expand response area{% endtrans %}">‹</div>
   <div class="row">
     <!-- LEFT SECTION -->
     <div class="col-md-6" id="col-left-collapsable">
@@ -60,7 +60,7 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
           {% elif warning_msg %}
           {% trans %}Response{% endtrans %}
           {% else %}
-          {% trans %}Introduction{% endtrans %}
+          {% trans %}Request templates{% endtrans %}
           {% endif %}
         {% endblock %}
       </h2>
@@ -111,8 +111,8 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
             <div>{{ error_msg }}</div>
           </div>
         {% else %}
-          <!-- Show welcoming page -->
-          {% include "includes/welcome.html" %}
+        <!-- Show templates sections -->
+        {% include "includes/request_templates.html" %}
         {% endif %}
         {% include "includes/hidden_response_details.html" %}
         <br>
@@ -178,7 +178,7 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
   }
 
   function adjustEditorHeight() {
-    let padding = 178;
+    let padding = 184;
     const editor = document.getElementById('editor');
     const topWarning = document.getElementById('top-warning-message');
     if (topWarning) {
@@ -235,6 +235,11 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
     readOnly: false
   });
 
+  function showAllTemplates(e) {
+    $('.resp-paste').show();
+    e.style.display = 'none';
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     // Load editor
     adjustEditorHeight();
@@ -243,6 +248,16 @@ ksqlDB · {% trans %}Requests{% endtrans %} · {{ current_server.display_name }}
 
     // Init all tooltips
     $('[data-toggle="tooltip"]').tooltip()
+
+    // Show templates by type
+    let params = new URLSearchParams(window.location.search);
+    let templateType = params.get("template");
+    if (templateType) {
+      console.log("Show only template type:", templateType);
+      $('.resp-paste').hide();
+      $(`.resp-paste[data-template="${templateType}"]`).show();
+      $('#show-all-btn').show();
+    }
   });
 
 </script>

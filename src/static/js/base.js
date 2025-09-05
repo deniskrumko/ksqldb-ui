@@ -53,8 +53,13 @@ function loadWrapText(editorId) {
   setWrapText(editorId, getWrapText());
 }
 
-function pasteRespValue(e) {
-  const text = $(e).parent().parent().next(".value").find("pre").text();
+function pasteRespValue(e, isWrap=false) {
+  let element = $(e);
+  if (!isWrap) {
+    element = element.parent().parent().next(".value").find("pre");
+  }
+
+  const text = element.text();
   editor.setValue(text);
   console.log('Pasted resp value of length', text.length);
 }
