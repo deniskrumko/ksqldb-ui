@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-05 14:35+0500\n"
+"POT-Creation-Date: 2025-09-05 15:28+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -152,82 +152,82 @@ msgstr "Да, удалить"
 msgid "No, thanks"
 msgstr "Нет, спасибо"
 
-#: src/templates/includes/navbar.html:20 src/templates/includes/navbar.html:24
-#: src/templates/queries/list.html:62 src/templates/streams/details.html:4
+#: src/templates/includes/navbar.html:26 src/templates/includes/navbar.html:30
+#: src/templates/queries/list.html:70 src/templates/streams/details.html:4
 #: src/templates/streams/list.html:4 src/templates/topics/details.html:40
 msgid "Streams"
 msgstr "Стримы"
 
-#: src/templates/includes/navbar.html:27 src/templates/queries/details.html:4
+#: src/templates/includes/navbar.html:33 src/templates/queries/details.html:4
 #: src/templates/queries/list.html:4
 msgid "Queries"
 msgstr "Операции"
 
-#: src/templates/includes/navbar.html:30 src/templates/topics/details.html:4
+#: src/templates/includes/navbar.html:36 src/templates/topics/details.html:4
 #: src/templates/topics/list.html:4 src/templates/topology/index.html:24
 msgid "Topics"
 msgstr "Топики"
 
-#: src/templates/includes/navbar.html:38 src/templates/includes/navbar.html:41
+#: src/templates/includes/navbar.html:44 src/templates/includes/navbar.html:47
 #: src/templates/requests/index.html:4
 msgid "Requests"
 msgstr "Запросы"
 
-#: src/templates/includes/navbar.html:43 src/templates/requests/history.html:4
+#: src/templates/includes/navbar.html:49 src/templates/requests/history.html:4
 msgid "History"
 msgstr "История"
 
-#: src/templates/includes/navbar.html:51 src/templates/topics/details.html:31
+#: src/templates/includes/navbar.html:57 src/templates/topics/details.html:31
 #: src/templates/topology/index.html:4
 msgid "Topology"
 msgstr "Топология"
 
-#: src/templates/includes/navbar.html:58 src/templates/status/index.html:4
+#: src/templates/includes/navbar.html:64 src/templates/status/index.html:4
 msgid "Status"
 msgstr "Статус"
 
 #: src/templates/includes/request_templates.html:11
-#: src/templates/includes/request_templates.html:34
-#: src/templates/includes/request_templates.html:58
-#: src/templates/includes/request_templates.html:86
+#: src/templates/includes/request_templates.html:37
+#: src/templates/includes/request_templates.html:62
+#: src/templates/includes/request_templates.html:91
 #: src/templates/queries/details.html:53 src/templates/requests/history.html:25
 #: src/templates/requests/index.html:18 src/templates/streams/details.html:60
 msgid "Copy"
 msgstr "Копировать"
 
 #: src/templates/includes/request_templates.html:13
-#: src/templates/includes/request_templates.html:36
-#: src/templates/includes/request_templates.html:60
-#: src/templates/includes/request_templates.html:88
+#: src/templates/includes/request_templates.html:39
+#: src/templates/includes/request_templates.html:64
+#: src/templates/includes/request_templates.html:93
 #: src/templates/requests/history.html:27
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/templates/includes/request_templates.html:31
+#: src/templates/includes/request_templates.html:34
 msgid "Create new stream from existing topic"
 msgstr "Создать новый стрим для существующего топика"
 
-#: src/templates/includes/request_templates.html:55
+#: src/templates/includes/request_templates.html:59
 msgid "Create new stream as SELECT from other stream"
 msgstr "Создать новый стрим как SELECT из другого стрима"
 
-#: src/templates/includes/request_templates.html:81
+#: src/templates/includes/request_templates.html:86
 msgid "Create new INSERT query for two existing streams"
 msgstr "Создать новую INSERT операцию для двух стримов"
 
-#: src/templates/includes/request_templates.html:83
+#: src/templates/includes/request_templates.html:88
 msgid "<b>Advice:</b> It's better to use CREATE STREAM AS SELECT instead"
 msgstr "<b>Совет:</b> Лучше использовать CREATE STREAM AS SELECT"
 
-#: src/templates/includes/request_templates.html:102
+#: src/templates/includes/request_templates.html:108
 msgid "Show all templates"
 msgstr "Показать все шаблоны"
 
-#: src/templates/includes/request_templates.html:106
+#: src/templates/includes/request_templates.html:112
 msgid "How to add custom templates?"
 msgstr "Как добавить свои шаблоны?"
 
-#: src/templates/includes/request_templates.html:110
+#: src/templates/includes/request_templates.html:116
 msgid "How to write ksqlDB requests?"
 msgstr "Как писать ksqlDB запросы?"
 
@@ -331,23 +331,27 @@ msgstr "Операция <b>%(deleted_query)s</b> была успешно уда
 msgid "Queries on %(name)s"
 msgstr "Операции на %(name)s"
 
-#: src/templates/queries/list.html:37
+#: src/templates/queries/list.html:27
+msgid "Create query"
+msgstr "Создать операцию"
+
+#: src/templates/queries/list.html:45
 msgid "Type"
 msgstr "Тип"
 
-#: src/templates/queries/list.html:38
+#: src/templates/queries/list.html:46
 msgid "Sinks"
 msgstr "Приемники"
 
-#: src/templates/queries/list.html:39 src/templates/streams/list.html:39
+#: src/templates/queries/list.html:47 src/templates/streams/list.html:47
 msgid "Controls"
 msgstr "Управление"
 
-#: src/templates/queries/list.html:70
+#: src/templates/queries/list.html:78
 msgid "Kafka topics"
 msgstr "Kafka топики"
 
-#: src/templates/queries/list.html:89
+#: src/templates/queries/list.html:97
 msgid ""
 "<b>Queries</b> is not something ready made. It comes from your own "
 "actions."
@@ -355,11 +359,11 @@ msgstr ""
 "<b>Операции</b> – это не что-то готовое. Они возникают из ваших "
 "собственных действий"
 
-#: src/templates/queries/list.html:92
+#: src/templates/queries/list.html:100
 msgid "Dalai Lama (never said)"
 msgstr "Далай-лама (никогда не говорил)"
 
-#: src/templates/queries/list.html:99
+#: src/templates/queries/list.html:107
 msgid "query"
 msgstr "операция"
 
@@ -547,28 +551,32 @@ msgstr "Стрим <b>%(deleted_stream)s</b> был успешно удален!
 msgid "Streams on %(name)s"
 msgstr "Стримы на %(name)s"
 
-#: src/templates/streams/list.html:36 src/templates/topics/details.html:46
+#: src/templates/streams/list.html:27
+msgid "Create stream"
+msgstr "Создать стрим"
+
+#: src/templates/streams/list.html:44 src/templates/topics/details.html:46
 #: src/templates/topics/list.html:17
 msgid "Name"
 msgstr "Имя"
 
-#: src/templates/streams/list.html:37
+#: src/templates/streams/list.html:45
 msgid "Topic"
 msgstr "Топик"
 
-#: src/templates/streams/list.html:38 src/templates/topics/details.html:47
+#: src/templates/streams/list.html:46 src/templates/topics/details.html:47
 msgid "Key/Value"
 msgstr "Ключ/Значение"
 
-#: src/templates/streams/list.html:66
+#: src/templates/streams/list.html:74
 msgid "All you need is <b>Stream</b>"
 msgstr "Все что вам нужно - это <b>Стрим</b>"
 
-#: src/templates/streams/list.html:69
+#: src/templates/streams/list.html:77
 msgid "John Lennon (never said)"
 msgstr "Джон Леннон (никогда не говорил)"
 
-#: src/templates/streams/list.html:76
+#: src/templates/streams/list.html:84
 msgid "stream"
 msgstr "стрим"
 
