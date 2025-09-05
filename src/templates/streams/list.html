@@ -20,6 +20,14 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
     {% include "includes/help_messages/button.html" %}
   </h2>
 
+  <!-- Add buttons -->
+  <div class="buttons-group">
+    <a href="/requests?{{q}}&template=stream" class="btn btn-success">
+      <img src="/static/icons/plus.svg" alt="Create">
+      {% trans %}Create stream{% endtrans %}
+    </a>
+  </div>
+
   <!-- Help -->
   {% include "includes/help_messages/streams.html" %}
 

@@ -90,6 +90,8 @@ class GlobalSettings(LowercaseKeyMixin, BaseModel):
 
     language: str = "en"  # Default language
     show_hints: bool = True  # Show hints in UI
+    branding: str = "ksqldb-ui"  # Branding text
+    display_version: bool = True  # Display app version in UI
 
 
 class Settings(BaseModel):

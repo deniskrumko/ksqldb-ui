@@ -3,6 +3,10 @@
     --dark-purple: #4c009e;
 }
 
+.btn {
+    border-radius: 12px !important;
+}
+
 @font-face {
     font-family: 'Zain';
     src: url('/static/vendor/fonts/Zain-Bold.ttf') format('truetype');
@@ -97,6 +101,20 @@ body {
 .my-container {
     padding-left: 30px;
     padding-right: 30px;
+    position: relative;
+}
+
+.my-container .buttons-group {
+    position: absolute;
+    top: -10px;
+    right: 32px;
+
+    img {
+        height: 20px;
+        top: -2px;
+        position: relative;
+        filter: invert(1);
+    }
 }
 
 .nav-container {
@@ -347,6 +365,7 @@ pre {
 .server-select {
     background-color: #4c009e !important;
     border: none !important;
+    cursor: pointer;
 }
 
 #git-link img {
@@ -501,6 +520,13 @@ tbody>tr:last-child {
     .collable-button {
         display: none;
     }
+
+    .my-container .buttons-group {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 10px;
+    }
 }
 
 .nav-item.dropdown:hover>.dropdown-menu {
@@ -536,4 +562,16 @@ tbody>tr:last-child {
   --bs-btn-border-color: var(--purple) !important;
   --bs-btn-hover-color: var(--bs-white) !important;
   --bs-btn-hover-bg: var(--purple) !important;
+}
+
+#github-link img {
+    opacity: 0.3;
+    margin-top: 2px;
+    margin-left: 10px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+#github-link img:hover {
+    opacity: 1;
+    filter: invert(1);
 }

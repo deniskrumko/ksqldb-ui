@@ -1,8 +1,10 @@
 # Global parameters
 
 [global]
-language = "en"  # en, ru
-show_hints = true
+branding = "ksqldb-ui"  # Branding text in the top-left corner
+display_version = true  # Display app version in the top-left corner
+language = "en"  # UI language: en, ru
+show_hints = true  # Show hints in (?) buttons
 
 [http]
 timeout = 60

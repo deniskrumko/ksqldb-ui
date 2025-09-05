@@ -2,8 +2,14 @@
   <div class="nav-container">
     <a class="navbar-brand" href="/streams{% if current_server %}?{{current_server.query}}{% endif %}">
       <img src="/static/images/logo.png" alt="ksqldb-ui" width="36" height="36">
-      <span id="logo">ksqldb-ui</span>
-      {% if request.app.app_version %}
+      <span id="logo">
+        {% if request.app.settings.global_settings.branding %}
+        {{ request.app.settings.global_settings.branding }}
+        {% else %}
+        ksqldb-ui
+        {% endif %}
+      </span>
+      {% if request.app.app_version and request.app.settings.global_settings.display_version %}
       <span id="app-version">{{ request.app.app_version }}</span>
       {% endif %}
     </a>
@@ -69,6 +75,9 @@
           </option>
           {% endfor %}
         </select>
+         <a href="https://github.com/deniskrumko/ksqldb-ui" target="_blank" id="github-link" title="GitHub">
+            <img src="/static/icons/github.svg" alt="Github" width="32" height="32">
+          </a>
       </form>
       {% endif %}
     </div>
