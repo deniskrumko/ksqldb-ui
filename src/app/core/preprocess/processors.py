@@ -6,6 +6,7 @@ from typing import (
 import httpx
 
 from .resources import (
+    RawRenderer,
     SelectResult,
     TableRenderer,
     parse_schema_list,
@@ -15,7 +16,7 @@ from .resources import (
 @runtime_checkable
 class Renderable(Protocol):
     def render(self) -> str:
-        pass
+        """Render the object to a string."""
 
 
 def preprocess_data(response: httpx.Response) -> Renderable | None:
@@ -27,19 +28,21 @@ def preprocess_data(response: httpx.Response) -> Renderable | None:
     if not isinstance(data, list) or not data:
         return None
 
-    if "header" in data[0]:
+    first = data[0]
+
+    if "header" in first:
         return preprocess_select(data)
 
-    resp_type = data[0].get("@type")
+    resp_type = first.get("@type")
     if resp_type == "function_names":
-        return TableRenderer(items=data[0]["functions"], options={"type": "badge"})
+        return TableRenderer(items=first["functions"], options={"type": "badge"})
 
     if resp_type == "properties":
-        return TableRenderer(items=data[0]["properties"])
+        return TableRenderer(items=first["properties"])
 
     if resp_type == "queries":
         return TableRenderer(
-            items=data[0]["queries"],
+            items=first["queries"],
             cols=[
                 "id",
                 "queryType",
@@ -57,12 +60,23 @@ def preprocess_data(response: httpx.Response) -> Renderable | None:
 
     if resp_type == "streams":
         return TableRenderer(
-            items=data[0]["streams"],
+            items=first["streams"],
             options={
                 "keyFormat": "badge",
                 "valueFormat": "valueFormat",
             },
         )
+
+    if resp_type == "currentStatus" and first.get("commandStatus", {}).get("status") == "SUCCESS":
+        msg = first.get("commandStatus", {}).get("message", "Command executed successfully")
+
+        try:
+            obj_name = first.get("commandId").split("`")[1]
+            msg += f": <b>{obj_name}</b>"
+        except Exception:
+            pass
+
+        return RawRenderer(f"<h2>{msg}</h2>")
 
     return None
 

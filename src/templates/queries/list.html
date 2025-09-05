@@ -15,18 +15,22 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
   </div>
   {% endif %}
 
-  <h2 class="title-h2">
-  {% trans name=current_server.display_name %}Queries on {{ name }}{% endtrans %}
-  {% include "includes/help_messages/button.html" %}
-  </h2>
+  <div class="title-group">
+    <!-- Title -->
+    <h2 class="title-h2">
+    {% trans name=current_server.display_name %}Queries on {{ name }}{% endtrans %}
+    {% include "includes/help_messages/button.html" %}
+    </h2>
 
-  <!-- Add buttons -->
-  <div class="buttons-group">
-    <a href="/requests?{{q}}&template=query" class="btn btn-success">
-      <img src="/static/icons/plus.svg" alt="Create">
-      {% trans %}Create query{% endtrans %}
-    </a>
+    <!-- Add buttons -->
+    <div class="buttons-group">
+      <a href="/requests?{{q}}&template=query" class="btn btn-success">
+        <img src="/static/icons/plus.svg" alt="Create">
+        {% trans %}Create query{% endtrans %}
+      </a>
+    </div>
   </div>
+
 
   <!-- Help -->
   {% include "includes/help_messages/queries.html" %}

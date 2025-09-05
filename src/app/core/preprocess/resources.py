@@ -117,3 +117,11 @@ class TableRenderer:
         from ..render import render_table
 
         return render_table(self.items, cols=self.cols, options=self.options)  # type: ignore
+
+
+@dataclass
+class RawRenderer:
+    data: str
+
+    def render(self) -> str:
+        return self.data
