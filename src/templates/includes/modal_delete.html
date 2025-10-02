@@ -18,7 +18,7 @@
         {% elif objectType == "query" %}
           {% trans %}Do you really want to delete queries:{% endtrans %}
         {% endif %}
-        <code class="deletable-object-title">UNDEFINED</code> ?
+        <code class="deletable-object-title"></code> ?
       </div>
       <div class="modal-footer">
         <form action="{{deleteEndpoint}}?{{q}}" method="POST">

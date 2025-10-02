@@ -12,7 +12,6 @@ if (deleteModal) {
     if (!recipient) {
       const checkedBoxes = document.querySelectorAll('input[name="selected_objects"]:checked');
       recipient = Array.from(checkedBoxes).map(checkbox => checkbox.value).join(', ');
-      console.log('Selected objects:', recipient);
     }
 
     // Update the modal's content.

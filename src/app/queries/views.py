@@ -37,6 +37,8 @@ async def delete_query(request: Request) -> Response:
 
     for query_name in query_names.split(","):
         query_name = query_name.strip()
+        if not query_name:
+            continue
         await get_ksql_client(request).execute_statement(f"TERMINATE {query_name}")
 
     return await list_view(

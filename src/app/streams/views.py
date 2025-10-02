@@ -39,6 +39,8 @@ async def delete_stream(request: Request) -> Response:
 
     for stream_name in stream_names.split(","):
         stream_name = stream_name.strip()
+        if not stream_name:
+            continue
 
         if stream_name == KSQL_SYSTEM_STREAM:
             raise ValueError(
