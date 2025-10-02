@@ -79,6 +79,9 @@ collect_translations:
 compile_translations:
 	./scripts/compile_translations.sh
 
+find_missing_translations:
+	./scripts/find_missing_translations.sh
+
 # Open ksqldb UI
 ui:
 	open http://localhost:8080

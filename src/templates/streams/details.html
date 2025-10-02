@@ -12,13 +12,23 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
 <div class="my-container">
   <div class="row">
     <div class="col">
-      <h2 class="title-h2">
-        {% trans stream_name=stream.sourceDescription.name, server_name=current_server.display_name %}Stream <span>{{ stream_name }}</span> on {{ server_name }}{% endtrans %}
-        {% include "includes/help_messages/button.html" %}
-      </h2>
+      <div class="title-group">
+        <h2 class="title-h2">
+          {% trans stream_name=stream.sourceDescription.name, server_name=current_server.display_name %}Stream <span>{{ stream_name }}</span> on {{ server_name }}{% endtrans %}
+          {% include "includes/help_messages/button.html" %}
+        </h2>
 
-      <!-- Help -->
-      {% include "includes/help_messages/streams.html" %}
+        <!-- Help -->
+        {% include "includes/help_messages/streams.html" %}
+
+        <!-- Buttons -->
+        <div class="buttons-group">
+          <div class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.sourceDescription.name }}">
+            <img src="/static/icons/delete.svg" alt="Delete">
+            {% trans %}Delete stream{% endtrans %}
+          </div>
+        </div>
+      </div>
 
       <!-- Bubbles -->
       {{ render_bubbles(stream.sourceDescription, keys=["keyFormat", "valueFormat", "partitions",
@@ -79,10 +89,14 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
     </div>
   </div>
 </div>
+{% with objectType="stream", deleteEndpoint="/streams" %}
+  {% include "includes/modal_delete.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block js %}
 {{ super() }}
+<script src="/static/js/modal_delete.js"></script>
 <script src="/static/vendor/ace/ace.min.js"></script>
 <script src="/static/vendor/d3/d3.min.js"></script>
 <script src="/static/vendor/d3/dagre-d3.min.js"></script>

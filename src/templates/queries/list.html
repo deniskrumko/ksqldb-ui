@@ -22,15 +22,18 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
     {% include "includes/help_messages/button.html" %}
     </h2>
 
-    <!-- Add buttons -->
+    <!-- Buttons -->
     <div class="buttons-group">
+      <div id="list-delete-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" style="display: none;">
+        <img src="/static/icons/delete.svg" alt="Delete">
+        {% trans %}Delete selected queries{% endtrans %}
+      </div>
       <a href="/requests?{{q}}&template=query" class="btn btn-success">
         <img src="/static/icons/plus.svg" alt="Create">
         {% trans %}Create query{% endtrans %}
       </a>
     </div>
   </div>
-
 
   <!-- Help -->
   {% include "includes/help_messages/queries.html" %}
@@ -44,16 +47,21 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
     <table class="table nomargin">
       <thead>
         <tr>
+          <th scope="col">
+            <input type="checkbox" class="form-check-input" id="select-all">
+          </th>
           <th scope="col">#</th>
           <th scope="col">ID</th>
           <th scope="col">{% trans %}Type{% endtrans %}</th>
-          <th scope="col">{% trans %}Sinks{% endtrans %}</th>
-          <th scope="col">{% trans %}Controls{% endtrans %}</th>
+          <th scope="col">{% trans %}Streams{% endtrans %}</th>
         </tr>
       </thead>
       <tbody>
         {% for query in queries %}
         <tr class="list-view-row" data-filter-name="{{ query.id }}">
+          <th>
+            <input type="checkbox" class="form-check-input" name="selected_objects" value="{{ query.id }}">
+          </th>
           <th scope="row">{{ loop.index }}</th>
           <td>
             <a href="/queries/{{ query.id }}?{{q}}" class="link-offset-2 link-sm breaked">{{ query.id }}</a>
@@ -66,29 +74,16 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
             {% endif %}
               {{ query.state }}
             </span>
-            <br>
             <span class="badge text-bg-secondary">{{ query.queryType }}</span>
           </td>
           <td>
             <div class="resp">
-              <div class="key">{% trans %}Streams{% endtrans %}</div>
               <div class="value">
                 {% for sink in query.sinks %}
                 <div>{{ render_stream_link(request, sink)|safe }}</div>
                 {% endfor %}
               </div>
             </div>
-            <div class="resp">
-              <div class="key">{% trans %}Kafka topics{% endtrans %}</div>
-              <div class="value">
-                {% for sink in query.sinkKafkaTopics %}
-                <div>{{ render_topic_link(request, sink)|safe }}</div>
-                {% endfor %}
-              </div>
-            </div>
-          </td>
-          <td>
-            <img src="/static/icons/delete.svg" class="img-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ query.id }}">
           </td>
         </tr>
         {% endfor %}
@@ -108,7 +103,7 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
   {% include "includes/hidden_response_details.html" %}
 </div>
 
-{% with objectType=_("query"), deleteEndpoint="/queries" %}
+{% with objectType="query", deleteEndpoint="/queries" %}
   {% include "includes/modal_delete.html" %}
 {% endwith %}
 {% endblock %}
