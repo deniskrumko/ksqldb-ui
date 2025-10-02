@@ -33,27 +33,31 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
 async def delete_stream(request: Request) -> Response:
     """Route to delete a stream."""
     form_data = await request.form()
-    stream_name = str(form_data["delete_object"])
-    if not stream_name:
+    stream_names = str(form_data["delete_object"])
+    if not stream_names:
         raise ValueError(_("Stream name is not set"))
 
-    if stream_name == KSQL_SYSTEM_STREAM:
-        raise ValueError(
-            _(
-                "Cannot delete {name} system stream from ksqldb-ui. "
-                "This is a protection measure.",
-            ).format(name=KSQL_SYSTEM_STREAM),
-        )
+    for stream_name in stream_names.split(","):
+        stream_name = stream_name.strip()
 
-    # for some cases we need to quote the stream name
-    if stream_name != stream_name.upper():
-        stream_name = f'"{stream_name}"'
+        if stream_name == KSQL_SYSTEM_STREAM:
+            raise ValueError(
+                _(
+                    "Cannot delete {name} system stream from ksqldb-ui. "
+                    "This is a protection measure.",
+                ).format(name=KSQL_SYSTEM_STREAM),
+            )
 
-    await get_ksql_client(request).execute_statement(f"DROP STREAM {stream_name}")
+        # for some cases we need to quote the stream name
+        if stream_name != stream_name.upper():
+            stream_name = f'"{stream_name}"'
+
+        await get_ksql_client(request).execute_statement(f"DROP STREAM {stream_name}")
+
     return await list_view(
         request,
         extra_context={
-            "deleted_stream": stream_name,
+            "deleted_stream": stream_names,
         },
     )
 

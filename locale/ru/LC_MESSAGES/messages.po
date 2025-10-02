@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-05 15:28+0500\n"
+"POT-Creation-Date: 2025-10-02 15:21+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -28,7 +28,7 @@ msgstr "Ошибка при выполнении ksqlDB запроса: {}"
 msgid "Query name is not set"
 msgstr "Имя операции не указано"
 
-#: src/app/queries/views.py:52
+#: src/app/queries/views.py:55
 #, python-brace-format
 msgid "Failed to explain query {query_name}. Maybe wrong server?"
 msgstr ""
@@ -37,9 +37,9 @@ msgstr ""
 
 #: src/app/streams/views.py:38
 msgid "Stream name is not set"
-msgstr "Имя стрима не уазано"
+msgstr "Имя стрима не указано"
 
-#: src/app/streams/views.py:43
+#: src/app/streams/views.py:46
 #, python-brace-format
 msgid ""
 "Cannot delete {name} system stream from ksqldb-ui. This is a protection "
@@ -48,7 +48,7 @@ msgstr ""
 "Невозможно удалить системный стрим {name} через ksqldb-ui и не советуем "
 "этого делать напрямую 👌"
 
-#: src/app/streams/views.py:66
+#: src/app/streams/views.py:70
 #, python-brace-format
 msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
 msgstr ""
@@ -57,7 +57,7 @@ msgstr ""
 
 #: src/templates/error.html:4
 msgid "Exception!"
-msgstr ""
+msgstr "Ошибка!"
 
 #: src/templates/error.html:11
 msgid "OMG 😱 Exception happened"
@@ -134,26 +134,33 @@ msgstr "Ответ"
 msgid "Reset"
 msgstr "Сбросить"
 
-#: src/templates/includes/modal_delete.html:6
-#, python-format
-msgid "Delete %(objectType)s"
-msgstr "Удаление сущности: %(objectType)s"
+#: src/templates/includes/modal_delete.html:8
+#: src/templates/streams/details.html:28
+msgid "Delete stream"
+msgstr "Удалить стрим"
 
 #: src/templates/includes/modal_delete.html:10
-#, python-format
-msgid "Do you really want to delete %(objectType)s"
-msgstr "Вы действительно хотите удалить сущность: %(objectType)s"
+msgid "Delete query"
+msgstr "Удалить операцию"
 
-#: src/templates/includes/modal_delete.html:15
+#: src/templates/includes/modal_delete.html:17
+msgid "Do you really want to delete streams:"
+msgstr "Вы действительно хотите удалить следующие стримы:"
+
+#: src/templates/includes/modal_delete.html:19
+msgid "Do you really want to delete queries:"
+msgstr "Вы действительно хотите удалить следующие операции:"
+
+#: src/templates/includes/modal_delete.html:26
 msgid "Yes, delete it"
 msgstr "Да, удалить"
 
-#: src/templates/includes/modal_delete.html:16
+#: src/templates/includes/modal_delete.html:27
 msgid "No, thanks"
 msgstr "Нет, спасибо"
 
 #: src/templates/includes/navbar.html:26 src/templates/includes/navbar.html:30
-#: src/templates/queries/list.html:70 src/templates/streams/details.html:4
+#: src/templates/queries/list.html:56 src/templates/streams/details.html:4
 #: src/templates/streams/list.html:4 src/templates/topics/details.html:40
 msgid "Streams"
 msgstr "Стримы"
@@ -191,7 +198,7 @@ msgstr "Статус"
 #: src/templates/includes/request_templates.html:62
 #: src/templates/includes/request_templates.html:91
 #: src/templates/queries/details.html:53 src/templates/requests/history.html:25
-#: src/templates/requests/index.html:18 src/templates/streams/details.html:60
+#: src/templates/requests/index.html:18 src/templates/streams/details.html:70
 msgid "Copy"
 msgstr "Копировать"
 
@@ -300,20 +307,20 @@ msgstr "Операция <span>%(query_name)s</span> на %(server_name)s"
 msgid "Query topology"
 msgstr "Топология операции"
 
-#: src/templates/queries/details.html:32 src/templates/streams/details.html:32
+#: src/templates/queries/details.html:32 src/templates/streams/details.html:42
 msgid "Open full"
 msgstr "Раскрыть"
 
-#: src/templates/queries/details.html:50 src/templates/streams/details.html:57
+#: src/templates/queries/details.html:50 src/templates/streams/details.html:67
 msgid "SQL statement"
 msgstr "SQL запрос"
 
 #: src/templates/queries/details.html:52 src/templates/requests/index.html:17
-#: src/templates/streams/details.html:59
+#: src/templates/streams/details.html:69
 msgid "Wrap text"
 msgstr "Перенос текста"
 
-#: src/templates/queries/details.html:60 src/templates/streams/details.html:67
+#: src/templates/queries/details.html:60 src/templates/streams/details.html:77
 msgid "Fields"
 msgstr "Поля"
 
@@ -326,32 +333,24 @@ msgstr "Задачи"
 msgid "Query <b>%(deleted_query)s</b> successfully deleted!"
 msgstr "Операция <b>%(deleted_query)s</b> была успешно удалена!"
 
-#: src/templates/queries/list.html:19
+#: src/templates/queries/list.html:21
 #, python-format
 msgid "Queries on %(name)s"
 msgstr "Операции на %(name)s"
 
-#: src/templates/queries/list.html:27
+#: src/templates/queries/list.html:29
+msgid "Delete selected queries"
+msgstr "Удалить выбранные операции"
+
+#: src/templates/queries/list.html:33
 msgid "Create query"
 msgstr "Создать операцию"
 
-#: src/templates/queries/list.html:45
+#: src/templates/queries/list.html:55
 msgid "Type"
 msgstr "Тип"
 
-#: src/templates/queries/list.html:46
-msgid "Sinks"
-msgstr "Приемники"
-
-#: src/templates/queries/list.html:47 src/templates/streams/list.html:47
-msgid "Controls"
-msgstr "Управление"
-
-#: src/templates/queries/list.html:78
-msgid "Kafka topics"
-msgstr "Kafka топики"
-
-#: src/templates/queries/list.html:97
+#: src/templates/queries/list.html:96
 msgid ""
 "<b>Queries</b> is not something ready made. It comes from your own "
 "actions."
@@ -359,13 +358,9 @@ msgstr ""
 "<b>Операции</b> – это не что-то готовое. Они возникают из ваших "
 "собственных действий"
 
-#: src/templates/queries/list.html:100
+#: src/templates/queries/list.html:99
 msgid "Dalai Lama (never said)"
 msgstr "Далай-лама (никогда не говорил)"
-
-#: src/templates/queries/list.html:107
-msgid "query"
-msgstr "операция"
 
 #: src/templates/requests/history.html:8
 msgid "Requests history"
@@ -384,7 +379,7 @@ msgstr "Сделайте свой первый запрос... и войдите
 msgid "Franz Kafka (never said)"
 msgstr "Франц Кафка (никогда не говорил)"
 
-#: src/templates/requests/history.html:53
+#: src/templates/requests/history.html:52
 msgid ""
 "Just add your cool request here and click <b class=\"accent-"
 "text\">execute</b> button or press"
@@ -392,11 +387,11 @@ msgstr ""
 "Введите свой запрос и нажмите <b class=\"accent-text\">выполнить</b> или "
 "нажми сочетание клавиш"
 
-#: src/templates/requests/history.html:59
+#: src/templates/requests/history.html:57
 msgid "Denis Krumko (actually said)"
 msgstr "Денис Крумко (действительно сказал)"
 
-#: src/templates/requests/history.html:64
+#: src/templates/requests/history.html:62
 msgid ""
 "<b>Note:</b> requests history is stored in-memory, each ksqldb-ui restart"
 " will wipe your history"
@@ -524,20 +519,20 @@ msgstr "Сервер <code>%(name)s</code> не отвечает"
 msgid "Failed to get info or health check"
 msgstr "Ошибка при получении статуса сервера"
 
-#: src/templates/streams/details.html:16
+#: src/templates/streams/details.html:17
 #, python-format
 msgid "Stream <span>%(stream_name)s</span> on %(server_name)s"
 msgstr "Стрим <span>%(stream_name)s</span> на %(server_name)s"
 
-#: src/templates/streams/details.html:29
+#: src/templates/streams/details.html:39
 msgid "Stream topology"
 msgstr "Топология стрима"
 
-#: src/templates/streams/details.html:52
+#: src/templates/streams/details.html:62
 msgid "Kafka topic"
 msgstr "Kafka топик"
 
-#: src/templates/streams/details.html:72
+#: src/templates/streams/details.html:82
 msgid "Cluster statistics"
 msgstr "Статистика кластера"
 
@@ -546,39 +541,39 @@ msgstr "Статистика кластера"
 msgid "Stream <b>%(deleted_stream)s</b> successfully deleted!"
 msgstr "Стрим <b>%(deleted_stream)s</b> был успешно удален!"
 
-#: src/templates/streams/list.html:19
+#: src/templates/streams/list.html:20
 #, python-format
 msgid "Streams on %(name)s"
 msgstr "Стримы на %(name)s"
 
-#: src/templates/streams/list.html:27
+#: src/templates/streams/list.html:28
+msgid "Delete selected streams"
+msgstr "Удалить выбранные стримы"
+
+#: src/templates/streams/list.html:32
 msgid "Create stream"
 msgstr "Создать стрим"
 
-#: src/templates/streams/list.html:44 src/templates/topics/details.html:46
+#: src/templates/streams/list.html:53 src/templates/topics/details.html:46
 #: src/templates/topics/list.html:17
 msgid "Name"
 msgstr "Имя"
 
-#: src/templates/streams/list.html:45
+#: src/templates/streams/list.html:54
 msgid "Topic"
 msgstr "Топик"
 
-#: src/templates/streams/list.html:46 src/templates/topics/details.html:47
+#: src/templates/streams/list.html:55 src/templates/topics/details.html:47
 msgid "Key/Value"
 msgstr "Ключ/Значение"
 
-#: src/templates/streams/list.html:74
+#: src/templates/streams/list.html:86
 msgid "All you need is <b>Stream</b>"
 msgstr "Все что вам нужно - это <b>Стрим</b>"
 
-#: src/templates/streams/list.html:77
+#: src/templates/streams/list.html:89
 msgid "John Lennon (never said)"
 msgstr "Джон Леннон (никогда не говорил)"
-
-#: src/templates/streams/list.html:84
-msgid "stream"
-msgstr "стрим"
 
 #: src/templates/topics/details.html:16
 #, python-format

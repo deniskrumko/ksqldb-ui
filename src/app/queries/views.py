@@ -31,15 +31,18 @@ async def list_view(request: Request, extra_context: Optional[dict] = None) -> R
 async def delete_query(request: Request) -> Response:
     """Route to delete a query."""
     form_data = await request.form()
-    query_name = form_data["delete_object"]
-    if not query_name:
+    query_names = str(form_data["delete_object"])
+    if not query_names:
         raise ValueError(_("Query name is not set"))
 
-    await get_ksql_client(request).execute_statement(f"TERMINATE {query_name}")
+    for query_name in query_names.split(","):
+        query_name = query_name.strip()
+        await get_ksql_client(request).execute_statement(f"TERMINATE {query_name}")
+
     return await list_view(
         request,
         extra_context={
-            "deleted_query": query_name,
+            "deleted_query": query_names,
         },
     )
 

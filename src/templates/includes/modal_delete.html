@@ -3,11 +3,22 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteModalLabel">{% trans %}Delete {{objectType}}{% endtrans %}</h1>
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          {% if objectType == "stream" %}
+            {% trans %}Delete stream{% endtrans %}
+          {% elif objectType == "query" %}
+            {% trans %}Delete query{% endtrans %}
+          {% endif %}
+        </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {% trans %}Do you really want to delete {{objectType}}{% endtrans %} <code class="deletable-object-title">Modal title</code> ?
+        {% if objectType == "stream" %}
+          {% trans %}Do you really want to delete streams:{% endtrans %}
+        {% elif objectType == "query" %}
+          {% trans %}Do you really want to delete queries:{% endtrans %}
+        {% endif %}
+        <code class="deletable-object-title">UNDEFINED</code> ?
       </div>
       <div class="modal-footer">
         <form action="{{deleteEndpoint}}?{{q}}" method="POST">

@@ -18,6 +18,7 @@ function updateStreamFilters() {
   });
 
   console.log('Active filters:', activeFilters);
+  toggleSelectAll(false);
 }
 
 

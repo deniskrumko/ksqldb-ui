@@ -21,8 +21,12 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
     {% include "includes/help_messages/button.html" %}
     </h2>
 
-    <!-- Add buttons -->
+    <!-- Buttons -->
     <div class="buttons-group">
+      <div id="list-delete-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" style="display: none;">
+        <img src="/static/icons/delete.svg" alt="Delete">
+        {% trans %}Delete selected streams{% endtrans %}
+      </div>
       <a href="/requests?{{q}}&template=stream" class="btn btn-success">
         <img src="/static/icons/plus.svg" alt="Create">
         {% trans %}Create stream{% endtrans %}
@@ -42,28 +46,34 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
     <table class="table nomargin">
       <thead>
         <tr>
+          <th scope="col">
+            <input type="checkbox" class="form-check-input" id="select-all">
+          </th>
           <th scope="col">#</th>
           <th scope="col">{% trans %}Name{% endtrans %}</th>
           <th scope="col">{% trans %}Topic{% endtrans %}</th>
           <th scope="col">{% trans %}Key/Value{% endtrans %}</th>
-          <th scope="col">{% trans %}Controls{% endtrans %}</th>
         </tr>
       </thead>
       <tbody>
         {% for stream in streams %}
         <tr class="list-view-row" data-filter-name="{{ stream.name }}">
+          <th>
+            <input type="checkbox" class="form-check-input" name="selected_objects" value="{{ stream.name }}">
+          </th>
           <th scope="row">{{ loop.index }}</th>
           <td><code>{{ render_stream_link(request, stream.name)|safe }}</code></td>
-          <td>{{ render_topic_link(request, stream.topic)|safe }}</td>
+          <td>
+            <a href="/topics/{{ stream.topic }}?{{q}}" class="link-offset-2 link-sm breaked">
+              {{ stream.topic }}
+            </a>
+          </td>
           <td>
             <span class="badge text-bg-secondary">{{ stream.keyFormat }} / {{ stream.valueFormat }}</span>
             {% if stream.isWindowed %}
             <br>
             <span class="badge text-bg-danger">windowed</span>
             {% endif %}
-          </td>
-          <td>
-            <img src="/static/icons/delete.svg" class="img-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-deletable-object="{{ stream.name }}">
           </td>
         </tr>
         {% endfor %}
@@ -83,7 +93,7 @@ ksqlDB · {% trans %}Streams{% endtrans %} · {{ current_server.display_name }}
   {% include "includes/hidden_response_details.html" %}
 </div>
 
-{% with objectType=_("stream"), deleteEndpoint="/streams" %}
+{% with objectType="stream", deleteEndpoint="/streams" %}
   {% include "includes/modal_delete.html" %}
 {% endwith %}
 {% endblock %}
