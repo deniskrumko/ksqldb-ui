@@ -1,6 +1,6 @@
 ![ksqldb-ui](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/full_logo_readme.png?raw=true)
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/deniskrumko/ksqldb-ui/build-and-push.yml)](https://github.com/deniskrumko/visual-coordinates-tool/actions)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/deniskrumko/ksqldb-ui/build-and-push.yml)](https://github.com/deniskrumko/ksqldb-ui/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/deniskrumko/ksqldb-ui)](https://github.com/deniskrumko/ksqldb-ui/releases)
 [![Docker pulls](https://img.shields.io/docker/pulls/deniskrumko/ksqldb-ui)](https://hub.docker.com/r/deniskrumko/ksqldb-ui/tags)
 
