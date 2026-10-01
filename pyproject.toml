@@ -1,3 +1,42 @@
+[project]
+name = "ksqldb-ui"
+version = "0.0.0"
+requires-python = "==3.12.11"
+dependencies = [
+    "fastapi",
+    "pydantic",
+    "uvicorn",
+    "jinja2",
+    "httpx",
+    "dynaconf",
+    "python-multipart",
+    "babel",
+]
+
+[dependency-groups]
+dev = [
+    "ipdb",
+    "black",
+    "mypy",
+    "isort",
+    "flake8",
+    "flake8-pyproject",
+    "flake8-commas",
+    "flake8-isort",
+    "flake8-bugbear",
+    "flake8-simplify",
+    "flake8-print",
+    "flake8-debugger",
+    "flake8-hangover",
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "pytest-mock",
+]
+
+[tool.uv]
+package = false
+
 [tool.black]
 line-length = 100
 target-version = ['py312']

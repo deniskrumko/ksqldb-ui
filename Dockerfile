@@ -1,5 +1,7 @@
 FROM python:3.12.11-slim-bullseye
 
+COPY --from=ghcr.io/astral-sh/uv:0.8.22 /uv /uvx
+
 RUN mkdir build
 WORKDIR /build
 
@@ -8,12 +10,11 @@ RUN apt-get update && \
     apt-get install -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-# Install python packages
-RUN pip install pipenv
-COPY Pipfile Pipfile.lock ./
-RUN pipenv install --ignore-pipfile --system && \
-    pip uninstall -y pipenv && \
-    rm -rf ~/.cache/pip /root/.cache/pipenv /root/.local/share/virtualenvs
+# Install Python dependencies from the committed lockfile.
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project --system
 
 # Install JS/CSS vendor dependencies
 COPY ./ .
