@@ -8,7 +8,7 @@ g.type-QUERY-RUNNING>rect {
 }
 
 g.type-QUERY-PAUSED>rect {
-    fill: #a9a9a9;
+    fill: #fff3cd;
 }
 
 .topology-node {

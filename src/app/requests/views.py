@@ -15,6 +15,7 @@ from app.core.templates import render_template
 
 from .resources import add_request_to_history
 
+
 router = APIRouter()
 
 

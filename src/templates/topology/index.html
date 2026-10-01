@@ -31,7 +31,7 @@ ksqlDB · {% trans %}Topology{% endtrans %} · {{ current_server.display_name }}
   <div class="topology stream" data-name="{{stream.name}}" data-topic="{{stream.topic}}"></div>
   {% for query in stream["readQueries"] %}
   {% for sink in query["sinks"] %}
-  <div class="topology query" data-name="{{query.id}}" data-state="{{query.state}}" data-source="{{stream.name}}"
+  <div class="topology query" data-name="{{query.id}}" data-state="{{query.state}}" data-status-count="{{ query_status_counts.get(query.id, '') }}" data-source="{{stream.name}}"
     data-sink="{{sink}}"></div>
   {% endfor %}
   {% endfor %}

@@ -19,7 +19,6 @@ from app.core.utils import get_version
 
 
 class CacheControlledStaticFiles(StaticFiles):
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize class instance."""
         self.max_age = kwargs.pop("max_age", 86400)

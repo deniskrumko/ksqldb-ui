@@ -4,6 +4,7 @@ from typing import Any
 
 import httpx
 
+
 CONTEXT_RESPONSE_KEY = "x_response"
 CONTEXT_REQUEST_KEY = "x_request"
 VERSION_UNDEFINED = "undefined"

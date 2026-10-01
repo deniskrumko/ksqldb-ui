@@ -12,15 +12,67 @@ ksqlDB · {% trans %}Queries{% endtrans %} · {{ current_server.display_name }}
 <div class="my-container">
   <div class="row">
     <div class="col">
+      <div class="title-group">
       <h2 class="title-h2">
         {% trans query_name=query.queryDescription.id, server_name=current_server.display_name %}Query <span>{{ query_name }}</span> on {{ server_name }}{% endtrans %}
         {% include "includes/help_messages/button.html" %}
       </h2>
 
+      {% if query_can_control %}
+      <div class="buttons-group">
+        {% if query_is_paused %}
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#queryControlModal">
+          {% trans %}Resume query{% endtrans %}
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#queryControlModal">
+          {% trans %}Pause query{% endtrans %}
+        </button>
+        {% endif %}
+      </div>
+      {% endif %}
+      </div>
+
+      {% if query_can_control %}
+      <div class="modal fade" id="queryControlModal" tabindex="-1" aria-labelledby="queryControlModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="queryControlModalLabel">
+                {% if query_is_paused %}{% trans %}Resume query{% endtrans %}{% else %}{% trans %}Pause query{% endtrans %}{% endif %}
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% if query_is_paused %}{% trans %}Do you really want to resume query:{% endtrans %}{% else %}{% trans %}Do you really want to pause query:{% endtrans %}{% endif %}
+              <code>{{ query.queryDescription.id }}</code>?
+            </div>
+            <div class="modal-footer">
+              <form action="/queries/{{ query.queryDescription.id }}/control?{{ q }}" method="POST">
+                <input type="hidden" name="action" value="{{ 'RESUME' if query_is_paused else 'PAUSE' }}">
+                {% if query_is_paused %}
+                <button type="submit" class="btn btn-success">{% trans %}Yes, resume it{% endtrans %}</button>
+                {% else %}
+                <button type="submit" class="btn btn-warning">{% trans %}Yes, pause it{% endtrans %}</button>
+                {% endif %}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans %}No, thanks{% endtrans %}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
       <!-- Help -->
       {% include "includes/help_messages/queries.html" %}
 
       <!-- Bubbles -->
+      {% if query.statusCount %}
+      <div class="bubble">
+        <div class="bubble-heading">statusCount</div>
+        <div class="bubble-body">{% for status, count in query.statusCount.items() %}{{ status|lower }}: {{ count }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
+      </div>
+      {% endif %}
       {{ render_bubbles(query.queryDescription, keys=["state", "queryType"], lower=True)|safe}}
 
       <!-- Topology -->

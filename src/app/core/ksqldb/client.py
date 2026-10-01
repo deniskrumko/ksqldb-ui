@@ -23,6 +23,7 @@ from .resources import (
     KsqlQuery,
 )
 
+
 KSQL_CLIENTS_CACHE: dict[str, "AbstractKsqlClient"] = {}
 
 
@@ -65,7 +66,6 @@ class AbstractKsqlClient(ABC):
 
 
 class KsqlClient(AbstractKsqlClient):
-
     ACCEPT_HEADER = "application/vnd.ksql.v1+json"
 
     def __init__(
@@ -186,6 +186,7 @@ class MockKsqlClient(KsqlClient):
         KsqlEndpoints.HEALTH: {"": "health.json"},
         KsqlEndpoints.KSQL: {
             "LIST STREAMS EXTENDED;": "list_streams_extended.json",
+            "SHOW QUERIES;": "show_queries.json",
             "SHOW PROPERTIES;": "show_properties.json",
         },
     }

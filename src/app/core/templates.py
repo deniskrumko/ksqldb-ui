@@ -18,6 +18,7 @@ from .utils import (
     ContextResponse,
 )
 
+
 TEMPLATES: Optional[Jinja2Templates] = None
 ERROR_TEMPLATE = "error.html"
 ERROR_NO_SERVER_TEMPLATE = "error_no_server.html"
@@ -67,7 +68,7 @@ def render_template(
         template_name = ERROR_NO_SERVER_TEMPLATE
         context["code"] = get_server_code(request, raise_exc=False)
 
-    return templates.TemplateResponse(template_name, context=context)
+    return templates.TemplateResponse(request=request, name=template_name, context=context)
 
 
 def get_base_context(request: Request) -> dict:

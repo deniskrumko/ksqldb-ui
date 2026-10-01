@@ -13,6 +13,7 @@ from app.core.ksqldb import (
 )
 from app.core.templates import render_template
 
+
 router = APIRouter()
 
 

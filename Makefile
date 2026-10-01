@@ -1,4 +1,5 @@
 IMAGE=ksqldb-ui:local
+export UV_CACHE_DIR ?= /tmp/uv-cache
 
 # DOCKER COMPOSE
 # ==============
@@ -31,7 +32,7 @@ local: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	APP_CONFIG=config/local.toml \
 	PYTHONPATH=src \
-	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	uv run --frozen python -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app using env vars only
 usingenv: compile_translations
@@ -41,31 +42,30 @@ usingenv: compile_translations
 	KSQLDB_UI__SERVERS__LOCALHOST__NAME=Localhost \
 	KSQLDB_UI__SERVERS__PRODUCTION__URL=http://prod.ksqldb \
 	KSQLDB_UI__SERVERS__PRODUCTION__DEFAULT=true \
-	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	uv run --frozen python -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app using env vars only
 noconfig: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
-	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	uv run --frozen python -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Run app on local machine (with prod config)
 prod: compile_translations
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	APP_CONFIG=config/production.toml \
 	PYTHONPATH=src \
-	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	uv run --frozen python -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # LOCAL DEVELOPMENT
 # =================
 
 # Install all dependencies
-deps: vendor pipenv
+deps: vendor uv-sync
 
-# Install py dependencies
-pipenv:
-	pip install pipenv
-	pipenv install --dev
+# Install Python dependencies
+uv-sync:
+	uv sync --frozen
 
 # Install vendor libraries
 vendor:
@@ -81,6 +81,7 @@ compile_translations:
 
 find_missing_translations:
 	./scripts/find_missing_translations.sh
+	@echo "✅  Translation checked"
 
 # Open ksqldb UI
 ui:
@@ -88,22 +89,29 @@ ui:
 
 # Run tests
 tests:
-	PYTHONPATH=src pytest --cov
+	PYTHONPATH=src uv run --frozen pytest --cov
 
 # Run tests with coverage
 coverage:
-	PYTHONPATH=src pytest --cov --cov-report=html:htmlcov --disable-warnings || true
+	PYTHONPATH=src uv run --frozen pytest --cov --cov-report=html:htmlcov --disable-warnings || true
 	open htmlcov/index.html
 
 # Formatting
 fmt:
-	black .
-	isort .
+	@uv run ruff format .
+	@uv run ruff check --fix .
+	@echo "✅  Code formatted"
 
 # Linting
 lint:
-	flake8 .
-	mypy .
+	@uv run ruff format --check . || (echo "Ruff format check failed. Run make fmt" && exit 1)
+	@uv run ruff check .
+	@echo "✅  Lint checks passed"
+	@uv run ty check .
+	@echo "✅  Type check passed"
+
+# Check translations in extraction, completeness, and compilation order
+translations_check: collect_translations find_missing_translations compile_translations
 
 # Run all checks
-check: fmt lint tests
+check: translations_check fmt lint tests

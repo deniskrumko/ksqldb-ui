@@ -10,6 +10,7 @@ from app.core.i18n import _
 from app.core.ksqldb import get_ksql_client
 from app.core.templates import render_template
 
+
 router = APIRouter()
 
 
@@ -52,7 +53,8 @@ async def delete_query(request: Request) -> Response:
 @router.get("/queries/{query_name}")
 async def detail_view(request: Request, query_name: str) -> Response:
     """View to show query details."""
-    response = await get_ksql_client(request).execute_statement(
+    ksql = get_ksql_client(request)
+    response = await ksql.execute_statement(
         f"EXPLAIN {query_name}",
         exc_message=_("Failed to explain query {query_name}. Maybe wrong server?").format(
             query_name=query_name,
@@ -62,6 +64,14 @@ async def detail_view(request: Request, query_name: str) -> Response:
 
     data = response.json()
     query = data[0]
+
+    status_response = await ksql.execute_statement("SHOW QUERIES")
+    if status_response.status_code == 200:
+        for listed_query in status_response.json()[0].get("queries", []):
+            if listed_query.get("id") == query_name:
+                query["statusCount"] = listed_query.get("statusCount", {})
+                break
+    query.setdefault("statusCount", {})
 
     try:
         query_tasks = sorted(
@@ -85,5 +95,30 @@ async def detail_view(request: Request, query_name: str) -> Response:
         request=request,
         response=response,
         query=query,
+        query_can_control=(
+            str(query["queryDescription"].get("queryType", "")).upper() == "PERSISTENT"
+        ),
+        query_is_paused=int(query["statusCount"].get("PAUSED", 0)) > 0,
         query_tasks=query_tasks,
     )
+
+
+@router.post("/queries/{query_name}/control")
+async def control_query(request: Request, query_name: str) -> Response:
+    """Pause or resume a persistent query."""
+    form_data = await request.form()
+    action = str(form_data.get("action", "")).upper()
+    if action not in {"PAUSE", "RESUME"}:
+        raise ValueError("Query action must be PAUSE or RESUME")
+
+    ksql = get_ksql_client(request)
+    response = await ksql.execute_statement("SHOW QUERIES")
+    matching_query = next(
+        (query for query in response.json()[0].get("queries", []) if query.get("id") == query_name),
+        None,
+    )
+    if matching_query is None:
+        raise ValueError(_("Query {query_name} was not found").format(query_name=query_name))
+
+    await ksql.execute_statement(f"{action} {matching_query['id']}")
+    return await detail_view(request, query_name)
