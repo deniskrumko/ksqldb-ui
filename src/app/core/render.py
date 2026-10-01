@@ -1,6 +1,7 @@
 import contextlib
 import dataclasses
 import datetime
+import html
 import json
 from collections import deque
 from dataclasses import dataclass
@@ -450,6 +451,23 @@ def render_bubbles(data: dict, keys: list[str] | None = None, lower: bool = Fals
 
     keys = keys or list(data)
     return "".join(render(k) for k in keys)
+
+
+@register
+def render_status_count(status_count: dict | None) -> str:
+    """Render ksqlDB query worker statuses as colored badges."""
+    badges = []
+    for status, count in (status_count or {}).items():
+        level = {
+            "RUNNING": "success",
+            "PAUSED": "warning",
+            "ERROR": "danger",
+        }.get(status.upper(), "secondary")
+        badges.append(
+            f'<span class="badge text-bg-{level}">{html.escape(str(status))}: '
+            f"{html.escape(str(count))}</span>"
+        )
+    return " ".join(badges)
 
 
 @register

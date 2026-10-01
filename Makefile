@@ -81,6 +81,7 @@ compile_translations:
 
 find_missing_translations:
 	./scripts/find_missing_translations.sh
+	@echo "✅  Translation checked"
 
 # Open ksqldb UI
 ui:
@@ -109,5 +110,8 @@ lint:
 	@uv run ty check .
 	@echo "✅  Type check passed"
 
+# Check translations in extraction, completeness, and compilation order
+translations_check: collect_translations find_missing_translations compile_translations
+
 # Run all checks
-check: fmt lint tests
+check: translations_check fmt lint tests

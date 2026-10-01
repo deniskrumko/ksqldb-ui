@@ -186,6 +186,7 @@ class MockKsqlClient(KsqlClient):
         KsqlEndpoints.HEALTH: {"": "health.json"},
         KsqlEndpoints.KSQL: {
             "LIST STREAMS EXTENDED;": "list_streams_extended.json",
+            "SHOW QUERIES;": "show_queries.json",
             "SHOW PROPERTIES;": "show_properties.json",
         },
     }

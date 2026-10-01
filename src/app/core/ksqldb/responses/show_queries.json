@@ -1,0 +1,8 @@
+[
+  {
+    "@type": "queries",
+    "statementText": "SHOW QUERIES;",
+    "queries": [],
+    "warnings": []
+  }
+]

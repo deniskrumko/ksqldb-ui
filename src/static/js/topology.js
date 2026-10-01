@@ -9,7 +9,7 @@ function buildTopology(query) {
   let streams = [];
   let streamTopics = {};
   let queries = [];
-  let queryState = {};
+  let queryStatusCount = {};
   let edges = [];
 
   // Find highlighted
@@ -24,7 +24,7 @@ function buildTopology(query) {
       streamTopics[name] = node.dataset.topic;
     } else if (node.classList.contains("query")) {
       queries.push(name);
-      queryState[name] = node.dataset.state;
+      queryStatusCount[name] = node.dataset.statusCount;
       edges.push([node.dataset.source, name]);
       edges.push([name, node.dataset.sink]);
     }
@@ -48,14 +48,15 @@ function buildTopology(query) {
   // Add queries
   if (queries.length > 0) {
     queries.forEach(function (queryId) {
+      const hasPausedWorkers = /(?:^|,\s*)paused:\s*[1-9]\d*/i.test(queryStatusCount[queryId] || "");
       g.setNode(queryId, {
         labelType: "html",
         label: `
         <a href="/queries/${queryId}?${query}" class="topology-node">
           <h2>${queryId}</h2>
-          <p>query state: ${queryState[queryId]}</p>
+          <p>query status: ${queryStatusCount[queryId]}</p>
         </a>`,
-        class:  highlighted === queryId ? "type-HL" : `type-QUERY-${queryState[queryId]}`,
+        class: highlighted === queryId ? "type-HL" : (hasPausedWorkers ? "type-QUERY-PAUSED" : "type-QUERY-RUNNING"),
       });
     });
   }

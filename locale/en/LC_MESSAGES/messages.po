@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-02 15:21+0500\n"
+"POT-Creation-Date: 2026-10-01 11:45+0500\n"
 "PO-Revision-Date: 2025-08-01 15:23+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,34 +16,39 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: src/app/core/ksqldb/client.py:172
 #, python-brace-format
 msgid "Failed to execute ksqlDB request: {}"
 msgstr ""
 
-#: src/app/queries/views.py:36
+#: src/app/queries/views.py:37
 msgid "Query name is not set"
 msgstr ""
 
-#: src/app/queries/views.py:55
+#: src/app/queries/views.py:59
 #, python-brace-format
 msgid "Failed to explain query {query_name}. Maybe wrong server?"
 msgstr ""
 
-#: src/app/streams/views.py:38
+#: src/app/queries/views.py:121
+#, python-brace-format
+msgid "Query {query_name} was not found"
+msgstr ""
+
+#: src/app/streams/views.py:39
 msgid "Stream name is not set"
 msgstr ""
 
-#: src/app/streams/views.py:46
+#: src/app/streams/views.py:49
 #, python-brace-format
 msgid ""
 "Cannot delete {name} system stream from ksqldb-ui. This is a protection "
 "measure."
 msgstr ""
 
-#: src/app/streams/views.py:70
+#: src/app/streams/views.py:73
 #, python-brace-format
 msgid "Failed to describe stream {stream_name}. Maybe wrong server?"
 msgstr ""
@@ -143,6 +148,7 @@ msgid "Yes, delete it"
 msgstr ""
 
 #: src/templates/includes/modal_delete.html:27
+#: src/templates/queries/details.html:58
 msgid "No, thanks"
 msgstr ""
 
@@ -184,8 +190,9 @@ msgstr ""
 #: src/templates/includes/request_templates.html:37
 #: src/templates/includes/request_templates.html:62
 #: src/templates/includes/request_templates.html:91
-#: src/templates/queries/details.html:53 src/templates/requests/history.html:25
-#: src/templates/requests/index.html:18 src/templates/streams/details.html:70
+#: src/templates/queries/details.html:105
+#: src/templates/requests/history.html:25 src/templates/requests/index.html:18
+#: src/templates/streams/details.html:70
 msgid "Copy"
 msgstr ""
 
@@ -270,33 +277,57 @@ msgid ""
 "partitions, and messages within a partition are ordered by offset.\n"
 msgstr ""
 
-#: src/templates/queries/details.html:16
+#: src/templates/queries/details.html:17
 #, python-format
 msgid "Query <span>%(query_name)s</span> on %(server_name)s"
 msgstr ""
 
-#: src/templates/queries/details.html:28
+#: src/templates/queries/details.html:25 src/templates/queries/details.html:42
+msgid "Resume query"
+msgstr ""
+
+#: src/templates/queries/details.html:29 src/templates/queries/details.html:42
+msgid "Pause query"
+msgstr ""
+
+#: src/templates/queries/details.html:47
+msgid "Do you really want to resume query:"
+msgstr ""
+
+#: src/templates/queries/details.html:47
+msgid "Do you really want to pause query:"
+msgstr ""
+
+#: src/templates/queries/details.html:54
+msgid "Yes, resume it"
+msgstr ""
+
+#: src/templates/queries/details.html:56
+msgid "Yes, pause it"
+msgstr ""
+
+#: src/templates/queries/details.html:80
 msgid "Query topology"
 msgstr ""
 
-#: src/templates/queries/details.html:32 src/templates/streams/details.html:42
+#: src/templates/queries/details.html:84 src/templates/streams/details.html:42
 msgid "Open full"
 msgstr ""
 
-#: src/templates/queries/details.html:50 src/templates/streams/details.html:67
+#: src/templates/queries/details.html:102 src/templates/streams/details.html:67
 msgid "SQL statement"
 msgstr ""
 
-#: src/templates/queries/details.html:52 src/templates/requests/index.html:17
+#: src/templates/queries/details.html:104 src/templates/requests/index.html:17
 #: src/templates/streams/details.html:69
 msgid "Wrap text"
 msgstr ""
 
-#: src/templates/queries/details.html:60 src/templates/streams/details.html:77
+#: src/templates/queries/details.html:112 src/templates/streams/details.html:77
 msgid "Fields"
 msgstr ""
 
-#: src/templates/queries/details.html:65
+#: src/templates/queries/details.html:117
 msgid "Tasks"
 msgstr ""
 
@@ -318,17 +349,13 @@ msgstr ""
 msgid "Create query"
 msgstr ""
 
-#: src/templates/queries/list.html:55
-msgid "Type"
-msgstr ""
-
-#: src/templates/queries/list.html:96
+#: src/templates/queries/list.html:89
 msgid ""
 "<b>Queries</b> is not something ready made. It comes from your own "
 "actions."
 msgstr ""
 
-#: src/templates/queries/list.html:99
+#: src/templates/queries/list.html:92
 msgid "Dalai Lama (never said)"
 msgstr ""
 
@@ -689,5 +716,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Kafka topics"
+#~ msgstr ""
+
+#~ msgid "Type"
 #~ msgstr ""
 
