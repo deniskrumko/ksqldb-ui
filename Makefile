@@ -97,13 +97,17 @@ coverage:
 
 # Formatting
 fmt:
-	uv run --frozen black .
-	uv run --frozen isort .
+	@uv run ruff format .
+	@uv run ruff check --fix .
+	@echo "✅  Code formatted"
 
 # Linting
 lint:
-	uv run --frozen flake8 .
-	uv run --frozen mypy .
+	@uv run ruff format --check . || (echo "Ruff format check failed. Run make fmt" && exit 1)
+	@uv run ruff check .
+	@echo "✅  Lint checks passed"
+	@uv run ty check .
+	@echo "✅  Type check passed"
 
 # Run all checks
 check: fmt lint tests

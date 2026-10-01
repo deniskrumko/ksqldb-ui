@@ -24,6 +24,7 @@ from app.core.templates import (
 )
 from app.core.utils import make_list
 
+
 # Initialize FastAPI application
 app = init_fastapi_app()
 

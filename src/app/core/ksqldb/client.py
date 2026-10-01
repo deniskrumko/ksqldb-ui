@@ -23,6 +23,7 @@ from .resources import (
     KsqlQuery,
 )
 
+
 KSQL_CLIENTS_CACHE: dict[str, "AbstractKsqlClient"] = {}
 
 
@@ -65,7 +66,6 @@ class AbstractKsqlClient(ABC):
 
 
 class KsqlClient(AbstractKsqlClient):
-
     ACCEPT_HEADER = "application/vnd.ksql.v1+json"
 
     def __init__(

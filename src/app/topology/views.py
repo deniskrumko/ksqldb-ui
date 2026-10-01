@@ -7,6 +7,7 @@ from fastapi.responses import Response
 from app.core.ksqldb import get_ksql_client
 from app.core.templates import render_template
 
+
 router = APIRouter()
 
 

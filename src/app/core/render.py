@@ -17,6 +17,7 @@ from .ksqldb import KsqlErrors
 from .settings import get_server
 from .utils import ContextResponse
 
+
 RENDER_HELPERS: dict = {}
 
 TABLE_TEMPLATE = """
@@ -124,7 +125,7 @@ def render_timestamp(value: Any, container: str = "i", **kwargs: Any) -> str:
     """Render timestamp as string."""
     timestamp = int(value)
     date = datetime.datetime.fromtimestamp(timestamp / 1000)
-    return f'<{container}>{date.strftime("%Y-%m-%d %H:%M:%S")}</{container}>' if timestamp else ""
+    return f"<{container}>{date.strftime('%Y-%m-%d %H:%M:%S')}</{container}>" if timestamp else ""
 
 
 @register

@@ -7,7 +7,6 @@ from app.core.settings import get_server
 
 
 class RequestHistory:
-
     def __init__(self, query: str, server_code: str):
         """Initialize class instance."""
         self.query = query

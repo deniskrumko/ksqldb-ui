@@ -4,6 +4,7 @@ from fastapi import (
 )
 from fastapi.responses import RedirectResponse
 
+
 router = APIRouter()
 
 

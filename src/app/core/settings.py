@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from .urls import SimpleURL
 from .utils import flatten_dict
 
+
 ENV_VAR_PREFIX = "KSQLDB_UI"
 SERVER_QUERY_PARAM: str = "s"
 README = "https://github.com/deniskrumko/ksqldb-ui/blob/master/README.md"
@@ -119,7 +120,7 @@ class Settings(BaseModel):
             raise ValueError(f'Server "{code}" is not found to config file')
 
     @classmethod
-    def from_config(cls, config: Mapping) -> "Settings":
+    def from_config(cls, config: Mapping | Dynaconf) -> "Settings":
         settings = cls(
             http=HTTPSettings(**config.get("http", {})),
             history=HistorySettings(**config.get("history", {})),

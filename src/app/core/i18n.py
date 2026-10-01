@@ -7,6 +7,7 @@ from typing import (
 
 from .settings import get_settings
 
+
 LOCALE_DIR = Path(__file__).parent.parent.parent.parent / "locale"
 DOMAIN = "messages"
 SUPPORTED_LANGUAGES = ["en", "ru"]

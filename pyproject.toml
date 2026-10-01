@@ -16,18 +16,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ipdb",
-    "black",
-    "mypy",
-    "isort",
-    "flake8",
-    "flake8-pyproject",
-    "flake8-commas",
-    "flake8-isort",
-    "flake8-bugbear",
-    "flake8-simplify",
-    "flake8-print",
-    "flake8-debugger",
-    "flake8-hangover",
+    "ruff",
+    "ty",
     "pytest",
     "pytest-cov",
     "pytest-asyncio",
@@ -37,65 +27,33 @@ dev = [
 [tool.uv]
 package = false
 
-[tool.black]
+[tool.ruff]
 line-length = 100
-target-version = ['py312']
-include = '\.pyi?$'
+target-version = "py312"
+exclude = [".git", ".idea", "__pycache__", "venv", "dist", ".venv"]
 
-[tool.flake8]
-exclude = [
-    ".git",
-    ".idea",
-    "__pycache__",
-    "venv",
-    "dist",
-]
-max-line-length = 100
-ignore = [
-    # trailing comma prohibited, like (x, y,)
-    "C819",
-    # line break before binary operator
-    "W503",
-    # enumerate instead of +=1 in for (not count for var increment at other places)
-    "SIM113",
-    # nested if's instead of single complex if (sometimes it increase readability)
-    "SIM102",
-    # error handle should be first to prevent another nested (too many false positives)
-    "SIM106",
-    # dataclasses instead of simple classes (too broad reports)
-    "SIM119",
-    # combine if's branches with same body (false positive, sometimes decrease readability)
-    "SIM114",
-    # use any(...), all(...) instead of actual loop - not *required* functional codestyle
-    "SIM110", "SIM111",
-    # dictionary lookup for 3+ if's
-    "SIM116",
-    # whitespace before ':' - breaks Black formatiing
-    "E203",
-]
-per-file-ignores = [
-    # unused imports
-    "*/__init__.py:F401",
-]
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "SIM", "T10", "T20"]
+ignore = ["B904", "B905", "SIM102", "SIM108", "SIM110", "SIM113", "SIM114", "SIM116"]
 
-[tool.mypy]
-exclude = ["tests", "venv"]
-namespace_packages = true
-disable_error_code = "attr-defined"
-ignore_missing_imports = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-disallow_untyped_decorators = true
-warn_return_any = true
-warn_unreachable = true
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]
 
-[tool.isort]
-line_length = 100
-multi_line_output = 3
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
-include_trailing_comma = true
-force_grid_wrap = 2
-combine_as_imports = true
-use_parentheses = true
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = false
+known-first-party = ["app"]
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ty.environment]
+python-version = "3.12"
+root = ["src"]
+
+[tool.ty.rules]
+unresolved-attribute = "ignore"
+unresolved-import = "ignore"

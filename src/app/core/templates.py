@@ -18,6 +18,7 @@ from .utils import (
     ContextResponse,
 )
 
+
 TEMPLATES: Optional[Jinja2Templates] = None
 ERROR_TEMPLATE = "error.html"
 ERROR_NO_SERVER_TEMPLATE = "error_no_server.html"

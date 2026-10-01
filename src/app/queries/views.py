@@ -10,6 +10,7 @@ from app.core.i18n import _
 from app.core.ksqldb import get_ksql_client
 from app.core.templates import render_template
 
+
 router = APIRouter()
 
 
