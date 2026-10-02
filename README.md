@@ -4,45 +4,46 @@
 [![GitHub Release](https://img.shields.io/github/v/release/deniskrumko/ksqldb-ui)](https://github.com/deniskrumko/ksqldb-ui/releases)
 [![Docker pulls](https://img.shields.io/docker/pulls/deniskrumko/ksqldb-ui)](https://hub.docker.com/r/deniskrumko/ksqldb-ui/tags)
 
-Web UI for [ksqlDB](https://ksqldb.io/). Make requests and interact with queries or streams using browser instead of CLI. Written on Python, FastAPI and Jinja2.
+A web UI for [ksqlDB](https://ksqldb.io/). Send requests and interact with queries and streams in a browser instead of using the CLI. Built with Python, FastAPI, and Jinja2.
 
-Checkout image on Docker Hub: https://hub.docker.com/r/deniskrumko/ksqldb-ui
+Check out the image on Docker Hub: https://hub.docker.com/r/deniskrumko/ksqldb-ui
 
 ![preview](https://github.com/deniskrumko/ksqldb-ui/blob/main/src/static/images/preview.png?raw=true)
 
 # Features
 
-- Write requests to manipulate streams/queries in UI
-- View list of existing queries/streams and detailed info
-- View stream/queries topology (how data flows from stream to stream)
-- Delete existing queries/streams
-- Has translated UI - English (by default), Russian
+- Write requests to manage streams and queries in the UI
+- View existing queries and streams along with detailed information
+- View the topology of streams and queries (how data flows between streams)
+- Delete existing queries and streams
+- Pause and resume queries
+- Use the UI in English (the default) or Russian
 
 # How it works
 
-You can deploy your ksqlDB server using either [Interactive or Headless mode](https://docs.confluent.io/platform/current/ksqldb/operate-and-deploy/how-it-works.html#ksqldb-deployment-modes)
+You can deploy your ksqlDB server in either [interactive or headless mode](https://docs.confluent.io/platform/current/ksqldb/operate-and-deploy/how-it-works.html#ksqldb-deployment-modes).
 
-KsqlDB UI works only for servers in **Interactive mode** because it allows to use [REST API](https://docs.ksqldb.io/en/latest/developer-guide/api/) to manipulate ksqlDB server
+ksqlDB UI works only with servers in **interactive mode**, which allows it to manage the ksqlDB server through the [REST API](https://docs.ksqldb.io/en/latest/developer-guide/api/).
 
-All statements that exist in ksqlDB [are listed in their documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/quick-reference/)
+All available ksqlDB statements [are listed in the documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/quick-reference/).
 
 ## Limitations
 
-- You can't use `RUN SCRIPT` statement in this UI because [it can only be executed using file](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/run-script/)
+- You can't use the `RUN SCRIPT` statement in this UI because [it requires a file](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/run-script/)
 - [Authentication is not yet supported](https://github.com/deniskrumko/ksqldb-ui/issues/6)
 
 # How to use ksqlDB UI
 
-**Note:** For production purposes use fixed version from [available tags](https://hub.docker.com/r/deniskrumko/ksqldb-ui/tags) instead of `deniskrumko/ksqldb-ui:latest`
+**Note:** For production deployments, use a specific version from the [available tags](https://hub.docker.com/r/deniskrumko/ksqldb-ui/tags) instead of `deniskrumko/ksqldb-ui:latest`.
 
-## Using docker
+## Using Docker
 
 ```bash
-# Download image
+# Download the image
 docker pull deniskrumko/ksqldb-ui:latest
 
-# Run container
-# You need to have config/production.toml file in current directory
+# Run the container
+# Create a config/production.toml file in the current directory first
 docker run \
     -p 8080:8080 \
     -v $(PWD)/config:/config \
@@ -52,7 +53,7 @@ docker run \
 
 ## Using docker-compose.yml
 
-1. Write `docker-compose.yml` file:
+1. Create a `docker-compose.yml` file:
 
 ```yaml
 services:
@@ -66,13 +67,13 @@ services:
       - 8080:8080
 ```
 
-2. Run `docker-compose up -d`
+2. Run `docker-compose up -d`.
 
-3. Open browser and navigate to http://localhost:8080
+3. Open your browser and navigate to http://localhost:8080.
 
-Checkout working example of `ksqlDB` + `ksqlDB-UI` below.
+See the working example of ksqlDB and ksqlDB UI below.
 
-## Using kubernetes manifests
+## Using Kubernetes manifests
 
 **deployment.yml**:
 
@@ -140,34 +141,34 @@ data:
     topic_link = 'http://your-production-kafka-ui.com/topics/{}'
 ```
 
-Other manifests (like `ingress.yml` and so on) you can do on your own 👌
+You can create any additional manifests (such as `ingress.yml`) yourself 👌
 
 # Configuration
 
-## Using `.toml` file and `APP_CONFIG` env var
+## Using a `.toml` file and the `APP_CONFIG` environment variable
 
-Take a look at example config file – [config/example.toml](./config/example.toml)
+See the example configuration file: [config/example.toml](./config/example.toml).
 
-To run ksqlDB UI you need to create own config file and add it using `APP_CONFIG` env var. See "How to use" section above.
+To run ksqlDB UI, create your own configuration file and set the `APP_CONFIG` environment variable to its path. See the "How to use ksqlDB UI" section above.
 
-Simplest configuration possible:
+The simplest possible configuration:
 
 ```toml
 [servers.localhost]
 url = "http://localhost:8090"
 ```
 
-Full config documentation - in future...
+Full configuration documentation is planned for a future update.
 
 ## Using only environment variables
 
-KsqlDB UI settings works using [Dynaconf](https://www.dynaconf.com/) and that means that **all settings** can be described/overriden using env vars by following rules:
+ksqlDB UI uses [Dynaconf](https://www.dynaconf.com/) for configuration, so **all settings** can be defined or overridden using environment variables. Follow these rules:
 
-- Add `KSQLDB_UI__` prefix to each var
-- Nested params separated using double underscores: `__`
-- Use uppercase for env vars
+- Add the `KSQLDB_UI__` prefix to each variable
+- Separate nested parameters with double underscores: `__`
+- Use uppercase names for environment variables
 
-For example, this `config.toml`:
+For example, the following `config.toml` settings:
 
 ```toml
 [http]
@@ -181,7 +182,7 @@ url = 'http://production:8080'
 filters = [['Alice', 'Bob'], ['Red', 'Green', 'Yellow']]
 ```
 
-... can be replaces using these env vars:
+can be replaced with these environment variables:
 
 ```bash
 KSQLDB_UI__HTTP__TIMEOUT=60
@@ -192,41 +193,42 @@ KSQLDB_UI__SERVERS__PRODUCTION__FILTERS="[['Alice', 'Bob'], ['Red', 'Green', 'Ye
 
 Notes:
 
-- `APP_CONFIG` env var is not needed when using `KSQLDB_UI__` env vars, but you can use both
-- `KSQLDB_UI__` env vars will **always override** configuration from `APP_CONFIG` file
-- All available env vars can also be seen on `/debug` page after opening your ksqlDB UI
+- The `APP_CONFIG` environment variable is not required when using `KSQLDB_UI__` environment variables, but you can use both
+- `KSQLDB_UI__` environment variables **always override** settings from the file specified by `APP_CONFIG`
+- You can also view all available environment variables on the `/debug` page in ksqlDB UI
 
 # Working example
 
-In [docker-compose.yml](./docker-compose.yml) there are three components to work with:
+The [docker-compose.yml](./docker-compose.yml) example includes four components:
+
 - ksqldb
 - ksqldb-ui
-- Redpanda (this is just like Apache Kafka but better 😎)
+- Redpanda (like Apache Kafka, but better 😎)
 - Redpanda UI
 
 To run this example:
 
-1. Download [docker-compose.yml](./docker-compose.yml) locally
+1. Download [docker-compose.yml](./docker-compose.yml) to your machine.
 
-2. Run command:
+2. Run the following command:
 
 ```bash
 docker-compose up -d
 ```
 
-3. Open ksqldb-ui in browser: http://localhost:8080 to create streams/queries
+3. Open ksqlDB UI at http://localhost:8080 in your browser to create streams and queries.
 
-4. Open Redpanda UI in browser: http://localhost:8090 to create topics
+4. Open Redpanda UI at http://localhost:8090 in your browser to create topics.
 
 # API
 
-**NOTE**: All API requests require selection of specific server by `?s=<server_code>` query parameter.
+**Note:** All API requests must specify a server using the `?s=<server_code>` query parameter.
 
 ## POST `/api/request`
 
-Proxy request to ksqlDB server.
+Proxy a request to the ksqlDB server.
 
-Response status code is always **HTTP 200** (unless ksqldb-ui errors), because **HTTP 200** means that we received response from ksqlDB server. For ksqldb errors check information inside response - in `success` field or in `response` field.
+The response status code is always **HTTP 200** (unless an error occurs in ksqlDB UI). This means that ksqlDB UI received a response from the ksqlDB server. To check for ksqlDB errors, inspect the `success` and `data.response` fields in the response body.
 
 ```bash
 curl http://localhost:8080/api/request?s=dev \
@@ -235,7 +237,7 @@ curl http://localhost:8080/api/request?s=dev \
     }"
 ```
 
-Response (error, because query is incorrect):
+Error response (because the query is invalid):
 
 ```json
 {
@@ -255,17 +257,17 @@ Response (error, because query is incorrect):
 
 ## POST `/api/process_file`
 
-Upload file with SQL statements and get response.
+Upload a file containing SQL statements and receive a response.
 
-Response status code is always **HTTP 200** (unless ksqldb-ui errors), because **HTTP 200** means that we received response from ksqlDB server. For ksqldb errors check information inside response - in `success` field or in `response` field.
+The response status code is always **HTTP 200** (unless an error occurs in ksqlDB UI). This means that ksqlDB UI received a response from the ksqlDB server. To check for ksqlDB errors, inspect the `success` and `data.response` fields in the response body.
 
-Request with `request.sql` file:
+Request using a `request.sql` file:
 
 ```bash
 curl -F "file=@./request.sql" http://localhost:8080/api/process_file?s=dev
 ```
 
-File content:
+File contents:
 
 ```sql
 list streams;
@@ -301,8 +303,8 @@ Response:
 
 # Credits
 
-- Powered by Python 3.14, FastAPI and Jinja2
-- UI using [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/)
-- SQL editor using [Ace](https://ace.c9.io/)
-- Icons from [Google fonts](https://fonts.google.com/icons?icon.size=24&icon.color=%23e3e3e3)
+- Powered by Python 3.14, FastAPI, and Jinja2
+- UI built with [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/)
+- SQL editor powered by [Ace](https://ace.c9.io/)
+- Icons from [Google Fonts](https://fonts.google.com/icons?icon.size=24&icon.color=%23e3e3e3)
 - Markdown tables from [tablesgenerator.com](https://www.tablesgenerator.com/markdown_tables)
